@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_discovery"
+        android:icon="@drawable/ic_discovery_main"
+        android:title="@string/title_discovery" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search_main"
+        android:title="@string/title_search" />
+
+    <item
+        android:id="@+id/navigation_planning"
+        android:icon="@drawable/ic_planning_main"
+        android:title="@string/title_planning" />
+
+    <item
+        android:id="@+id/navigation_evaluate"
+        android:icon="@drawable/ic_evaluator_main"
+        android:title="@string/title_evaluate" />
+
+</menu>

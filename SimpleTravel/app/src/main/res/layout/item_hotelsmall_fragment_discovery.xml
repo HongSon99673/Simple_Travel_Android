@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <ImageView
+        android:id="@+id/img_Avatar_Item_Discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img"/>
+
+    <TextView
+        android:id="@+id/txt_Name_Item_Discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/txt_Rating_Item_Discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ratings"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_Summary_Item_Discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Summary"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_Location_Item_Discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Location"
+        android:textSize="20dp"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="img_Profile_ViewTravel" type="id" />
+    <item name="txt_NameCountry_ViewTravel_" type="id" />
+    <item name="txt_NameLocation_ViewTravel" type="id" />
+</resources>

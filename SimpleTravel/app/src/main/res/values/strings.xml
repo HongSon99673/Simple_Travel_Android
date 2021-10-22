@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">SimpleTravel</string>
+    <string name="title_email">Tiếp tục bằng Email</string>
+    <string name="title_facebook">Tiếp tục bằng Facebook </string>
+    <string name="title_google">Tiếp tục bằng Google</string>
+    <string name="title_instagram">Tiếp tục bằng Instagram</string>
+    <string name="title_discovery">Khám Phá</string>
+    <string name="title_search">Tìm Kiếm</string>
+    <string name="title_planning">Lập Kế Hoạch</string>
+    <string name="title_evaluate">Đánh Giá</string>
+    <string name="title_view_history">Đã xem gần đây</string>
+    <string name="title_planning_vacation">Lập kế hoạch cho kỳ nghĩ tiếp theo</string>
+    <string name="title_hotel_small">Khách sạn nhỏ</string>
+    <string name="title_trip">Chuyến đi</string>
+    <string name="title_saved">Mục đã lưu</string>
+    <string name="title_oder">Đặt chỗ</string>
+    <string name="title_create_trip">Taọ chuyến đi</string>
+    <string name="title_hotel">Khách sạn</string>
+    <string name="title_entertainment">Hoạt động giải tri</string>
+    <string name="title_restaurant">Nhà hàng</string>
+    <string name="title_visit">Điểm tham quan</string>
+    <string name="title_bonus_discovery">Tiếp tục khám phá</string>
+    <string name="title_add_discovery">Khám phá thêm tại</string>
+    <string name="title_hotel_detail">Những điểm đến thú vị, các khách sạn nhỏ và sang trọng còn thú vị hơn</string>
+    <string name="title_planning_detail">Những điểm đến lý tưởng, hấp dẫn cho bạn và gia đình cần khám phá</string>
+    <string name="title_summary_login">Đăng nhập để khám phá những điều tuyệt vời nhất của SimpleTravel</string>
+    <string name="title_addressmail">Địa chỉ email</string>
+    <string name="title_password">Mật khẩu</string>
+    <string name="title_forgot_password">Bạn quên mật khẩu</string>
+    <string name="title_signin">Đăng Nhập</string>
+    <string name="title_signup">Đăng Ký</string>
+    <string name="title_back">Trở lại</string>
+    <string name="title_back_summary">Chào mừng bạn quay trở lại</string>
+    <string name="title_signup_summary">Trở thành thành viên của SimpleTravel</string>
+    <string name="title_summary_notification">Có, hãy thông báo cho tôi giảm giá và tính năng mới. Bạn có thể hủy nhận thông tin bất
+    kỳ lúc nào.</string>
+    <string name="title_">Trở lại</string>
+</resources>

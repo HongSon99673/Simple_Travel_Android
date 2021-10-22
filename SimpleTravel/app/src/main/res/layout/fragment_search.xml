@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
+
+
+    <ScrollView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+          >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/txt_Search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_search"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/txt_Search_Search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_search_main"
+                        android:hint="Bạn sắp đến đâu ?"
+                        android:textSize="18dp"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tìm kiếm gần đây của bạn"
+                    android:textSize="25dp"
+                    android:layout_margin="20dp"/>
+
+                <HorizontalScrollView
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <Button
+                            android:id="@+id/btn_Hotel_Discovery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_hotel_main"
+                            android:text="Khách sạn"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/btn_Entertainment_Discovery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:drawableLeft="@drawable/ic_entertaiment_main"
+                            android:text="Hoạt động giải trí"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/btn_Restaurant_Discovery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:drawableLeft="@drawable/ic_restaurant_main"
+                            android:text="Nhà hàng"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/btn_Visit_Discovery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:drawableLeft="@drawable/ic_visit_main"
+                            android:text="Điểm tham quan"
+                            android:textSize="20dp" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_ListHistory_Search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Điểm du lịch lân cận"
+                        android:textSize="25dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/txt_AllList_Search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Xem tất cả"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_margin="20dp"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                >
+
+                <TextView
+                    android:id="@+id/txt_Bonus_Discovery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm đến đươc khách du lịch yêu thích"
+                    android:textSize="25dp"
+                    android:textStyle="bold"/>
+
+               <TableLayout
+                   android:id="@+id/table_ListPointFavorite_Search"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+
+                   <TableRow
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:gravity="center"
+                       >
+
+                       <Button
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"/>
+
+                       <Button
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginLeft="40dp"/>
+
+                   </TableRow>
+
+                   <TableRow
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:gravity="center"
+                       android:layout_marginTop="100dp"
+                       >
+
+                       <Button
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"/>
+
+                       <Button
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginLeft="40dp"/>
+
+                   </TableRow>
+
+               </TableLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
