@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.HistoryAdapter;
-import com.example.simpletravel.adapter.HotelAdapter;
+import com.example.simpletravel.adapter.HotelLocationAdapter;
+import com.example.simpletravel.adapter.ViewTravelAdapter;
 import com.example.simpletravel.databinding.FragmentDiscoveryBinding;
+import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
 
 
@@ -29,10 +31,11 @@ public class DiscoveryFragment extends Fragment {
 
     private FragmentDiscoveryBinding binding;
     private DiscoveryViewModel discoveryViewModel;
-    private RecyclerView rcv_History_View_Discovery;
-    private RecyclerView rcv_HotelSmall_View_Discovery;
+    private RecyclerView rcv_History_View_Discovery, rcv_HotelSmall_View_Discovery,
+    rcv_ViewTravel_Discovery;
     private HistoryAdapter historyAdapter;
-    private HotelAdapter hotelAdapter;
+    private HotelLocationAdapter hotelAdapter;
+    private ViewTravelAdapter viewTravelAdapter;
 
 
 
@@ -46,14 +49,32 @@ public class DiscoveryFragment extends Fragment {
         View root = binding.getRoot();
 
         rcv_History_View_Discovery = root.findViewById(R.id.rcv_History_View_Discovery);
-        HitoryController();
+        HistoryController();
 
         rcv_HotelSmall_View_Discovery = root.findViewById(R.id.rcv_HotelSmall_View_Discovery);
         HotelController();
 
+        rcv_ViewTravel_Discovery = root.findViewById(R.id.rcv_ViewTravel_Discovery);
+        ViewTravelController();
+
 
          return root;
 
+    }
+
+    private void ViewTravelController() {
+        rcv_ViewTravel_Discovery = binding.rcvViewTravelDiscovery;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
+        rcv_ViewTravel_Discovery.setLayoutManager(layoutManager);
+
+        discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
+            @Override
+            public void onChanged(List<Location> locations) {
+                viewTravelAdapter = new ViewTravelAdapter(locations);
+                rcv_ViewTravel_Discovery.setAdapter(viewTravelAdapter);
+            }
+        });
     }
 
     private void HotelController() {
@@ -63,16 +84,16 @@ public class DiscoveryFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
         rcv_HotelSmall_View_Discovery.setLayoutManager(layoutManager);
 
-        discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+        discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
-            public void onChanged(List<Services> services) {
-                hotelAdapter = new HotelAdapter(services);
+            public void onChanged(List<Location> locations) {
+                hotelAdapter = new HotelLocationAdapter(locations);
                 rcv_HotelSmall_View_Discovery.setAdapter(hotelAdapter);
             }
         });
     }
 
-    private void HitoryController() {
+    private void HistoryController() {
         rcv_History_View_Discovery = binding.rcvHistoryViewDiscovery;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);

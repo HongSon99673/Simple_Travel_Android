@@ -66,7 +66,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServ
 
         public ListServices(@NonNull View itemView) {
             super(itemView);
-            Image = itemView.findViewById(R.id.img_Avatar_Item_Discovery);
+            Image = itemView.findViewById(R.id.img_History_Item_Discovery);
             txtName = itemView.findViewById(R.id.txt_Name_Item_Discovery);
             txtRating = itemView.findViewById(R.id.txt_Rating_Item_Discovery);
             txtSummary = itemView.findViewById(R.id.txt_Summary_Item_Discovery);

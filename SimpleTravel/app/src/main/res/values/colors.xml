@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="email">#BA6161</color>
+    <color name="facebook">#2363CF</color>
+    <color name="google">#12D514</color>
+    <color name="Instagram">#A8362D</color>
+
+    <color name="INK_RED">#F30F0F</color>
+    <color name="INK_GREEN">#1EF816</color>
+    <color name="INK_Brow">#DD9882</color>
+
 </resources>

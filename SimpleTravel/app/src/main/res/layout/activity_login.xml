@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_Email_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,7 +63,6 @@
         android:backgroundTint="@color/white"
         android:textColor="@color/black"
         android:text="@string/title_facebook"
-
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:padding="20dp"

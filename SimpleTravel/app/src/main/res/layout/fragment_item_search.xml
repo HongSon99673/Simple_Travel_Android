@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.ItemSearchFragment"
+    android:layout_margin="20dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="Bạn sắp đến đâu ?"
+                android:drawableLeft="@drawable/ic_search_main"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_destroy"
+                android:textSize="18dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_vicinity"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_baseline_near_me_24"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_recently"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</FrameLayout>

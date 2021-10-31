@@ -9,20 +9,22 @@
     tools:context=".activity.EmailActivity">
 
     <TextView
-        android:id="@+id/txt_back_Login"
+        android:id="@+id/txt_back_SignUp_Email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/title_back"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:textColor="@color/teal_700"/>
 
     <TextView
+        android:id="@+id/txt_Title_SignUp_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/title_signup_summary"
-        android:textSize="25dp"
+        android:textSize="30dp"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -36,9 +38,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,13 +48,23 @@
                 android:text="@string/title_addressmail" />
 
             <EditText
+                android:id="@+id/txt_AddressEmail_SignUp_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ic_shape_frames"
                 android:hint="@string/title_addressmail"
-                android:textSize="20dp" />
+                android:paddingVertical="15dp"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/txt_AddressEmailAlert_SignUp_Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_addressmail" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,11 +78,38 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_password" />
 
-            <EditText
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_password"
-                android:textSize="20dp" />
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/txt_Password_SignUp_Email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/ic_shape_frames"
+                    android:gravity="center"
+                    android:hint="@string/title_password"
+                    android:inputType="textPassword"
+                    android:paddingVertical="15dp"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/txt_ShowPassWord_SignUp_Email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_visit_main"
+                    android:layout_gravity="right|center"
+                    android:layout_marginRight="20dp"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_PasswordAlert_SignUp_Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_addressmail" />
 
         </LinearLayout>
 
@@ -95,23 +134,33 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_Signup_SignUp_Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/black"
+            android:padding="20dp"
+            android:text="@string/title_signup"
+            app:cornerRadius="10dp"
+            app:rippleColor="#33F8F5F5"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp" />
+
+        <Button
             android:id="@+id/btn_SignIn_SignUp_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="@string/title_signin"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
-
-        <Button
-            android:id="@+id/btn_SignUp_SignUp_Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:text="@string/title_signup"
+            android:text="@string/title_signin"
             android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="2dp"
+            app:cornerRadius="10dp"
+            app:rippleColor="#33F8F5F5"/>
 
 
     </LinearLayout>

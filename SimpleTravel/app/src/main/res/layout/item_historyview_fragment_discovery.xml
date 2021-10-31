@@ -6,11 +6,27 @@
     android:orientation="vertical"
     android:layout_margin="5dp">
 
-    <ImageView
-        android:id="@+id/img_Avatar_Item_Discovery"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/img"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_History_Item_Discovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <RadioButton
+            android:id="@+id/rdb_Choose_Item_Discovery"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_shape_avatar"
+            android:layout_margin="10dp"
+            android:layout_gravity="right"
+            android:visibility="visible"
+            />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txt_Name_Item_Discovery"
