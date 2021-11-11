@@ -6,27 +6,35 @@ public class Services implements Serializable {
 
     private int ID;
     private String Name;
-    private String Ratings;
+    private int Ratings;
+    private int Quantity;
     private String Summary;
-    private String Contact;
+    private String Phone;
+    private String URL;
     private String Address;
-    private int Images;
+    private String NameStatus;
+    private String OpenTime;
+    private int SuggestTime;
+    private String Images;
 
     public Services() {
     }
 
-    public Services(int ID, String name, String ratings,
-                    String summary, String contact, String address, int image) {
+    public Services(int ID, String name, int ratings, int quantity, String summary,
+                    String phone, String URL, String address, String nameStatus,
+                    String openTime, int suggestTime, String images) {
         this.ID = ID;
         Name = name;
         Ratings = ratings;
+        Quantity = quantity;
         Summary = summary;
-        Contact = contact;
+        Phone = phone;
+        this.URL = URL;
         Address = address;
-        this.Images = image;
-    }
-
-    public Services(int id, String name, String ratings, String sumary, String contact, String address) {
+        NameStatus = nameStatus;
+        OpenTime = openTime;
+        SuggestTime = suggestTime;
+        Images = images;
     }
 
     public int getID() {
@@ -45,12 +53,20 @@ public class Services implements Serializable {
         Name = name;
     }
 
-    public String getRatings() {
+    public int getRatings() {
         return Ratings;
     }
 
-    public void setRatings(String ratings) {
+    public void setRatings(int ratings) {
         Ratings = ratings;
+    }
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
     }
 
     public String getSummary() {
@@ -61,12 +77,20 @@ public class Services implements Serializable {
         Summary = summary;
     }
 
-    public String getContact() {
-        return Contact;
+    public String getPhone() {
+        return Phone;
     }
 
-    public void setContact(String contact) {
-        Contact = contact;
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
     }
 
     public String getAddress() {
@@ -77,11 +101,35 @@ public class Services implements Serializable {
         Address = address;
     }
 
-    public int getImages() {
+    public String getNameStatus() {
+        return NameStatus;
+    }
+
+    public void setNameStatus(String nameStatus) {
+        NameStatus = nameStatus;
+    }
+
+    public String getOpenTime() {
+        return OpenTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        OpenTime = openTime;
+    }
+
+    public int getSuggestTime() {
+        return SuggestTime;
+    }
+
+    public void setSuggestTime(int suggestTime) {
+        SuggestTime = suggestTime;
+    }
+
+    public String getImages() {
         return Images;
     }
 
-    public void setImages(int images) {
+    public void setImages(String images) {
         Images = images;
     }
 
@@ -90,11 +138,16 @@ public class Services implements Serializable {
         return "Services{" +
                 "ID=" + ID +
                 ", Name='" + Name + '\'' +
-                ", Ratings='" + Ratings + '\'' +
+                ", Ratings=" + Ratings +
+                ", Quantity=" + Quantity +
                 ", Summary='" + Summary + '\'' +
-                ", Contact='" + Contact + '\'' +
+                ", Phone='" + Phone + '\'' +
+                ", URL='" + URL + '\'' +
                 ", Address='" + Address + '\'' +
-                ", Images='" + Images + '\'' +
+                ", NameStatus='" + NameStatus + '\'' +
+                ", OpenTime='" + OpenTime + '\'' +
+                ", SuggestTime=" + SuggestTime +
+                ", Images=" + Images +
                 '}';
     }
 }

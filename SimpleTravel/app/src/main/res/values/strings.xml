@@ -42,5 +42,15 @@
     <string name="title_destroy">Hủy</string>
     <string name="title_vicinity">Lân cận</string>
     <string name="title_recently">Gần Đây</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Activity Tai khoan-->
+    <string name="title_account">Tài Khoản</string>
+    <string name="title_logout">Đăng xuất</string>
+    <string name="title_update">Cập nhật</string>
+    <string name="title_savechange">Cập nhật thay đổi</string>
+    <string name="title_Cancel">Thoát</string>
+
 
 </resources>

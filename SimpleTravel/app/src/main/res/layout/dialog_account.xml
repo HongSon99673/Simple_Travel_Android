@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ và tên"
+        android:layout_marginTop="20dp"/>
+    <EditText
+        android:id="@+id/account_txt_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ và tên"
+        android:textSize="20dp"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/ic_shape_fames_dialog"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nơi sống hiện tại"
+        android:layout_marginTop="10dp"/>
+    <EditText
+        android:id="@+id/account_txt_LiveNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nơi sống hiện tại"
+        android:textSize="20dp"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/ic_shape_fames_dialog"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Giới thiệu về bản thân"
+        android:layout_marginTop="10dp"/>
+    <EditText
+        android:id="@+id/account_txt_Introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Giới thiệu"
+        android:textSize="20dp"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/ic_shape_fames_dialog"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Liện hệ"
+        android:layout_marginTop="10dp"/>
+    <EditText
+        android:id="@+id/account_txt_Contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Liên hệ"
+        android:textSize="20dp"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/ic_shape_fames_dialog"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/account_btn_SaveChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:padding="15dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/title_savechange"
+            android:textColor="@color/black"
+             />
+
+        <Button
+            android:id="@+id/account_btn_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            android:padding="15dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/title_Cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

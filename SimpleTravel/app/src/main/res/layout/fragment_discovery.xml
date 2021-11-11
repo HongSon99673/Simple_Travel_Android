@@ -40,12 +40,12 @@
                         android:textSize="35dp"
                         android:textStyle="bold" />
 
-                    <ImageButton
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_Avatar"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginRight="30dp"
-                        android:background="@drawable/ic_images" />
+                        android:background="@drawable/img" />
 
                 </LinearLayout>
 
@@ -58,7 +58,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        >
 
                         <Button
                             android:id="@+id/btn_Hotel_Discovery"
@@ -189,7 +190,6 @@
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -207,15 +207,13 @@
                     android:textSize="25dp"
                     android:layout_marginBottom="15dp"
                     />
-
                 <TextView
                     android:id="@+id/txt_HotelSmall_Details_Discovery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_hotel_detail"
-                    android:textSize="18dp"
                     android:layout_marginBottom="15dp"
-                    />
+                    android:text="@string/title_hotel_detail"
+                    android:textSize="18dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

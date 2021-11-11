@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
@@ -30,46 +31,47 @@ public class LoginActivity extends AppCompatActivity {
             //create event click button Email
             if(view.getId() == R.id.btn_Email_Login){
                 Email.setBackgroundColor(getResources().getColor(R.color.email));
-                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
                 finish();
             }
             //create event click button Google
             if(view.getId() == R.id.btn_Google_Login){
                 Google.setBackgroundColor(getResources().getColor(R.color.google));
-                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
                 finish();
             }
             //create event click button Facebook
             if(view.getId() == R.id.btn_Facebook_Login){
                 Facebook.setBackgroundColor(getResources().getColor(R.color.facebook));
-                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
                 finish();
             }
             //create event click button Instagram
             if(view.getId() == R.id.btn_Instagram_Login){
                 Instagram.setBackgroundColor(getResources().getColor(R.color.Instagram));
-                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
+                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
                 finish();
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Login();
         LoginEmail();
-
     }
     //Create variable
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
 
     private void LoginEmail() {
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -92,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     //Login Email
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -133,6 +136,32 @@ public class LoginActivity extends AppCompatActivity {
 //            updateUI(null);
         }
     }
+
+
+    private void updateUI(GoogleSignInAccount account) {
+
+        if(account==null)
+        {
+            // Toast.makeText(this, "not signed in", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(this,"please sign in",Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            Toast.makeText(this,"you are signed in", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
+
     private void Login() {
 
 //        Email = findViewById(R.id.btn_Email_Login);

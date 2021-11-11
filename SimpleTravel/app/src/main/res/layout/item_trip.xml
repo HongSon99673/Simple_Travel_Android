@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_trip_Avatar"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:hint="Muc da luu"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:background="@drawable/ic_shape_frames"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            />
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name Trip"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

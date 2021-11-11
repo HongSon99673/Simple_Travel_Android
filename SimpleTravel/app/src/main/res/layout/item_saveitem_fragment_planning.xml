@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:gravity="center"
     android:orientation="horizontal"
-    android:layout_gravity="center"
-    >
+    android:layout_gravity="center">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="top">
 
         <FrameLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/img_VinicityLocation_Search"
-                android:layout_width="195dp"
-                android:layout_height="120dp"
+                android:layout_width="wrap_content"
+                android:layout_height="106dp"
                 android:src="@drawable/img" />
 
             <RadioButton
@@ -39,7 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
         android:orientation="vertical"
@@ -53,24 +50,21 @@
             android:layout_height="wrap_content"
             android:hint="Name"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:maxLines="1"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_Rating_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="danh gia"
-            android:textSize="20dp"
-            android:maxLines="1"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_Summary_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Summary"
-            android:textSize="20dp"
-            android:maxLines="1"/>
+            android:textSize="20dp" />
 
     </LinearLayout>
 

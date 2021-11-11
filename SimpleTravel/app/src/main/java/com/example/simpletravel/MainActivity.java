@@ -2,6 +2,9 @@ package com.example.simpletravel;
 
 import android.os.Bundle;
 
+import com.example.simpletravel.model.Services;
+import com.example.simpletravel.ui.search.DetailsSearchFragment;
+import com.example.simpletravel.ui.search.SearchItemFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +35,11 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_discovery, R.id.navigation_search, R.id.navigation_planning, R.id.navigation_evaluate)
+                R.id.navigation_discovery, R.id.navigation_search, R.id.navigation_planning, R.id.navigation_evaluate, R.id.navigation_item_search)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
     }
-
 }

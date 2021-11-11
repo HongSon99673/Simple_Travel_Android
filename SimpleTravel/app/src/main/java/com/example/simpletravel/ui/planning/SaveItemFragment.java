@@ -1,4 +1,4 @@
-package com.example.simpletravel.ui.search;
+package com.example.simpletravel.ui.planning;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.simpletravel.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ItemSearchFragment#newInstance} factory method to
+ * Use the {@link SaveItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ItemSearchFragment extends Fragment {
+public class SaveItemFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class ItemSearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ItemSearchFragment() {
+    public SaveItemFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class ItemSearchFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ItemSearchFragment.
+     * @return A new instance of fragment SaveItemFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ItemSearchFragment newInstance(String param1, String param2) {
-        ItemSearchFragment fragment = new ItemSearchFragment();
+    public static SaveItemFragment newInstance(String param1, String param2) {
+        SaveItemFragment fragment = new SaveItemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class ItemSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_search, container, false);
+        return inflater.inflate(R.layout.fragment_save_item, container, false);
     }
 }

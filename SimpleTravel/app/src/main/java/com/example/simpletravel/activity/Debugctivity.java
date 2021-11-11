@@ -45,9 +45,9 @@ public class Debugctivity extends AppCompatActivity {
         intents.add(Home);
         Intent Login = new Intent(this, LoginActivity.class);
         intents.add(Login);
-        Intent SignUp = new Intent(this, SignUpActivity.class);
+        Intent SignUp = new Intent(this, SignUpEmailActivity.class);
         intents.add(SignUp);
-        Intent Ready = new Intent(this, EmailActivity.class);
+        Intent Ready = new Intent(this, LoginEmailActivity.class);
         intents.add(Ready);
     }
 }

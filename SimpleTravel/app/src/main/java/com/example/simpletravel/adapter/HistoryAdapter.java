@@ -41,7 +41,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServ
 
 //        holder.Image.setImageResource(services.getImages());
         holder.txtName.setText(services.getName());
-        holder.txtRating.setText(services.getRatings());
+        holder.txtRating.setText(String.valueOf(services.getRatings()));
+        holder.txtQuantity.setText(String.valueOf(services.getQuantity()));
         holder.txtSummary.setText(services.getSummary());
         holder.txtLocation.setText(services.getAddress());
 
@@ -58,17 +59,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServ
     public class ListServices extends RecyclerView.ViewHolder{
 
         private ImageView Image;
-        private TextView txtRating;
+        private TextView txtRating, txtQuantity;
         private TextView txtName;
         private TextView txtSummary;
         private TextView txtLocation;
-
 
         public ListServices(@NonNull View itemView) {
             super(itemView);
             Image = itemView.findViewById(R.id.img_History_Item_Discovery);
             txtName = itemView.findViewById(R.id.txt_Name_Item_Discovery);
             txtRating = itemView.findViewById(R.id.txt_Rating_Item_Discovery);
+            txtQuantity = itemView.findViewById(R.id.txt_Quantity_Item_Discovery);
             txtSummary = itemView.findViewById(R.id.txt_Summary_Item_Discovery);
             txtLocation = itemView.findViewById(R.id.txt_Location_Item_Discovery);
         }

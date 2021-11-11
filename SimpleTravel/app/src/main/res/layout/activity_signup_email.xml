@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".activity.EmailActivity">
+    tools:context=".activity.LoginEmailActivity">
 
     <TextView
         android:id="@+id/txt_back_SignUp_Email"
@@ -52,11 +52,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_shape_frames"
-                android:hint="@string/title_addressmail"
                 android:paddingVertical="15dp"
+                android:hint="Địa chỉ email"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
             <TextView
                 android:id="@+id/txt_AddressEmailAlert_SignUp_Email"
@@ -93,7 +95,9 @@
                     android:hint="@string/title_password"
                     android:inputType="textPassword"
                     android:paddingVertical="15dp"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"/>
 
                 <TextView
                     android:id="@+id/txt_ShowPassWord_SignUp_Email"
@@ -109,7 +113,7 @@
                 android:id="@+id/txt_PasswordAlert_SignUp_Email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_addressmail" />
+                />
 
         </LinearLayout>
 

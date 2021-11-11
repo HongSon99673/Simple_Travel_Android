@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.planning.TripPlanningFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/planning_lv_Trip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_CreateTrip_Planning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_create_trip"
+        android:backgroundTint="@color/black"
+        android:textFontWeight="@integer/material_motion_duration_long_1"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"/>
+
+
+</FrameLayout>
