@@ -8,12 +8,12 @@ public class Location implements Serializable {
     private String NameLocation;
     private String NameCountry;
     private String NameContinents;
-    private int ImageLocation;
+    private String ImageLocation;
 
     public Location() {
     }
 
-    public Location(int idLocation, String nameLocation, String nameCountry, String nameContinents, int imageLocation) {
+    public Location(int idLocation, String nameLocation, String nameCountry, String nameContinents, String imageLocation) {
         IdLocation = idLocation;
         NameLocation = nameLocation;
         NameCountry = nameCountry;
@@ -53,11 +53,11 @@ public class Location implements Serializable {
         NameContinents = nameContinents;
     }
 
-    public int getImageLocation() {
+    public String getImageLocation() {
         return ImageLocation;
     }
 
-    public void setImageLocation(int imageLocation) {
+    public void setImageLocation(String imageLocation) {
         ImageLocation = imageLocation;
     }
 

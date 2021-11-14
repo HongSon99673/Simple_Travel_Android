@@ -33,7 +33,7 @@ public class CommentAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return commentList.get(i).getIdRating();
+        return i;
     }
 
     @Override

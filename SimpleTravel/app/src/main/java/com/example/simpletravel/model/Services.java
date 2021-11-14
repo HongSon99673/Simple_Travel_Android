@@ -1,5 +1,6 @@
 package com.example.simpletravel.model;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 public class Services implements Serializable {
@@ -22,7 +23,7 @@ public class Services implements Serializable {
 
     public Services(int ID, String name, int ratings, int quantity, String summary,
                     String phone, String URL, String address, String nameStatus,
-                    String openTime, int suggestTime, String images) {
+                    String openTime, int suggestTime,String images) {
         this.ID = ID;
         Name = name;
         Ratings = ratings;

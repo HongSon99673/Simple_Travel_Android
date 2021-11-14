@@ -12,16 +12,16 @@
 
         <ImageView
             android:id="@+id/img_History_Item_Discovery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img"
+            android:layout_width="280dp"
+            android:layout_height="200dp"
+            android:src="@drawable/avatar"
             android:scaleType="centerCrop"/>
 
         <RadioButton
             android:id="@+id/rdb_Choose_Item_Discovery"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_shape_avatar"
+            android:background="@drawable/ic_shape_round"
             android:layout_margin="10dp"
             android:layout_gravity="right"
             android:visibility="visible"
@@ -44,15 +44,47 @@
        android:layout_height="wrap_content"
        android:orientation="horizontal">
 
-       <TextView
-           android:id="@+id/txt_Rating_Item_Discovery"
+       <LinearLayout
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:hint="Ratings"
-           android:textSize="20dp"
-           android:maxLength="50"
-           android:maxLines="1"
-           />
+           android:layout_height="30dp"
+           android:orientation="horizontal">
+
+           <ImageView
+               android:id="@+id/discovery_star_1"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_star_outline_black_48"
+               />
+
+           <ImageView
+               android:id="@+id/discovery_star_2"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_star_outline_black_48"
+               />
+
+           <ImageView
+               android:id="@+id/discovery_star_3"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_star_outline_black_48"
+               />
+
+           <ImageView
+               android:id="@+id/discovery_star_4"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_star_outline_black_48"
+               />
+
+           <ImageView
+               android:id="@+id/discovery_star_5"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_star_outline_black_48"
+               />
+       </LinearLayout>
+
 
        <TextView
            android:id="@+id/txt_Quantity_Item_Discovery"
@@ -62,6 +94,7 @@
            android:textSize="20dp"
            android:maxLength="50"
            android:maxLines="1"
+           android:layout_marginLeft="10dp"
            />
 
    </LinearLayout>

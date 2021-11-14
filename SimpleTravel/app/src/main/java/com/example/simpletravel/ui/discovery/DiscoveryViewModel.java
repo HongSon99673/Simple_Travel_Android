@@ -94,7 +94,7 @@ public class DiscoveryViewModel extends ViewModel {
         String hotel = "SELECT * FROM Location, Country Where Location.IdCountry = Country.IdCountry " ;
         ResultSet resultSet = statement.executeQuery(hotel);
         while (resultSet.next()){
-            mlistLocation.add(new Location(resultSet.getInt(1), resultSet.getString(3),resultSet.getString(6),resultSet.getString(7), resultSet.getInt(4)));
+            mlistLocation.add(new Location(resultSet.getInt(1), resultSet.getString(3),resultSet.getString(6),resultSet.getString(7), resultSet.getString(4)));
         }
 
         mLocations.setValue(mlistLocation);

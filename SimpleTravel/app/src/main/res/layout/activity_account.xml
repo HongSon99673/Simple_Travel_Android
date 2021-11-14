@@ -15,87 +15,192 @@
         android:textSize="35dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/account_txt_Back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/back"/>
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
         >
-        <ImageView
-            android:id="@+id/account_img_CoverImages"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/teal_200"
-            />
-        <ImageView
-            android:id="@+id/account_imgProfilePic"
-            android:layout_width="90dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên tài khoản"
-        android:textSize="18dp"
-        android:layout_marginTop="10dp"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Địa chỉ Email"
-        android:textSize="18dp"
-        android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/account_img_CoverImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/teal_200" />
 
-    <TextView
-        android:id="@+id/account_txt_LiveNow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nơi sống hiện tại"
-        android:textSize="18dp"
-        android:layout_marginTop="10dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/account_imgProfilePic"
+                    android:layout_width="150dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/avatar" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên tài khoản: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Địa chỉ Email: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nơi sống hiện tại: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/account_txt_LiveNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    />
+
+            </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/account_txt_Introduce"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Gioi thieu"
-        android:textSize="18dp"
-        android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-    <TextView
-        android:id="@+id/account_txt_Phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Lien he"
-        android:textSize="18dp"
-        android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giới thiệu: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    />
 
-    <Button
-        android:id="@+id/account_btn_Update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/title_update" />
+                <TextView
+                    android:id="@+id/account_txt_Introduce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    />
 
-    <Button
-        android:id="@+id/account_btn_Logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/white"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/title_logout"
-        android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Liên hệ: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/account_txt_Phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/account_btn_Update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/black"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/title_update" />
+
+            <Button
+                android:id="@+id/account_btn_Logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/white"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/title_logout"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

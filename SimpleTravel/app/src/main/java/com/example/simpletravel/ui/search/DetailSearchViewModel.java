@@ -76,7 +76,6 @@ public class DetailSearchViewModel extends ViewModel {
     //create variable
     private MutableLiveData<List<Comment>> mConmment;
     private List<Comment> mlistComment;
-    private int IdUser;
 
     private void ListComment() throws SQLException{
 

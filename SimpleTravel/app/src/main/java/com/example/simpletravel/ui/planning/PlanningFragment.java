@@ -1,10 +1,20 @@
 package com.example.simpletravel.ui.planning;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +23,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.databinding.FragmentPlanningBinding;
 import com.example.simpletravel.databinding.FragmentPlanningBinding;
+import com.example.simpletravel.model.IdUsers;
 import com.example.simpletravel.ui.search.MainSearchFragment;
 import com.example.simpletravel.ui.search.SearchItemFragment;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class PlanningFragment extends Fragment {
 
@@ -29,7 +44,6 @@ public class PlanningFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.txt_Trip_Planning){
-
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.replace(R.id.planning_frameLayout, new TripPlanningFragment());
                 transaction.addToBackStack(null);
@@ -44,7 +58,6 @@ public class PlanningFragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
-
         }
     };
 

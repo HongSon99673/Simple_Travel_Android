@@ -30,6 +30,7 @@ import java.util.List;
 
 public class LoginEmailActivity extends AppCompatActivity {
 
+    private static final int REQUEST = 10;
     //create variable
     private TextView Back, ShowPassWord;
     private Button SignIn, SignUp;
@@ -163,12 +164,6 @@ public class LoginEmailActivity extends AppCompatActivity {
                 connection.close();//close connect to data
                 rs.close();
                 ps.close();
-                //send data activity Account
-//                Intent i = new Intent(this, AccountActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("User", users);// sending our object.
-//                i.putExtras(bundle);
-//                startActivity(i);
                 //check password in database and password in txtPassword
                 if (passcode != null && !passcode.trim().equals("") && passcode.equals(Encrypt())) {
                     Log.e("Log", "Password true");

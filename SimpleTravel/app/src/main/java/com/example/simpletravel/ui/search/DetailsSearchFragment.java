@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -132,7 +132,31 @@ public class DetailsSearchFragment extends Fragment {
             public void onChanged(List<Services> servicesList) {
 
                 NameService.setText(servicesList.get(0).getName());
-                Rating.setText(String.valueOf(servicesList.get(0).getRatings()));
+                if(servicesList.get(0).getRatings() == 1){
+                    Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+                }
+                if(servicesList.get(0).getRatings() == 2){
+                    Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+                }
+                if(servicesList.get(0).getRatings() == 3){
+                    Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+                }
+                if(servicesList.get(0).getRatings() == 4){
+                    Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
+                }
+                if(servicesList.get(0).getRatings() == 4){
+                    Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
+                    Star5.setImageResource(R.drawable.outline_star_purple500_black_48);
+                }
                 Quantity.setText(String.valueOf(servicesList.get(0).getQuantity() + " " + "đánh giá"));
                 Summary.setText(servicesList.get(0).getSummary());
                 URL.setText(servicesList.get(0).getURL());
@@ -148,13 +172,18 @@ public class DetailsSearchFragment extends Fragment {
 
     //create variable
     private TextView Back, NameService, Rating, Quantity, Summary, URL, Phone, TimeOpen, NameStatus, SuggestTime, Address ;
+    private ImageView Star1, Star2, Star3, Star4, Star5;
 
     private void DetailSearchConstructor() {
         Back = view.findViewById(R.id.search_txt_Back_DetailSearch);
         Back.setOnClickListener(onClickListener);
 
         NameService = view.findViewById(R.id.search_details_NameService);
-        Rating = view.findViewById(R.id.search_details_Rating);
+        Star1 = view.findViewById(R.id.details_star_1);
+        Star2 = view.findViewById(R.id.details_star_2);
+        Star3 = view.findViewById(R.id.details_star_3);
+        Star4 = view.findViewById(R.id.details_star_4);
+        Star5 = view.findViewById(R.id.details_star_5);
         Quantity = view.findViewById(R.id.search_details_Quantity);
         Summary = view.findViewById(R.id.search_details_Summary);
         URL = view.findViewById(R.id.search_details_URL);
@@ -182,9 +211,9 @@ public class DetailsSearchFragment extends Fragment {
 
     private List<Photo> getListPhoto(){
         List<Photo> photos = new ArrayList<>();
-        photos.add(new Photo(R.drawable.img));
-        photos.add(new Photo(R.drawable.img));
-        photos.add(new Photo(R.drawable.img));
+        photos.add(new Photo(R.drawable.avatar));
+        photos.add(new Photo(R.drawable.avatar));
+        photos.add(new Photo(R.drawable.avatar));
 
         return photos;
     }

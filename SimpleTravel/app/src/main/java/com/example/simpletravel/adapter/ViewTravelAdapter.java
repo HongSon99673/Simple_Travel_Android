@@ -1,5 +1,8 @@
 package com.example.simpletravel.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +40,10 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
             return;
         }
 
-//        holder.imageLocation.setImageResource(location.getImageLocation());
+        byte[] decodedString = Base64.decode(String.valueOf(location.getImageLocation()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.imageLocation.setImageBitmap(decodedByte);
+
         holder.nameLocation.setText(location.getNameLocation());
         holder.nameCountry.setText(location.getNameCountry()+", "+ location.getNameContinents());
     }

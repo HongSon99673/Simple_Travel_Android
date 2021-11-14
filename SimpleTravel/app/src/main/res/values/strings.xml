@@ -52,5 +52,7 @@
     <string name="title_savechange">Cập nhật thay đổi</string>
     <string name="title_Cancel">Thoát</string>
 
+    <string name="title_Name_Trip">Tên chuyến đi</string>
+
 
 </resources>

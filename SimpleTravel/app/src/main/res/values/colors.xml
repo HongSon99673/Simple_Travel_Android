@@ -16,5 +16,6 @@
     <color name="INK_RED">#F30F0F</color>
     <color name="INK_GREEN">#1EF816</color>
     <color name="INK_Brow">#DD9882</color>
+    <color name="INK_grey">#9A8F8B</color>
 
 </resources>

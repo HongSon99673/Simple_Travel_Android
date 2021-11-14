@@ -23,7 +23,8 @@
                 android:id="@+id/img_VinicityLocation_Search"
                 android:layout_width="195dp"
                 android:layout_height="120dp"
-                android:src="@drawable/img" />
+                android:src="@drawable/avatar"
+                android:scaleType="centerCrop"/>
 
             <RadioButton
                 android:id="@+id/rdb_Choose_Item_Discovery"
@@ -31,7 +32,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="right"
                 android:layout_margin="10dp"
-                android:background="@drawable/ic_shape_avatar"
+                android:background="@drawable/ic_shape_round"
                 android:visibility="visible" />
 
         </FrameLayout>

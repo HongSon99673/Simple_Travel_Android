@@ -194,7 +194,7 @@
                             android:id="@+id/search_img_Item1"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/img" />
+                            android:src="@drawable/avatar" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation1"
@@ -221,7 +221,7 @@
                             android:id="@+id/search_img_Item2"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/img" />
+                            android:src="@drawable/avatar" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation2"
@@ -256,7 +256,7 @@
                             android:id="@+id/search_img_Item3"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/img" />
+                            android:src="@drawable/avatar" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation3"
@@ -283,7 +283,7 @@
                             android:id="@+id/search_img_Item4"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/img" />
+                            android:src="@drawable/avatar" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation4"

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.simpletravel.JDBC.JDBCControllers;
+import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
+import com.example.simpletravel.model.IdUsers;
 import com.example.simpletravel.model.Users;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,12 +29,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
     // create variable
     private ImageView img;
-    private TextView Name,Email,LiveNow,Introduce, Phone ;
+    private TextView Name,Email,LiveNow,Introduce, Phone, Back ;
     private Button Logout, Update;
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -44,6 +52,10 @@ public class AccountActivity extends AppCompatActivity {
             if(view.getId() == R.id.account_btn_Update){
                 DialogSaveChange(view);
             }
+            if(view.getId() == R.id.account_txt_Back){
+                Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         }
     };
     @Override
@@ -56,15 +68,43 @@ public class AccountActivity extends AppCompatActivity {
 
     }
 
-    private void UpdateInformation() {
+    //create varable
+    private JDBCControllers jdbcControllers;
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+    private int IdUser ;
 
-        Users users = (Users) getIntent().getExtras().get("User");
-        // get data update information user
-        Name.setText("Tên: "+ users.getUserName());
-        Email.setText("Email: "+ users.getEmail());
-        LiveNow.setText("Nơi sống hiện tại: "+ users.getAddress());
-        Introduce.setText("Giới thiệu: "+ users.getIntroduce());
-        Phone.setText("Liên hệ: "+ users.getPhone());
+    private void UpdateInformation() {
+        IdUser = IdUsers.IdUser;
+        try {
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            Log.e("Log", "Connect Data True");
+            String sql = "select * from  Users where IdUser = '" + IdUser + "'";//check email exits
+            PreparedStatement ps = connection.prepareStatement(sql);
+            Log.e("query", sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                //send data in activity account
+                Users users = new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7));
+
+                if(users != null){
+
+                    // get data update information user
+                    Name.setText( users.getUserName());
+                    Email.setText(users.getEmail());
+                    LiveNow.setText(users.getAddress());
+                    Introduce.setText( users.getIntroduce());
+                    Phone.setText( users.getPhone());
+                }
+                connection.close();//close connect to data
+                rs.close();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            Log.e("Error:", e.getMessage());
+        }
     }
 
     private void AccountConstructor() {
@@ -75,6 +115,8 @@ public class AccountActivity extends AppCompatActivity {
         LiveNow = findViewById(R.id.account_txt_LiveNow);
         Introduce = findViewById(R.id.account_txt_Introduce);
         Phone = findViewById(R.id.account_txt_Phone);
+        Back = findViewById(R.id.account_txt_Back);
+        Back.setOnClickListener(onClickListener);
 
         Logout = findViewById(R.id.account_btn_Logout);
         Logout.setOnClickListener(onClickListener);
@@ -101,6 +143,11 @@ public class AccountActivity extends AppCompatActivity {
         final EditText editTextLiveNow= dialogView.findViewById(R.id.account_txt_LiveNow);
         final EditText editTextIntroduce = dialogView.findViewById(R.id.account_txt_Introduce);
         final EditText editTextContact = dialogView.findViewById(R.id.account_txt_Contact);
+        //update text in dialog
+        editTextUsername.setText(Name.getText());
+        editTextLiveNow.setText(LiveNow.getText());
+        editTextIntroduce.setText(Introduce.getText());
+        editTextContact.setText(Phone.getText());
         //show du
         Button buttonSaveChange = dialogView.findViewById(R.id.account_btn_SaveChange);
         buttonSaveChange.setOnClickListener(new View.OnClickListener() {
@@ -110,11 +157,26 @@ public class AccountActivity extends AppCompatActivity {
                 livenow = editTextLiveNow.getText().toString().trim();
                 introduce = editTextIntroduce.getText().toString().trim();
                 contact = editTextContact.getText().toString().trim();
-//                if (username.equalsIgnoreCase("pmk") && password.equalsIgnoreCase("lab")) {
-//                    Toast.makeText(getApplicationContext(), R.string.valid, Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(getApplicationContext(), R.string.invalid, Toast.LENGTH_SHORT).show();
-//                }
+                //update data user edit
+                try {
+                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                    connection = jdbcControllers.ConnectionData();
+                    Log.e("Log", "Connect Data True");
+                    String sql = "Update Users set Name = N'"+username+"', Address = N'" + livenow +"', " +
+                            "Introduce = N'"+ introduce +"', Phone = '"+ contact + "' Where IdUser = '" + IdUsers.IdUser +"'";//check id user
+                    PreparedStatement ps = connection.prepareStatement(sql);
+                    ps.executeUpdate();
+                    ps.close();
+                    Log.e("query", sql);
+                    Log.e("Log", "Update true");
+                    UpdateInformation();//update reset layout Account
+
+                } catch (SQLException e) {
+                    Log.e("Error:", e.getMessage());
+                    Toast.makeText(getApplicationContext(),"Update false",Toast.LENGTH_LONG).show();
+                }
+
+                Toast.makeText(getApplicationContext(),"Update true",Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
             }
         });

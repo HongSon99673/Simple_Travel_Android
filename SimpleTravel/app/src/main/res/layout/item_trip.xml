@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -11,11 +12,12 @@
         <ImageView
             android:id="@+id/item_trip_Avatar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img"/>
+            android:src="@drawable/avatar"/>
 
         <TextView
+            android:id="@+id/item_trip_txt_SavedItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -32,11 +34,12 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/item_trip_txt_NameTrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name Trip"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="15dp"/>
 
 </LinearLayout>

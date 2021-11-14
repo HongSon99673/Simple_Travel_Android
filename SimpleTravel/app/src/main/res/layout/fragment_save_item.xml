@@ -5,9 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.planning.SaveItemFragment">
 
-    <ListView
-        android:id="@+id/planning_lv_SaveItemFragment"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/planning_lv_SaveItemFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
