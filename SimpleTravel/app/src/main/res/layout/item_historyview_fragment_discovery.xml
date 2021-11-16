@@ -14,7 +14,7 @@
             android:id="@+id/img_History_Item_Discovery"
             android:layout_width="280dp"
             android:layout_height="200dp"
-            android:src="@drawable/avatar"
+            android:src="@drawable/avartar1"
             android:scaleType="centerCrop"/>
 
         <RadioButton

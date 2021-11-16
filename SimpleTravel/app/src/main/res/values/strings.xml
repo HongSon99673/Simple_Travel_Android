@@ -15,7 +15,7 @@
     <string name="title_trip">Chuyến đi</string>
     <string name="title_saved">Mục đã lưu</string>
     <string name="title_oder">Đặt chỗ</string>
-    <string name="title_create_trip">Taọ chuyến đi</string>
+    <string name="title_create_trip">Tạo chuyến đi</string>
     <string name="title_hotel">Khách sạn</string>
     <string name="title_entertainment">Hoạt động giải tri</string>
     <string name="title_restaurant">Nhà hàng</string>
@@ -53,6 +53,8 @@
     <string name="title_Cancel">Thoát</string>
 
     <string name="title_Name_Trip">Tên chuyến đi</string>
+    <string name="title_List_Trip">Chọn chuyến đi để lưu vào: </string>
+    <string name="title_Perfect">Hoàn Tất</string>
 
 
 </resources>

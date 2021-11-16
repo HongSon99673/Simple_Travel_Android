@@ -1,26 +1,48 @@
 package com.example.simpletravel.ui.search;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.CommentAdapter;
+import com.example.simpletravel.adapter.DialogListTripAdapter;
 import com.example.simpletravel.adapter.PhotoAdapter;
 import com.example.simpletravel.model.Comment;
+import com.example.simpletravel.model.IdUsers;
 import com.example.simpletravel.model.Photo;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.model.Trip;
+import com.example.simpletravel.ui.planning.PlanningViewModel;
+import com.example.simpletravel.ui.planning.TripPlanningFragment;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +93,7 @@ public class DetailsSearchFragment extends Fragment {
     private PhotoAdapter photoAdapter;
     private View view;
     private DetailSearchViewModel detailSearchViewModel;
+    private PlanningViewModel planningViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,6 +112,9 @@ public class DetailsSearchFragment extends Fragment {
                     getFragmentManager().popBackStack();
                 }
             }
+            if (view.getId() == R.id.search_txt_Choose_DetailSearch){
+                DialogSaveServiceinTrip(Gravity.BOTTOM);
+            }
         }
     };
     @Override
@@ -97,6 +123,9 @@ public class DetailsSearchFragment extends Fragment {
 
         detailSearchViewModel =
                 new ViewModelProvider(this).get(DetailSearchViewModel.class);
+        planningViewModel =
+                new ViewModelProvider(this).get(PlanningViewModel.class);
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details_search, container, false);
         DetailSearchConstructor();
@@ -115,12 +144,151 @@ public class DetailsSearchFragment extends Fragment {
         detailSearchViewModel.getConmment().observe(getViewLifecycleOwner(), new Observer<List<Comment>>() {
             @Override
             public void onChanged(List<Comment> comments) {
-
                 commentAdapter = new CommentAdapter(comments);
                 listViewComment.setAdapter(commentAdapter);
             }
         });
 
+    }
+    //show dialog choose service in trip
+    private TextView CreateTrip;
+    private Button Completed;
+    private CheckBox checkBox;
+    private DialogListTripAdapter dialogListTripAdapter;
+    private ListView listView;
+
+    private void DialogSaveServiceinTrip(int gravity) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_list_trip);
+
+        //show list view trip
+        listView = dialog.findViewById(R.id.dialoglistrip_lv_Trip);
+        planningViewModel.getTrip().observe(getViewLifecycleOwner(), new Observer<List<Trip>>() {
+            @Override
+            public void onChanged(List<Trip> trips) {
+                dialogListTripAdapter = new DialogListTripAdapter(trips);
+                listView.setAdapter(dialogListTripAdapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        View view1 = getLayoutInflater().inflate(R.layout.item_dialog_listview_trip,null);
+
+                        //checkbox is true then when click button perfect add Service in Trip this
+                        checkBox = view1.findViewById(R.id.item_dialoglistrip_rb_Choose);
+                        checkBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        Window window = dialog.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = gravity;
+        window.setAttributes(windowAttribute);
+
+        //Gravity is bottom then dialog close
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+        //event click text Create Trip
+        CreateTrip = dialog.findViewById(R.id.dialog_list_txt_Create_Trip);
+        CreateTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenCreateTripDialog(Gravity.BOTTOM);
+            }
+        });
+
+        //event click button completed
+        Completed = dialog.findViewById(R.id.dialog_list_btn_Completed);
+        Completed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkBox.isChecked();
+
+            }
+        });
+        dialog.show();
+    }
+
+    //show dialog Create Trip
+    //create function handle dialog
+    //Send data give SQL
+    private JDBCControllers jdbcControllers;
+    private Connection connection;
+
+    private void OpenCreateTripDialog(int gravity){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_create_trip);
+
+        Window window = dialog.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = gravity;
+        window.setAttributes(windowAttribute);
+
+        //Gravity is bottom then dialog close
+        if(Gravity.BOTTOM == gravity){
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+
+        EditText nameTrip = dialog.findViewById(R.id.dialog_txt_NameTrip);
+        Button createTrip = dialog.findViewById(R.id.dialog_btn_CreateTrip);
+
+        createTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String NameTrip = nameTrip.getText().toString();
+                int IdUser = IdUsers.IdUser;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                            connection = jdbcControllers.ConnectionData();
+                            Log.e("Log", "Connect true");
+                            String sql = "Insert into Planning " +
+                                    " ( NamePlan,IdUser) values " + "('" + NameTrip + "','" + IdUser+ "')";
+                            PreparedStatement preparedStatement = connection
+                                    .prepareStatement(sql);
+                            preparedStatement.executeUpdate();
+                            preparedStatement.close();
+                            Toast.makeText(getActivity(), "Send true", Toast.LENGTH_LONG).show();
+
+                            dialog.dismiss();//close dialog
+                        } catch (Exception ex) {
+                            Log.e("Log", ex.toString());
+                        }
+                    }
+                }).start();
+            }
+        });
+        dialog.show();
     }
 
     //show detail item choose
@@ -172,6 +340,7 @@ public class DetailsSearchFragment extends Fragment {
 
     //create variable
     private TextView Back, NameService, Rating, Quantity, Summary, URL, Phone, TimeOpen, NameStatus, SuggestTime, Address ;
+    private TextView Choose;
     private ImageView Star1, Star2, Star3, Star4, Star5;
 
     private void DetailSearchConstructor() {
@@ -195,6 +364,9 @@ public class DetailsSearchFragment extends Fragment {
 
         listViewComment = view.findViewById(R.id.search_lv_Rating);
 
+        Choose = view.findViewById(R.id.search_txt_Choose_DetailSearch);
+        Choose.setOnClickListener(onClickListener);
+
 
     }
 
@@ -211,9 +383,9 @@ public class DetailsSearchFragment extends Fragment {
 
     private List<Photo> getListPhoto(){
         List<Photo> photos = new ArrayList<>();
-        photos.add(new Photo(R.drawable.avatar));
-        photos.add(new Photo(R.drawable.avatar));
-        photos.add(new Photo(R.drawable.avatar));
+        photos.add(new Photo(R.drawable.avartar1));
+        photos.add(new Photo(R.drawable.avartar1));
+        photos.add(new Photo(R.drawable.avartar1));
 
         return photos;
     }

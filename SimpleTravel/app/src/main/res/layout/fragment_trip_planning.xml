@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="30dp"
     tools:context=".ui.planning.TripPlanningFragment">
 
     <Button
         android:id="@+id/btn_CreateTrip_Planning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:backgroundTint="@color/black"
-        android:text="@string/title_create_trip" />
-
+        android:text="@string/title_create_trip"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
+      >
 
         <LinearLayout
             android:layout_width="match_parent"

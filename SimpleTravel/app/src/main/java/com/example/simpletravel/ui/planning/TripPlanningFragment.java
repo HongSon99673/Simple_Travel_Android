@@ -151,22 +151,27 @@ public class TripPlanningFragment extends Fragment {
 
                 String NameTrip = nameTrip.getText().toString();
                 int IdUser = IdUsers.IdUser;
-                try {
-                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                    connection = jdbcControllers.ConnectionData();
-                    Log.e("Log", "Connect true");
-                    String sql = "Insert into Planning " +
-                            " ( NamePlan,IdUser) values " + "('" + NameTrip + "','" + IdUser+ "')";
-                    PreparedStatement preparedStatement = connection
-                            .prepareStatement(sql);
-                    preparedStatement.executeUpdate();
-                    preparedStatement.close();
-                    Toast.makeText(getActivity(), "Send true", Toast.LENGTH_LONG).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                            connection = jdbcControllers.ConnectionData();
+                            Log.e("Log", "Connect true");
+                            String sql = "Insert into Planning " +
+                                    " ( NamePlan,IdUser) values " + "('" + NameTrip + "','" + IdUser+ "')";
+                            PreparedStatement preparedStatement = connection
+                                    .prepareStatement(sql);
+                            preparedStatement.executeUpdate();
+                            preparedStatement.close();
+                            Toast.makeText(getActivity(), "Send true", Toast.LENGTH_LONG).show();
 
-                } catch (Exception ex) {
-                    Log.e("Log", ex.toString());
-                }
-                dialog.dismiss();
+                            dialog.dismiss();//close dialog
+                        } catch (Exception ex) {
+                            Log.e("Log", ex.toString());
+                        }
+                    }
+                }).start();
             }
         });
         dialog.show();

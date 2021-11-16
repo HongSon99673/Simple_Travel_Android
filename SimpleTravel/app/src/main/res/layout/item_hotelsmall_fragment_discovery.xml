@@ -9,7 +9,7 @@
         android:id="@+id/img_HotelLocation_Item_Discovery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/avatar"/>
+        android:src="@drawable/avartar1"/>
 
     <TextView
         android:id="@+id/txt_NameLocation_Hotel_Discovery"

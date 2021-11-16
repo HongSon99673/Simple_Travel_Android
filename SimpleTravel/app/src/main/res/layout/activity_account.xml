@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="20dp"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/avartar1" />
             </FrameLayout>
 
         </LinearLayout>

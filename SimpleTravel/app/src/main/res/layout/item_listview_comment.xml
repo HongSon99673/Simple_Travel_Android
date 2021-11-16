@@ -15,7 +15,7 @@
             android:id="@+id/comment_img_Avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/avatar"
+            android:src="@drawable/avartar1"
             android:layout_marginRight="5dp"/>
 
         <LinearLayout

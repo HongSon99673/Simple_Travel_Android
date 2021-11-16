@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/avatar"/>
+            android:src="@drawable/avartar1"/>
 
         <TextView
             android:id="@+id/item_trip_txt_SavedItem"

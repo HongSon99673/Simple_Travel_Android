@@ -21,8 +21,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:padding="10dp"
                 android:hint="Bạn sắp đến đâu ?"
-                android:drawableLeft="@drawable/ic_search_main"/>
+                android:maxLines="1"
+                android:maxLength="30"
+                android:drawableLeft="@drawable/ic_search_main"
+                android:background="@drawable/ic_shape_round"/>
             <TextView
                 android:id="@+id/itemsearch_txt_Cancel"
                 android:layout_width="wrap_content"
@@ -31,6 +35,7 @@
                 android:textSize="18dp"
                 android:layout_weight="1"
                 android:gravity="center"
+
                 />
 
         </LinearLayout>

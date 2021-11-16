@@ -1,5 +1,8 @@
 package com.example.simpletravel.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +40,40 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
         if(services == null){
             return;
         }
-
-//        holder.Image.setImageResource(services.getImages());
         holder.txtName.setText(services.getName());
-        holder.txtRating.setText(services.getRatings());
+//        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//        holder.Image.setImageBitmap(decodedByte);
+
+        if(services.getRatings() == 1){
+            holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+        }
+        if(services.getRatings() == 2){
+            holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+        }
+        if(services.getRatings() == 3){
+            holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+        }
+        if(services.getRatings() == 4){
+            holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
+        }
+        if(services.getRatings() == 5){
+            holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
+            holder.Star5.setImageResource(R.drawable.outline_star_purple500_black_48);
+        }
+
+        holder.txtQuantity.setText(String.valueOf(services.getQuantity()));
         holder.txtSummary.setText(services.getSummary());
-
-
+        holder.txtStatus.setText(services.getNameStatus());
     }
 
     @Override
@@ -56,19 +86,21 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
 
     public class ListServices extends RecyclerView.ViewHolder{
 
-        private ImageView Image;
-        private TextView txtRating;
-        private TextView txtName;
-        private TextView txtSummary;
-
-
+        private TextView txtName, txtSummary, txtQuantity, txtStatus;
+        private ImageView Image, Star1, Star2, Star3, Star4, Star5;
 
         public ListServices(@NonNull View itemView) {
             super(itemView);
             Image = itemView.findViewById(R.id.img_VinicityLocation_Search);
             txtName = itemView.findViewById(R.id.txt_NameLocation_Search);
-            txtRating = itemView.findViewById(R.id.txt_Rating_Search);
             txtSummary = itemView.findViewById(R.id.txt_Summary_Search);
+            txtQuantity = itemView.findViewById(R.id.search_txt_Quantity);
+            txtStatus = itemView.findViewById(R.id.search_txt_Status);
+            Star1 = itemView.findViewById(R.id.search_star_1);
+            Star2 = itemView.findViewById(R.id.search_star_2);
+            Star3 = itemView.findViewById(R.id.search_star_3);
+            Star4 = itemView.findViewById(R.id.search_star_4);
+            Star5 = itemView.findViewById(R.id.search_star_5);
 
         }
     }

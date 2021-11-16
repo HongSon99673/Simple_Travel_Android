@@ -93,6 +93,8 @@ public class MainSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         view = inflater.inflate(R.layout.fragment_main_search, container, false);
+
+        rcv_VicinityLocation_Search = view.findViewById(R.id.search_rv_Vicinity);
         VinicityLocationController();
         SearchControll();
         return view;
@@ -107,8 +109,6 @@ public class MainSearchFragment extends Fragment {
         txtSearch = view.findViewById(R.id.txt_Search_Search);
         txtSearch.setOnClickListener(onClickListener);
 
-        rcv_VicinityLocation_Search = view.findViewById(R.id.rcv_VicinityLocation_Search);
-
     }
     public void GotoSearchFragment(){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -120,19 +120,21 @@ public class MainSearchFragment extends Fragment {
 
 
     private void VinicityLocationController() {
-
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
 //        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 //        rcv_VicinityLocation_Search.addItemDecoration(itemDecoration);
-
-        searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
-            @Override
-            public void onChanged(List<Services> services) {
-                vinicityLocationAdapter = new VinicityLocationAdapter(services);
-                rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
+                searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                    @Override
+                    public void onChanged(List<Services> services) {
+                        vinicityLocationAdapter = new VinicityLocationAdapter(services);
+                        rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
+                    }
+                });
             }
         });
-
     }
 }

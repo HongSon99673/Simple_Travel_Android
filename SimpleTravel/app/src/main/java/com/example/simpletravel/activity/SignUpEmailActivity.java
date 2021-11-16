@@ -114,11 +114,9 @@ public class SignUpEmailActivity extends AppCompatActivity {
                 isValid = false;
             }
         }
-
         return isValid;
 
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +124,6 @@ public class SignUpEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup_email);
         SignUpConstructor();
         Encrypt();
-
-
     }
 
     //Send data give SQL
@@ -139,23 +135,27 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
         String Email = txtEmail.getText().toString();
         String PassWord = txtPassword.getText().toString();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                    connection = jdbcControllers.ConnectionData();
+                    Log.e("Log", "Connect true");
+                    String sql = "Insert into Users " +
+                            " ( Name, Gmail, Password, Address) values " + "('','" + Email + "','" + Encrypt()+ "','')";
+                    PreparedStatement preparedStatement = connection
+                            .prepareStatement(sql);
 
-        try {
-            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-            connection = jdbcControllers.ConnectionData();
-            Log.e("Log", "Connect true");
-            String sql = "Insert into Users " +
-                    " ( Name, Gmail, Password, Address) values " + "('','" + Email + "','" + Encrypt()+ "','')";
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(sql);
+                    preparedStatement.executeUpdate();
+                    preparedStatement.close();
 
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-
-        } catch (Exception ex) {
-            Log.e("Log", ex.toString());
-        }
-
+                } catch (Exception ex) {
+                    Log.e("Log", ex.toString());
+                }
+            }
+        });
+        thread.start();
 
     }
     //Encrypt password into the database

@@ -1,5 +1,6 @@
 package com.example.simpletravel.ui.search;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.ItemSearchAdapter;
 import com.example.simpletravel.model.IdServices;
 import com.example.simpletravel.model.IdUsers;
 import com.example.simpletravel.model.Services;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 /**
@@ -91,7 +96,9 @@ public class SearchItemFragment extends Fragment  {
 
         ItemSearchControll();
 
+        //event text view cancel
         Cancel = view.findViewById(R.id.itemsearch_txt_Cancel);
+        Cancel.setPaintFlags(Cancel.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,34 +109,62 @@ public class SearchItemFragment extends Fragment  {
         });
         return view;
     }
-
     //create variable function
     private AutoCompleteTextView autoCompleteTextView;
     private ItemSearchAdapter itemSearchAdapter;
     private SearchViewModel searchViewModel;
 
+    //Send data give SQL
+    private JDBCControllers jdbcControllers;
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+
     private void ItemSearchControll() {
-
-        autoCompleteTextView = view.findViewById(R.id.item_search_act_Search);// find id AutoCompleteTextView
-        searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onChanged(List<Services> services) {
-                itemSearchAdapter = new ItemSearchAdapter(getActivity(), R.layout.item_fragment_item_search, services);
-                autoCompleteTextView.setAdapter(itemSearchAdapter);
-                autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void run() {
+                autoCompleteTextView = view.findViewById(R.id.item_search_act_Search);// find id AutoCompleteTextView
+                searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
                     @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    public void onChanged(List<Services> services) {
+                        itemSearchAdapter = new ItemSearchAdapter(getActivity(), R.layout.item_fragment_item_search, services);
+                        autoCompleteTextView.setAdapter(itemSearchAdapter);
+                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        //send id service to Fragment Details
-                        int idService = itemSearchAdapter.getItem(i).getID();
-                        IdServices.IdService = idService;
+                                //send id service to Fragment Details
+                                int idService = itemSearchAdapter.getItem(i).getID();
+                                IdServices.IdService = idService;
 
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
-                        transaction.addToBackStack(DetailsSearchFragment.TAG1);
-                        transaction.commit();
-                        Toast.makeText(getActivity(), itemSearchAdapter.getItem(i).toString(),
-                                Toast.LENGTH_SHORT).show();
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                                            connection = jdbcControllers.ConnectionData();
+                                            Log.e("Log", "Connect true");
+                                            String sql = "Insert into HistoryServices (IdService, IdUser) values " +
+                                                    "('"+ idService + "','"+ IdUsers.IdUser+"')";
+                                            PreparedStatement preparedStatement = connection
+                                                    .prepareStatement(sql);
+                                            preparedStatement.executeUpdate();
+                                            preparedStatement.close();
+                                        } catch (Exception ex) {
+                                            Log.e("Log", ex.toString());
+                                        }
+                                    }
+                                });
+                                thread.start();
+
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
+                                transaction.addToBackStack(DetailsSearchFragment.TAG1);
+                                transaction.commit();
+//                                Toast.makeText(getActivity(), itemSearchAdapter.getItem(i).toString(),
+//                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
             }

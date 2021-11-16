@@ -36,17 +36,17 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
     public void onBindViewHolder(@NonNull ListLocation holder, int position) {
 
         Location location = locationList.get(position);
+
         if (location == null) {
             return;
         }
-
-        byte[] decodedString = Base64.decode(String.valueOf(location.getImageLocation()), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        holder.imageLocation.setImageBitmap(decodedByte);
-
+//        byte[] decodedString = Base64.decode(String.valueOf(location.getImageLocation()), Base64.DEFAULT);
+//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//        holder.imageLocation.setImageBitmap(decodedByte);
         holder.nameLocation.setText(location.getNameLocation());
-        holder.nameCountry.setText(location.getNameCountry()+", "+ location.getNameContinents());
+        holder.nameCountry.setText(location.getNameCountry() + ", " + location.getNameContinents());
     }
+
 
     @Override
     public int getItemCount() {

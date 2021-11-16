@@ -48,9 +48,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:padding="10dp"
                         android:drawableLeft="@drawable/ic_search_main"
                         android:hint="Bạn sắp đến đâu ?"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"
+                        android:background="@drawable/ic_shape_round"/>
 
                 </LinearLayout>
 
@@ -152,11 +154,10 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     >
-
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcv_VicinityLocation_Search"
+                        android:id="@+id/search_rv_Vicinity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
@@ -194,7 +195,7 @@
                             android:id="@+id/search_img_Item1"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/avatar" />
+                            android:src="@drawable/avartar1" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation1"
@@ -221,7 +222,7 @@
                             android:id="@+id/search_img_Item2"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/avatar" />
+                            android:src="@drawable/avartar1" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation2"
@@ -256,7 +257,7 @@
                             android:id="@+id/search_img_Item3"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/avatar" />
+                            android:src="@drawable/avartar1" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation3"
@@ -283,7 +284,7 @@
                             android:id="@+id/search_img_Item4"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
-                            android:src="@drawable/avatar" />
+                            android:src="@drawable/avartar1" />
 
                         <TextView
                             android:id="@+id/search_txt_NameLocation4"

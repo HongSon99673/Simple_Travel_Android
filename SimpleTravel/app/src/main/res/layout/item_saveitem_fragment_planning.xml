@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/avartar1" />
 
                 <RadioButton
                     android:id="@+id/item_savedtitem_rdb_Choose"

@@ -7,7 +7,7 @@
         android:id="@+id/search_img_Photo"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:src="@drawable/avatar"
+        android:src="@drawable/avartar1"
         android:scaleType="centerCrop"/>
 
 </LinearLayout>

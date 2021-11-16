@@ -141,7 +141,6 @@ public class LoginEmailActivity extends AppCompatActivity {
 
     private Boolean LoginController(boolean isLogin) {
         isLogin = true;
-
         String Email = txtEmail.getText().toString();
         String PassWord = txtPassword.getText().toString();
         try {
@@ -234,7 +233,6 @@ public class LoginEmailActivity extends AppCompatActivity {
 
         ShowPassWord = findViewById(R.id.txt_ShowPassWord_Email);
         ShowPassWord.setOnClickListener(onClickListener);
-
 
     }
 }
