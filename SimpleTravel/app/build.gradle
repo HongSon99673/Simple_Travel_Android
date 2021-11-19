@@ -52,8 +52,13 @@ dependencies {
 
 
     implementation 'me.relex:circleindicator:2.1.6'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 //    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    //import libary use get image from device
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    implementation 'gun0912.ted:tedbottompicker:2.0.1'
 }

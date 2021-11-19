@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:padding="20dp"
+    android:descendantFocusability="blocksDescendants"
     android:background="@drawable/backround_dialog">
 
     <View
@@ -22,7 +24,7 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="15dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,10 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <ListView
                 android:id="@+id/dialoglistrip_lv_Trip"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"/>
+                android:layout_height="130dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
         </LinearLayout>
 
     </ScrollView>
@@ -44,25 +50,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/dialog_list_txt_Create_Trip"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="33dp"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_add_24"
             android:text="@string/title_create_trip"
-            android:textSize="20dp"
             android:textColor="@color/INK_RED"
-            android:drawableLeft="@drawable/ic_baseline_add_24"/>
+            android:textSize="20dp"
+            android:background="@drawable/ic_shape_button_dialog"/>
 
         <Button
             android:id="@+id/dialog_list_btn_Completed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            android:padding="5dp"
             android:text="@string/title_Perfect"
-            android:backgroundTint="@color/black"/>
+            app:cornerRadius="5dp"
+            app:rippleColor="#33F8F5F5"
+            app:strokeColor="@color/google"
+            app:strokeWidth="6px"
+            />
 
     </LinearLayout>
 

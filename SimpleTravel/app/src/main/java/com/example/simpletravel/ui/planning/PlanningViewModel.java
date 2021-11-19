@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.model.IdServices;
 import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.ListTrip;
 import com.example.simpletravel.model.SavedItem;
 import com.example.simpletravel.model.Services;
 import com.example.simpletravel.model.Trip;
@@ -34,6 +35,9 @@ public class PlanningViewModel extends ViewModel {
     private MutableLiveData<List<SavedItem>> mSavedItem;
     private List<SavedItem> savedItemList;
 
+    private MutableLiveData<List<ListTrip>> mListTrip;
+    private List<ListTrip> listTrip;
+
     public PlanningViewModel() throws SQLException {
 
         mTrip = new MutableLiveData<>();
@@ -41,6 +45,9 @@ public class PlanningViewModel extends ViewModel {
 
         mSavedItem = new MutableLiveData<>();
         SavedItemData();
+
+        mListTrip = new MutableLiveData<>();
+        ListPlan();
 
     }
 
@@ -101,5 +108,29 @@ public class PlanningViewModel extends ViewModel {
    }
 
 
+    private void ListPlan() throws SQLException {
+
+        IdUser = IdUsers.IdUser;
+        listTrip = new ArrayList<>();
+        jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+        connection = jdbcControllers.ConnectionData();
+        Log.e("Log","True");
+        statement = connection.createStatement();
+
+        String sql = "select IdPlan, NamePlan from Planning\n" +
+                "where IdUser = '"+ IdUser +"'";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()){
+
+            listTrip.add(new ListTrip(resultSet.getInt(1),resultSet.getString(2),false));
+        }
+
+        mListTrip.setValue(listTrip);
+
+    }
+
+    public MutableLiveData<List<ListTrip>> getListTrip(){
+        return mListTrip;
+    }
 
 }

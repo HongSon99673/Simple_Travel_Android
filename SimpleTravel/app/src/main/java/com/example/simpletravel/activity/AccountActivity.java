@@ -3,16 +3,29 @@ package com.example.simpletravel.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +33,11 @@ import com.bumptech.glide.Glide;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
+import com.example.simpletravel.adapter.DialogListTripAdapter;
 import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Trip;
 import com.example.simpletravel.model.Users;
+import com.example.simpletravel.ui.planning.PlanningViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -65,7 +81,6 @@ public class AccountActivity extends AppCompatActivity {
         AccountConstructor();
         InformationGoogle();
         UpdateInformation();
-
     }
 
     //create varable
@@ -187,7 +202,6 @@ public class AccountActivity extends AppCompatActivity {
                 alertDialog.dismiss();
             }
         });
-
     }
 
     //Show information login with Google

@@ -41,11 +41,17 @@
         android:layout_height="wrap_content"
         android:hint="Ví dụ: Cuối tuần ở NYC"
         android:textSize="20dp"
-        android:padding="5dp"
+        android:padding="10dp"
         android:gravity="center"
         android:background="@drawable/ic_shape_fames_dialog"
+        />
+
+    <TextView
+        android:id="@+id/dialoglisttrip_txt_NameTrip_Alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         />
 
     <View

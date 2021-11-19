@@ -2,19 +2,19 @@ package com.example.simpletravel.model;
 
 import java.io.Serializable;
 
-public class Trip implements Serializable {
-
+public class ListTrip implements Serializable {
     private int IdTrip;
     private String NameTrip;
-    private int SavedItem;
+    private boolean isChecked;
 
-    public Trip(int anInt, String string) {
+    public ListTrip() {
     }
 
-    public Trip(int idTrip, String nameTrip, int savedItem) {
+    public ListTrip(int idTrip, String nameTrip, boolean isChecked) {
         IdTrip = idTrip;
         NameTrip = nameTrip;
-        SavedItem = savedItem;
+        this.isChecked = isChecked;
+
     }
 
     public int getIdTrip() {
@@ -33,20 +33,20 @@ public class Trip implements Serializable {
         NameTrip = nameTrip;
     }
 
-    public int getSavedItem() {
-        return SavedItem;
+    public boolean isChecked() {
+        return isChecked;
     }
 
-    public void setSavedItem(int savedItem) {
-        SavedItem = savedItem;
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     @Override
     public String toString() {
-        return "Trip{" +
+        return "ListTrip{" +
                 "IdTrip=" + IdTrip +
                 ", NameTrip='" + NameTrip + '\'' +
-                ", SavedItem=" + SavedItem +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

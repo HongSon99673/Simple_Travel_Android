@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleTravel"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.evaluate.EvaluateActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.Debugctivity"
             android:exported="true">
@@ -33,7 +38,7 @@
             android:exported="true" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />

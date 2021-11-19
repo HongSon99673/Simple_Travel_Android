@@ -50,7 +50,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,7 +65,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="20dp"
                 android:orientation="vertical">
 
@@ -94,36 +95,31 @@
                             android:id="@+id/details_star_1"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_star_outline_black_48"
-                            />
+                            android:src="@drawable/baseline_star_outline_black_48" />
 
                         <ImageView
                             android:id="@+id/details_star_2"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_star_outline_black_48"
-                            />
+                            android:src="@drawable/baseline_star_outline_black_48" />
 
                         <ImageView
                             android:id="@+id/details_star_3"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_star_outline_black_48"
-                            />
+                            android:src="@drawable/baseline_star_outline_black_48" />
 
                         <ImageView
                             android:id="@+id/details_star_4"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_star_outline_black_48"
-                            />
+                            android:src="@drawable/baseline_star_outline_black_48" />
 
                         <ImageView
                             android:id="@+id/details_star_5"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_star_outline_black_48"
-                            />
+                            android:src="@drawable/baseline_star_outline_black_48" />
                     </LinearLayout>
 
                     <TextView
@@ -241,7 +237,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginBottom="200dp">
+                    android:layout_marginBottom="50dp">
 
                     <ListView
                         android:id="@+id/search_lv_Rating"
