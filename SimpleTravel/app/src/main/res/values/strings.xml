@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SimpleTravel</string>
+    <string name="title_Introduce">Hãy là một thành viên tích cực và góp phần nâng cao chất lượng của Simple Travel.
+    Simple Travel xin chào thành viên mới nhé !.</string>
     <string name="title_email">Tiếp tục bằng Email</string>
     <string name="title_facebook">Tiếp tục bằng Facebook </string>
     <string name="title_google">Tiếp tục bằng Google</string>
@@ -78,6 +80,7 @@
     <string name="title_TitleImages">Chia sẻ một vài bức ảnh bạn chụp trong chuyến đi</string>
 
     <string name="title_Send">Gửi</string>
+
 
 
 </resources>

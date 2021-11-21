@@ -124,8 +124,7 @@
                     android:id="@+id/evaluate_txt_Rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Rating"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     />
 
             </LinearLayout>
@@ -140,7 +139,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_Rating"
+                    android:text="@string/title_Type"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
@@ -238,25 +237,10 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/evaluate_txt_Type_Alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Vui lòng chọn loại hình chuyến đi"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_TimeTrip"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
+                   />
 
             </LinearLayout>
 
@@ -274,9 +258,9 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine2"
+                    android:id="@+id/evaluate_edit_Summary"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:ems="10"
                     android:hint="Bãn hãy chia sẻ những suy nghĩ mà bạn đã trải qua.
 Simple Travel cảm ơn bạn !"
@@ -285,9 +269,9 @@ Simple Travel cảm ơn bạn !"
                     android:inputType="textMultiLine" />
 
                 <TextView
+                    android:id="@+id/evaluate_txt_Summary_Alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Đánh giá dài ít nhất 100 ký tự"
                     />
 
             </LinearLayout>
@@ -307,16 +291,17 @@ Simple Travel cảm ơn bạn !"
                     android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/evaluate_edit_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tóm tắt ngắn gọn về chuyến đi của bạn"
                     android:textSize="20dp"/>
 
                 <TextView
+                    android:id="@+id/evaluate_txt_Title_Alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Vui lòng tạo tiêu đề cho đánh giá của bạn"
-                    />
+                   />
 
             </LinearLayout>
 
@@ -359,7 +344,14 @@ Simple Travel cảm ơn bạn !"
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/evaluate_txt_Alert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               />
+
             <Button
+                android:id="@+id/evaluate_btn_Send_Comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_Send"

@@ -48,6 +48,7 @@ import com.example.simpletravel.model.ListTrip;
 import com.example.simpletravel.model.Photo;
 import com.example.simpletravel.model.Services;
 import com.example.simpletravel.model.Trip;
+import com.example.simpletravel.ui.evaluate.EvaluateActivity;
 import com.example.simpletravel.ui.planning.PlanningViewModel;
 import com.example.simpletravel.ui.planning.TripPlanningFragment;
 
@@ -125,6 +126,10 @@ public class DetailsSearchFragment extends Fragment  {
             if (view.getId() == R.id.search_txt_Choose_DetailSearch) {
                 DialogSaveServiceinTrip(Gravity.BOTTOM);
 //                DialogSaveServiceinTrip1();
+            }
+            if (view.getId() == R.id.search_btn_Rating){
+                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
+                startActivity(intent);
             }
         }
     };
@@ -394,6 +399,7 @@ public class DetailsSearchFragment extends Fragment  {
     private TextView Back, NameService, Rating, Quantity, Summary, URL, Phone, TimeOpen, NameStatus, SuggestTime, Address;
     private TextView Choose;
     private ImageView Star1, Star2, Star3, Star4, Star5;
+    private Button Ratings;
 
     private void DetailSearchConstructor() {
         Back = view.findViewById(R.id.search_txt_Back_DetailSearch);
@@ -418,6 +424,9 @@ public class DetailsSearchFragment extends Fragment  {
 
         Choose = view.findViewById(R.id.search_txt_Choose_DetailSearch);
         Choose.setOnClickListener(onClickListener);
+
+        Ratings = view.findViewById(R.id.search_btn_Rating);
+        Ratings.setOnClickListener(onClickListener);
 
 
     }

@@ -25,10 +25,4 @@
         android:name="com.example.simpletravel.ui.evaluate.EvaluateFragment"
         tools:layout="@layout/fragment_evaluate"
         />
-
-    <fragment
-        android:id="@+id/navigation_item_search"
-        android:name="com.example.simpletravel.ui.search.ItemSearchFragment"
-        tools:layout="@layout/fragment_item_search" />
-
 </navigation>

@@ -3,13 +3,18 @@ package com.example.simpletravel.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -20,9 +25,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private Button Email, Facebook,Google, Instagram;
+    private LinearLayout Email,Google;
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -30,30 +39,15 @@ public class LoginActivity extends AppCompatActivity {
 
             //create event click button Email
             if(view.getId() == R.id.btn_Email_Login){
-                Email.setBackgroundColor(getResources().getColor(R.color.email));
+                Email.setBackgroundColor(getResources().getColor(R.color.INK_grey));
                 Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
                 finish();
             }
             //create event click button Google
             if(view.getId() == R.id.btn_Google_Login){
-                Google.setBackgroundColor(getResources().getColor(R.color.google));
-                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            //create event click button Facebook
-            if(view.getId() == R.id.btn_Facebook_Login){
-                Facebook.setBackgroundColor(getResources().getColor(R.color.facebook));
-                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            //create event click button Instagram
-            if(view.getId() == R.id.btn_Instagram_Login){
-                Instagram.setBackgroundColor(getResources().getColor(R.color.Instagram));
-                Intent intent = new Intent(LoginActivity.this, LoginEmailActivity.class);
-                startActivity(intent);
+                Google.setBackgroundColor(getResources().getColor(R.color.INK_grey));
+                signIn();
                 finish();
             }
         }
@@ -71,28 +65,16 @@ public class LoginActivity extends AppCompatActivity {
     private static int RC_SIGN_IN = 100;
 
     private void LoginEmail() {
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(account);
-        // Set the dimensions of the sign-in button.
-        SignInButton signInButton = findViewById(R.id.btn_Email_Login);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
     }
 
     //Login Email
@@ -113,6 +95,10 @@ public class LoginActivity extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
+    //Send data give SQL
+    private JDBCControllers jdbcControllers;
+    private Connection connection;
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -124,6 +110,26 @@ public class LoginActivity extends AppCompatActivity {
                 String personEmail = acct.getEmail();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+//                            connection = jdbcControllers.ConnectionData();
+//                            Log.e("Log", "Connect true");
+//                            String sql = "Insert into Users " +
+//                                    " ( Name, Gmail, Avatar) values " + "('"+personName +"','" + personEmail + "','')";
+//                            PreparedStatement preparedStatement = connection
+//                                    .prepareStatement(sql);
+//
+//                            preparedStatement.executeUpdate();
+//                            preparedStatement.close();
+//                            connection.close();//close connect database
+//                        } catch (Exception ex) {
+//                            Log.e("Log", ex.toString());
+//                        }
+//                    }
+//                }).start();
             }
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
@@ -139,11 +145,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void updateUI(GoogleSignInAccount account) {
-
         if(account==null)
         {
-            // Toast.makeText(this, "not signed in", Toast.LENGTH_SHORT).show();
-
             Toast.makeText(this,"please sign in",Toast.LENGTH_SHORT).show();
         }
         else {
@@ -161,21 +164,13 @@ public class LoginActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
     }
-
+    //constructor
     private void Login() {
-
-//        Email = findViewById(R.id.btn_Email_Login);
-//        Email.setOnClickListener(onClickListener);
-
-        Facebook = findViewById(R.id.btn_Facebook_Login);
-        Facebook.setOnClickListener(onClickListener);
-
         Google = findViewById(R.id.btn_Google_Login);
         Google.setOnClickListener(onClickListener);
 
-        Instagram = findViewById(R.id.btn_Instagram_Login);
-        Instagram.setOnClickListener(onClickListener);
-
+        Email = findViewById(R.id.btn_Email_Login);
+        Email.setOnClickListener(onClickListener);
 
     }
 }

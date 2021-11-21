@@ -12,58 +12,74 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_account"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/account_txt_Back"
         android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/back"/>
+        android:layout_height="20dp"
+        android:background="@drawable/back" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="2"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
-        >
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/account_img_CoverImages"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:src="@drawable/logo"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/account_txt_CoverImages"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="70dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/ic_shape_round"
+                android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
+                android:visibility="visible"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/account_img_ProfilePic"
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center|bottom"
+                android:src="@drawable/avartar1" />
+
+            <TextView
+                android:id="@+id/account_txt_Avartar"
+                android:layout_width="45dp"
+                android:layout_height="35dp"
+                android:padding="10dp"
+                android:layout_marginLeft="35dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/ic_shape_round"
+                android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
+                android:visibility="visible"
+                />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/account_img_CoverImages"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:background="@color/teal_200" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/account_imgProfilePic"
-                    android:layout_width="150dp"
-                    android:layout_height="130dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/avartar1" />
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -73,17 +89,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tên tài khoản: "
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_drive_file_rename_outline_24"
+                    android:text=" : "
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
@@ -95,39 +112,39 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Địa chỉ Email: "
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_contact_mail_24"
+                    android:hint=" : "
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nơi sống hiện tại: "
+                    android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                    android:hint=" : "
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/account_txt_LiveNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    />
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
@@ -135,45 +152,44 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Giới thiệu: "
+                    android:drawableLeft="@drawable/ic_baseline_featured_play_list_24"
+                    android:hint=" : "
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/account_txt_Introduce"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    />
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Liên hệ: "
+                    android:drawableLeft="@drawable/ic_baseline_contact_phone_24"
+                    android:hint=" : "
                     android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/account_txt_Phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    />
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
@@ -181,20 +197,20 @@
                 android:id="@+id/account_btn_Update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/black"
-                android:padding="15dp"
-                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/teal_200"
+                android:padding="10dp"
                 android:text="@string/title_update" />
 
             <Button
                 android:id="@+id/account_btn_Logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/white"
-                android:padding="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/INK_grey"
+                android:padding="10dp"
                 android:text="@string/title_logout"
                 android:textColor="@color/black" />
 

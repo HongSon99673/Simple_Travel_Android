@@ -125,7 +125,6 @@ public class SignUpEmailActivity extends AppCompatActivity {
         SignUpConstructor();
         Encrypt();
     }
-
     //Send data give SQL
     private JDBCControllers jdbcControllers;
     private Connection connection;

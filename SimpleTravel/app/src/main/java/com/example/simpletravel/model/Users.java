@@ -10,8 +10,11 @@ public class Users implements Serializable {
     private String Address;
     private String Introduce;
     private String Phone;
+    private String Avatar;
+    private String CoverImages;
 
-    public Users(int idUser, String userName, String email, String password, String address, String introduce, String phone) {
+    public Users(int idUser, String userName, String email, String password, String address, String introduce, String phone,
+                 String avatar, String coverImages) {
         IdUser = idUser;
         UserName = userName;
         Email = email;
@@ -19,6 +22,8 @@ public class Users implements Serializable {
         Address = address;
         Introduce = introduce;
         Phone = phone;
+        Avatar = avatar;
+        CoverImages = coverImages;
     }
 
     public int getIdUser() {
@@ -75,6 +80,22 @@ public class Users implements Serializable {
 
     public void setPhone(String phone) {
         Phone = phone;
+    }
+
+    public String getAvatar() {
+        return Avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        Avatar = avatar;
+    }
+
+    public String getCoverImages() {
+        return CoverImages;
+    }
+
+    public void setCoverImages(String coverImages) {
+        CoverImages = coverImages;
     }
 
     @Override
