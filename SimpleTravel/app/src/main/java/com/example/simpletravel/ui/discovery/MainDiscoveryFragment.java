@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,12 +18,10 @@ import com.example.simpletravel.activity.AccountActivity;
 import com.example.simpletravel.adapter.HistoryAdapter;
 import com.example.simpletravel.adapter.HotelLocationAdapter;
 import com.example.simpletravel.adapter.ViewTravelAdapter;
-import com.example.simpletravel.model.IdServices;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
-import com.example.simpletravel.my_interface.IClickItemService;
-import com.example.simpletravel.ui.search.DetailsSearchFragment;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,7 +97,14 @@ public class MainDiscoveryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        discoveryViewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
+        //star thread get data
+        try {
+            discoveryViewModel = new DiscoveryViewModel();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        new Thread(discoveryViewModel).start();
+//        discoveryViewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
 
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_main_discovery, container, false);
@@ -124,7 +128,6 @@ public class MainDiscoveryFragment extends Fragment {
     }
 
     private void ViewTravelController() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         rcv_ViewTravel_Discovery.setLayoutManager(layoutManager);
         discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
@@ -163,16 +166,7 @@ public class MainDiscoveryFragment extends Fragment {
                 discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
                     @Override
                     public void onChanged(List<Services> services) {
-                        historyAdapter = new HistoryAdapter(services, new IClickItemService() {
-                            @Override
-                            public void onClickItem(int IdService) {
-
-                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                transaction.replace(R.id.discovery_frameLayout_Main, new DetailsSearchFragment());
-                                transaction.addToBackStack(DetailsSearchFragment.TAG1);
-                                transaction.commit();
-                            }
-                        });
+                        historyAdapter = new HistoryAdapter(getActivity(),services);
                         rcv_History_View_Discovery.setAdapter(historyAdapter);
                     }
                 });

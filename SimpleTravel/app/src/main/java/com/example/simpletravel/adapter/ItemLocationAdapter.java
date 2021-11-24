@@ -1,141 +1,124 @@
 package com.example.simpletravel.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
-import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.model.Temp.IdServices;
+import com.example.simpletravel.ui.discovery.LocationFragment;
 import com.example.simpletravel.ui.search.DetailsSearchFragment;
-;
 
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServices> {
+public class ItemLocationAdapter  extends RecyclerView.Adapter<ItemLocationAdapter.ListServiceLocation>{
 
     private List<Services> servicesList;
-    private Context context;
 
-    public HistoryAdapter(Context context,List<Services> servicesList) {
-        this.servicesList = servicesList;
-        this.context = context;
-
+    public ItemLocationAdapter(List<Services> services) {
+        this.servicesList = services;
     }
 
     @NonNull
     @Override
-    public ListServices onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_historyview_fragment_discovery,
-                parent, false);
-        return new ListServices(view);
+    public ListServiceLocation onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_discovery_location,
+                parent,false);
+        return new ListServiceLocation(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListServices holder, int position) {
+    public void onBindViewHolder(@NonNull ListServiceLocation holder, int position) {
         Services services = servicesList.get(position);
-        if (services == null) {
+        if(services == null){
             return;
         }
-
+//        holder.txtTitle.setText(services.getName());
+        holder.txtName.setText(services.getName());
 //        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
 //        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 //        holder.Image.setImageBitmap(decodedByte);
 
-        holder.txtName.setText(services.getName());
-        if (services.getRatings() == 1) {
+        if(services.getRatings() == 1){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if (services.getRatings() == 2) {
+        if(services.getRatings() == 2){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if (services.getRatings() == 3) {
+        if(services.getRatings() == 3){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if (services.getRatings() == 4) {
+        if(services.getRatings() == 4){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if (services.getRatings() == 5) {
+        if(services.getRatings() == 5){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star5.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
+
         holder.txtQuantity.setText(String.valueOf(services.getQuantity()));
         holder.txtSummary.setText(services.getSummary());
-        holder.txtLocation.setText(services.getAddress());
-
-
+        holder.txtStatus.setText(services.getNameStatus());
+        //event click item in recycle view
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IdServices.IdService = services.getID();
-                Toast.makeText(view.getContext(), services.getName(), Toast.LENGTH_SHORT).show();
 
-//                ((FragmentActivity) view.getContext()).getFragmentManager().beginTransaction()
-//                        .replace(R.id.discovery_frameLayout_Main, new DetailsSearchFragment())
-//                        .commit();
-
+                IdServices.IdService = services.getID();//set idService
                 FragmentActivity activity = (FragmentActivity) view.getContext();
                 Fragment myFragment = new DetailsSearchFragment();
                 activity.getSupportFragmentManager().beginTransaction().add(
                         R.id.discovery_frameLayout_Main, myFragment).addToBackStack(null).commit();
-
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if (servicesList != null) {
+        if(servicesList!= null){
             return servicesList.size();
         }
         return 0;
     }
 
-    public class ListServices extends RecyclerView.ViewHolder {
-
+    public class ListServiceLocation extends RecyclerView.ViewHolder {
+        private TextView txtName, txtSummary, txtQuantity, txtStatus, txtTitle;
         private ImageView Image, Star1, Star2, Star3, Star4, Star5;
-        private TextView txtRating, txtQuantity, txtName, txtSummary, txtLocation;
         private LinearLayout linearLayout;
-        private Services services;
 
-        public ListServices(@NonNull View itemView) {
+        public ListServiceLocation(@NonNull View itemView) {
             super(itemView);
-            Image = itemView.findViewById(R.id.img_History_Item_Discovery);
-            txtName = itemView.findViewById(R.id.txt_Name_Item_Discovery);
-            Star1 = itemView.findViewById(R.id.discovery_star_1);
-            Star2 = itemView.findViewById(R.id.discovery_star_2);
-            Star3 = itemView.findViewById(R.id.discovery_star_3);
-            Star4 = itemView.findViewById(R.id.discovery_star_4);
-            Star5 = itemView.findViewById(R.id.discovery_star_5);
-            txtQuantity = itemView.findViewById(R.id.txt_Quantity_Item_Discovery);
-            txtSummary = itemView.findViewById(R.id.txt_Summary_Item_Discovery);
-            txtLocation = itemView.findViewById(R.id.txt_Location_Item_Discovery);
-            linearLayout = itemView.findViewById(R.id.discovery_item_History);
+            Image = itemView.findViewById(R.id.discovery_location_Img);
+            txtName = itemView.findViewById(R.id.discovery_location_txt_NameLocation);
+            txtSummary = itemView.findViewById(R.id.discovery_location_txt_Summary);
+            txtQuantity = itemView.findViewById(R.id.discovery_location_Quantity);
+            txtStatus = itemView.findViewById(R.id.discovery_location_txt_Status);
+            txtTitle = itemView.findViewById(R.id.discovery_location_Title);
+            Star1 = itemView.findViewById(R.id.discovery_location_star_1);
+            Star2 = itemView.findViewById(R.id.discovery_location_star_2);
+            Star3 = itemView.findViewById(R.id.discovery_location_star_3);
+            Star4 = itemView.findViewById(R.id.discovery_location_star_4);
+            Star5 = itemView.findViewById(R.id.discovery_location_star_5);
+            linearLayout = itemView.findViewById(R.id.discovery_location_Layout);
 
         }
     }
 }
-
-

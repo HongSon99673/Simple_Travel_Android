@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.model.Comment;
-import com.example.simpletravel.model.IdServices;
-import com.example.simpletravel.model.IdUsers;
-import com.example.simpletravel.model.Location;
+import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.model.Services;
 
 import java.sql.Connection;
@@ -85,15 +83,14 @@ public class DetailSearchViewModel extends ViewModel {
         Log.e("Log", "True");
         statement = connection.createStatement();
 
-        String comment = "select Ratings.IdRating, Users.Name,COUNT (Ratings.IdUser ) as Contribute, AVG(Ratings.Ratings) as Evaluate, Ratings.Title, Ratings.Time, Ratings.Type, Ratings.Summary, Ratings.Likes\n" +
+        String comment = "select Ratings.IdRating, Users.Name,COUNT (Ratings.IdUser ) as Contribute, AVG(Ratings.Ratings) as Evaluate, Ratings.Title, Ratings.Time, Ratings.Type, Ratings.Summary\n" +
                 "from Users, Ratings, Services where Users.IdUser = Ratings.IdUser and Services.IdService = Ratings.IdService and Services.IdService = '"+ IdService + "'\n" +
-                "group by Ratings.IdRating, Users.Name, Ratings.Title, Ratings.Time, Ratings.Type, Ratings.Summary, Ratings.Likes, Ratings.IdUser" ;
+                "group by Ratings.IdRating, Users.Name, Ratings.Title, Ratings.Time, Ratings.Type, Ratings.Summary, Ratings.IdUser" ;
         ResultSet resultSet = statement.executeQuery(comment);
         while (resultSet.next()){
             mlistComment.add(new Comment(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), resultSet.getInt(4),resultSet.getString(5),
-                    resultSet.getString(6), resultSet.getString(7), resultSet.getString(8),resultSet.getInt(9)));
+                    resultSet.getString(6), resultSet.getString(7), resultSet.getString(8),0));
         }
-
         mConmment.setValue(mlistComment);
 
 

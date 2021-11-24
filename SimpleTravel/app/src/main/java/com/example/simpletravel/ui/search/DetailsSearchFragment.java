@@ -1,20 +1,15 @@
 package com.example.simpletravel.ui.search;
 
 import android.app.Dialog;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -27,30 +22,24 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
-import com.example.simpletravel.activity.AccountActivity;
 import com.example.simpletravel.adapter.CommentAdapter;
 import com.example.simpletravel.adapter.DialogListTripAdapter;
 import com.example.simpletravel.adapter.PhotoAdapter;
 import com.example.simpletravel.model.Comment;
-import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.ListTrip;
 import com.example.simpletravel.model.Photo;
 import com.example.simpletravel.model.Services;
-import com.example.simpletravel.model.Trip;
 import com.example.simpletravel.ui.evaluate.EvaluateActivity;
 import com.example.simpletravel.ui.planning.PlanningViewModel;
-import com.example.simpletravel.ui.planning.TripPlanningFragment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -130,6 +119,18 @@ public class DetailsSearchFragment extends Fragment  {
             if (view.getId() == R.id.search_btn_Rating){
                 Intent intent = new Intent(getActivity(), EvaluateActivity.class);
                 startActivity(intent);
+            }
+            if (view.getId() == R.id.search_details_URL){
+                //call wed site Services
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(URL.getText().toString()));
+                startActivity(i);
+            }
+            if (view.getId() == R.id.search_details_Phone){
+                //call phone
+                Intent in = new Intent(Intent.ACTION_DIAL);
+                in.setData(Uri.parse("tel:" + Phone.getText().toString()));
+                startActivity(in);
             }
         }
     };
@@ -237,7 +238,7 @@ public class DetailsSearchFragment extends Fragment  {
                                             preparedStatement = connection
                                                     .prepareStatement(sql);
                                             preparedStatement.executeUpdate();
-
+                                            connection.close();
                                             preparedStatement.close();
                                         } catch (Exception ex) {
                                             Log.e("Log", ex.toString());
@@ -414,7 +415,9 @@ public class DetailsSearchFragment extends Fragment  {
         Quantity = view.findViewById(R.id.search_details_Quantity);
         Summary = view.findViewById(R.id.search_details_Summary);
         URL = view.findViewById(R.id.search_details_URL);
+        URL.setOnClickListener(onClickListener);
         Phone = view.findViewById(R.id.search_details_Phone);
+        Phone.setOnClickListener(onClickListener);
         NameStatus = view.findViewById(R.id.search_details_NameStatus);
         TimeOpen = view.findViewById(R.id.search_details_TimeOpen);
         SuggestTime = view.findViewById(R.id.search_details_SuggestTime);

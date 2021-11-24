@@ -3,51 +3,30 @@ package com.example.simpletravel.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
-import com.example.simpletravel.adapter.DialogListTripAdapter;
-import com.example.simpletravel.model.IdUsers;
-import com.example.simpletravel.model.Trip;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Users;
-import com.example.simpletravel.ui.evaluate.EvaluateActivity;
-import com.example.simpletravel.ui.planning.PlanningViewModel;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.gun0912.tedpermission.PermissionListener;
@@ -133,7 +112,6 @@ public class AccountActivity extends AppCompatActivity {
                         //send data in activity account
                         Users users = new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
                                 rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

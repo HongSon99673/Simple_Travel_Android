@@ -58,7 +58,7 @@
     <string name="title_List_Trip">Chọn chuyến đi để lưu vào: </string>
     <string name="title_Perfect">Hoàn Tất</string>
 
-<!--    activity evaluate-->
+    <!--    activity evaluate-->
     <string name="title_Rating">Bạn xếp hạng trải nghiệm của mình bao nhiêu ngôi sao ?</string>
     <string name="title_Rating_VeryGood">Xuất sắc</string>
     <string name="title_Rating_Good">Rất tốt</string>
@@ -81,6 +81,15 @@
 
     <string name="title_Send">Gửi</string>
 
+    <!--    discovery location detail-->
+    <string name="title_Play">Những địa điểm tham quan, hoạt động khám phá và trải nghiệm tiêu biểu của khu vực.</string>
+    <string name="title_Stay">Sự giao hòa giữa nét quyến rũ, tính biểu tượng và vẻ đẹp hiện đại.</string>
+    <string name="title_Food">Nhà hàng, quán ăn xuất sắc tại đây sẽ cho bạn cảm nhận chân thật về văn hóa ẩm thực.</string>
+    <string name="title_TPlay">Vui chơi</string>
+    <string name="title_TStay">Lưu trú</string>
+    <string name="title_TFood">Dùng bữa</string>
+<!--    search item rating-->
+    <string name="title_Ratings">Bạn muốn đánh giá địa điểm nào ?</string>
 
 
 </resources>

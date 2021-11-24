@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/fragment_details"
+    android:background="@color/white"
     tools:context=".ui.search.DetailsSearchFragment">
 
     <LinearLayout

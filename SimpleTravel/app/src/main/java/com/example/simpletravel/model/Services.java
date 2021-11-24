@@ -2,6 +2,7 @@ package com.example.simpletravel.model;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.List;
 
 public class Services implements Serializable {
 
@@ -18,7 +19,7 @@ public class Services implements Serializable {
     private int SuggestTime;
     private String Images;
 
-    public Services() {
+    public Services(List<Services> list) {
     }
 
     public Services(int ID, String name, int ratings, int quantity, String summary,

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_main_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.MainSearchFragment"
-    android:id="@+id/fragment_main_search">
+    tools:context=".ui.search.MainSearchFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -26,11 +26,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txt_Search"
@@ -40,19 +40,18 @@
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="30dp"
-                        android:textStyle="bold"
-                       />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/txt_Search_Search"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:padding="10dp"
+                        android:background="@drawable/ic_shape_round"
                         android:drawableLeft="@drawable/ic_search_main"
                         android:hint="Bạn sắp đến đâu ?"
-                        android:textSize="18dp"
-                        android:background="@drawable/ic_shape_round"/>
+                        android:padding="10dp"
+                        android:textSize="18dp" />
 
                 </LinearLayout>
 
@@ -116,6 +115,147 @@
 
             </LinearLayout>
 
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="20dp"-->
+            <!--                android:orientation="vertical">-->
+
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/txt_Bonus_Discovery"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="Điểm đến đươc khách du lịch yêu thích"-->
+            <!--                    android:textSize="25dp"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:orientation="horizontal">-->
+
+            <!--                    <FrameLayout-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_gravity="center"-->
+            <!--                        android:layout_margin="5dp"-->
+            <!--                        android:layout_weight="1">-->
+
+            <!--                        <ImageView-->
+            <!--                            android:id="@+id/search_img_Item1"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="120dp"-->
+            <!--                            android:src="@drawable/avartar1" />-->
+
+            <!--                        <TextView-->
+            <!--                            android:id="@+id/search_txt_NameLocation1"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_gravity="bottom|center"-->
+            <!--                            android:layout_marginBottom="5dp"-->
+            <!--                            android:hint="Location"-->
+            <!--                            android:textColor="@color/white"-->
+            <!--                            android:textSize="25dp"-->
+            <!--                            android:textStyle="bold"-->
+            <!--                            android:visibility="visible" />-->
+
+            <!--                    </FrameLayout>-->
+
+            <!--                    <FrameLayout-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_gravity="center"-->
+            <!--                        android:layout_margin="5dp"-->
+            <!--                        android:layout_weight="1">-->
+
+            <!--                        <ImageView-->
+            <!--                            android:id="@+id/search_img_Item2"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="120dp"-->
+            <!--                            android:src="@drawable/avartar1" />-->
+
+            <!--                        <TextView-->
+            <!--                            android:id="@+id/search_txt_NameLocation2"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_gravity="bottom|center"-->
+            <!--                            android:layout_marginBottom="5dp"-->
+            <!--                            android:hint="Location"-->
+            <!--                            android:textColor="@color/white"-->
+            <!--                            android:textSize="25dp"-->
+            <!--                            android:textStyle="bold"-->
+            <!--                            android:visibility="visible" />-->
+
+            <!--                    </FrameLayout>-->
+
+            <!--                </LinearLayout>-->
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginBottom="50dp"-->
+            <!--                    android:orientation="horizontal">-->
+
+            <!--                    <FrameLayout-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_gravity="center"-->
+            <!--                        android:layout_margin="5dp"-->
+            <!--                        android:layout_weight="1">-->
+
+            <!--                        <ImageView-->
+            <!--                            android:id="@+id/search_img_Item3"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="120dp"-->
+            <!--                            android:src="@drawable/avartar1" />-->
+
+            <!--                        <TextView-->
+            <!--                            android:id="@+id/search_txt_NameLocation3"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_gravity="bottom|center"-->
+            <!--                            android:layout_marginBottom="5dp"-->
+            <!--                            android:hint="Location"-->
+            <!--                            android:textColor="@color/white"-->
+            <!--                            android:textSize="25dp"-->
+            <!--                            android:textStyle="bold"-->
+            <!--                            android:visibility="visible" />-->
+
+            <!--                    </FrameLayout>-->
+
+            <!--                    <FrameLayout-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_gravity="center"-->
+            <!--                        android:layout_margin="5dp"-->
+            <!--                        android:layout_weight="1">-->
+
+            <!--                        <ImageView-->
+            <!--                            android:id="@+id/search_img_Item4"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="120dp"-->
+            <!--                            android:src="@drawable/avartar1" />-->
+
+            <!--                        <TextView-->
+            <!--                            android:id="@+id/search_txt_NameLocation4"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_gravity="bottom|center"-->
+            <!--                            android:layout_marginBottom="5dp"-->
+            <!--                            android:hint="Location"-->
+            <!--                            android:textColor="@color/white"-->
+            <!--                            android:textSize="25dp"-->
+            <!--                            android:textStyle="bold"-->
+            <!--                            android:visibility="visible" />-->
+
+            <!--                    </FrameLayout>-->
+
+            <!--                </LinearLayout>-->
+
+            <!--            </LinearLayout>-->
+
             <LinearLayout
 
                 android:layout_width="match_parent"
@@ -152,12 +292,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/search_rv_Vicinity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -166,9 +306,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:layout_margin="20dp">
 
                 <TextView
                     android:id="@+id/txt_Bonus_Discovery"
@@ -178,129 +317,19 @@
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/search_img_Item1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="120dp"
-                            android:src="@drawable/avartar1" />
-
-                        <TextView
-                            android:id="@+id/search_txt_NameLocation1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center"
-                            android:layout_marginBottom="5dp"
-                            android:hint="Location"
-                            android:textColor="@color/white"
-                            android:textSize="25dp"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/search_img_Item2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="120dp"
-                            android:src="@drawable/avartar1" />
-
-                        <TextView
-                            android:id="@+id/search_txt_NameLocation2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center"
-                            android:layout_marginBottom="5dp"
-                            android:hint="Location"
-                            android:textColor="@color/white"
-                            android:textSize="25dp"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
-
-                    </FrameLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <GridView
+                    android:id="@+id/search_gv_LoveLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="50dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/search_img_Item3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="120dp"
-                            android:src="@drawable/avartar1" />
-
-                        <TextView
-                            android:id="@+id/search_txt_NameLocation3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center"
-                            android:layout_marginBottom="5dp"
-                            android:hint="Location"
-                            android:textColor="@color/white"
-                            android:textSize="25dp"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/search_img_Item4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="120dp"
-                            android:src="@drawable/avartar1" />
-
-                        <TextView
-                            android:id="@+id/search_txt_NameLocation4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center"
-                            android:layout_marginBottom="5dp"
-                            android:hint="Location"
-                            android:textColor="@color/white"
-                            android:textSize="25dp"
-                            android:textStyle="bold"
-                            android:visibility="visible" />
-
-                    </FrameLayout>
-
-                </LinearLayout>
+                    android:layout_height="270dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="70dp"
+                    android:horizontalSpacing="10dp"
+                    android:numColumns="2"
+                    android:verticalSpacing="10dp"
+                    android:focusable="false"
+                    android:layout_marginTop="10dp"
+                    android:stretchMode="columnWidth"
+                    />
 
             </LinearLayout>
 

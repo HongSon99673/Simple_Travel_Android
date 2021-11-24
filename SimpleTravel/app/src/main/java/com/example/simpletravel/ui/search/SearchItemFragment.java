@@ -15,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.ItemSearchAdapter;
-import com.example.simpletravel.model.IdServices;
-import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Temp.IdServices;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Services;
 
 import java.sql.Connection;

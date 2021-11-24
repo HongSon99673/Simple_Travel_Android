@@ -1,4 +1,4 @@
-package com.example.simpletravel.model;
+package com.example.simpletravel.model.Temp;
 
 public class IdServices {
 

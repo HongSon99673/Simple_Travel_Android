@@ -14,14 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.simpletravel.R;
+import com.example.simpletravel.adapter.LocationAdapter;
 import com.example.simpletravel.adapter.VinicityLocationAdapter;
+import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
 import com.example.simpletravel.ui.discovery.DiscoveryFragment;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,9 +99,26 @@ public class MainSearchFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_main_search, container, false);
 
         rcv_VicinityLocation_Search = view.findViewById(R.id.search_rv_Vicinity);
-        VinicityLocationController();
+        VinicityLocationController();//function show list vinicity Location
         SearchControll();
+        ShowLoveLocation();
+
         return view;
+    }
+    //show
+    private LocationAdapter locationAdapter;
+    private GridView gridView;
+
+    private void ShowLoveLocation() {
+        gridView = view.findViewById(R.id.search_gv_LoveLocation);
+        searchViewModel.getLocation().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
+            @Override
+            public void onChanged(List<Location> locations) {
+                locationAdapter = new LocationAdapter(locations);
+                gridView.setAdapter(locationAdapter);
+
+            }
+        });
     }
 
 
@@ -123,6 +144,7 @@ public class MainSearchFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                List<Services> list = new ArrayList<>();
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
 //        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
@@ -130,6 +152,11 @@ public class MainSearchFragment extends Fragment {
                 searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
                     @Override
                     public void onChanged(List<Services> services) {
+                        if(services.size() < 4){
+                            list.add(new Services(services));
+                            vinicityLocationAdapter = new VinicityLocationAdapter(services);
+                            rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
+                        }
                         vinicityLocationAdapter = new VinicityLocationAdapter(services);
                         rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
                     }

@@ -11,11 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.databinding.FragmentEvaluateBinding;
+import com.example.simpletravel.ui.search.SearchItemFragment;
 
 import java.io.InputStream;
 
@@ -31,16 +33,18 @@ public class EvaluateFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.evaluate_btn_Evaluate){
-                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
+//                startActivity(intent);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.evaluate_frameLayout, new SearchItemRatingFragment());
+                transaction.addToBackStack(SearchItemRatingFragment.TAG1);
+                transaction.commit();
             }
         }
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                new ViewModelProvider(this).get(EvaluateViewModel.class);
 
         binding = FragmentEvaluateBinding.inflate(inflater, container, false);
         root = binding.getRoot();

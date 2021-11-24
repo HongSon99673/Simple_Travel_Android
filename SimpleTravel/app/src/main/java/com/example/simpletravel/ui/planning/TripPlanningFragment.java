@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,18 +20,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.TripAdapter;
-import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Trip;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,7 +97,6 @@ public class TripPlanningFragment extends Fragment {
         CreateTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 OpenCreateTripDialog(Gravity.BOTTOM);
                 //update Fragment TripPlanning
                 UpdateListTrip();
@@ -144,7 +140,6 @@ public class TripPlanningFragment extends Fragment {
 
         EditText nameTrip = dialog.findViewById(R.id.dialog_txt_NameTrip);
         Button createTrip = dialog.findViewById(R.id.dialog_btn_CreateTrip);
-
         createTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

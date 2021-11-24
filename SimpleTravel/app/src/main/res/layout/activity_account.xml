@@ -19,7 +19,7 @@
         android:id="@+id/account_txt_Back"
         android:layout_width="30dp"
         android:layout_height="20dp"
-        android:background="@drawable/back" />
+        android:background="@drawable/back1" />
 
 
     <LinearLayout

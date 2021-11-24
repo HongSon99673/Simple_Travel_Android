@@ -16,17 +16,14 @@ import android.widget.Toast;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
-import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Users;
 import com.example.simpletravel.security.AESUtils;
-import com.example.simpletravel.ui.discovery.DiscoveryViewModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginEmailActivity extends AppCompatActivity {
 

@@ -1,20 +1,15 @@
 package com.example.simpletravel.adapter;
 
-import android.app.Service;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Services;
@@ -22,9 +17,11 @@ import com.example.simpletravel.model.Services;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemSearchAdapter extends ArrayAdapter<Services> {
+public class ItemEvaluateAdapter extends ArrayAdapter<Services> {
+
     private List<Services> mservices;
-    public ItemSearchAdapter(@NonNull Context context, int resource, @NonNull List<Services> objects) {
+
+    public ItemEvaluateAdapter(@NonNull Context context, int resource, @NonNull List<Services> objects) {
         super(context, resource, objects);
         mservices = new ArrayList<>(objects);
     }
@@ -40,13 +37,14 @@ public class ItemSearchAdapter extends ArrayAdapter<Services> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         if(convertView == null){
             convertView = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.item_fragment_item_search, parent, false);
+                    R.layout.item_evaluate_listview, parent, false);
         }
 
-        TextView textViewName = convertView.findViewById(R.id.item_search_txt_NameLocation);
-        TextView textViewLocation = convertView.findViewById(R.id.item_search_txt_Location);
+        TextView textViewName = convertView.findViewById(R.id.evaluate_txt_NameService);
+        TextView textViewLocation = convertView.findViewById(R.id.evaluate_txt_Location);
 
         Services services = getItem(position);
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,8 +23,8 @@ import android.widget.Toast;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.PhotoCommentAdapter;
-import com.example.simpletravel.model.IdServices;
-import com.example.simpletravel.model.IdUsers;
+import com.example.simpletravel.model.Temp.IdServices;
+import com.example.simpletravel.model.Temp.IdUsers;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
@@ -31,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,9 +41,9 @@ import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 
 public class EvaluateActivity extends AppCompatActivity {
 
-    private ImageView Star1, Star2, Star3, Star4, Star5;
-    private TextView Rating, Bussiness, Couple, Alone, Friend, FamilySmall, FamilyBig;
-    private TextView ChooseImage, TypeAlert, TitleAlert, SummaryAlert, Alert;
+    private ImageView Star1, Star2, Star3, Star4, Star5, Img;
+    private TextView Rating, Bussiness, Couple, Alone, Friend, FamilySmall, FamilyBig, Back;
+    private TextView ChooseImage, TypeAlert, TitleAlert, SummaryAlert, Alert, Name, Location;
     private EditText Summary,Title;
     private Button Send;
     private RecyclerView recyclerView;
@@ -205,6 +205,7 @@ public class EvaluateActivity extends AppCompatActivity {
             //set event click button Send
             if(view.getId() == R.id.evaluate_btn_Send_Comment){
                 if (CheckData() == true){
+                    imageString = photoCommentAdapter.Images();
                     Alert.setText("");
                     //get date now
                     String currentDate = new SimpleDateFormat("'ngày 'dd, 'tháng 'MM, 'năm 'yyyy", Locale.getDefault()).format(new Date());
@@ -231,11 +232,17 @@ public class EvaluateActivity extends AppCompatActivity {
                             }
                         }
                     }).start();
-
+                    Toast.makeText(getApplicationContext(), "Đánh giá hoàn tất", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
+                    Toast.makeText(getApplicationContext(), "Đánh giá thất bại", Toast.LENGTH_SHORT).show();
                     Alert.setText("Vui lòng kiểm tra lại thông tin đã nhập");
                     Alert.setTextColor(getResources().getColor(R.color.INK_RED));
                 }
+            }
+            //event click text view back
+            if (view.getId() == R.id.evaluate_txt_Cancel){
+                finish();
             }
         }
     };
@@ -246,8 +253,23 @@ public class EvaluateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_evaluate);
         EvaluateActivityContructor();
         ListImagesControll();//constructor list images
+        InformationEvaluate();//show information service user to choose
 
     }
+
+    private void InformationEvaluate() {
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            Name.setText(bundle.getString("location1"));//set Name Services
+            Location.setText(bundle.getString("location3"));//set Location
+            //set Images
+            byte[] decodedString = Base64.decode(String.valueOf(bundle.getString("location2")), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            Img.setImageBitmap(decodedByte);
+        }
+
+    }
+
     //check data
     private Boolean CheckData(){
         boolean isCheck = true;
@@ -330,11 +352,11 @@ public class EvaluateActivity extends AppCompatActivity {
                         if(uriList != null && !uriList.isEmpty()){
                             photoCommentAdapter.setMlistPhoto(uriList);
                             //encode image to base64 string
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), photoCommentAdapter.getItemCount());
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                            byte[] imageBytes = baos.toByteArray();
-                            imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), photoCommentAdapter.getItemCount());
+//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                            byte[] imageBytes = baos.toByteArray();
+//                            imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                         }
                     }
                 });
@@ -390,5 +412,11 @@ public class EvaluateActivity extends AppCompatActivity {
         Send = findViewById(R.id.evaluate_btn_Send_Comment);
         Send.setOnClickListener(onClickListener);
         Alert = findViewById(R.id.evaluate_txt_Alert);
+
+        Name = findViewById(R.id.evaluate_txt_Name);
+        Location = findViewById(R.id.evaluate_txt_Location);
+        Img = findViewById(R.id.evaluate_img_Avatar);
+        Back = findViewById(R.id.evaluate_txt_Cancel);
+        Back.setOnClickListener(onClickListener);
     }
 }

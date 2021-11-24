@@ -20,7 +20,7 @@ public class JDBCModel {
         Connection objConn = null;
         String ConnURL = null;
 
-        JDBCObjects jdbcObjects = new JDBCObjects("14.176.142.12","sa","123",
+        JDBCObjects jdbcObjects = new JDBCObjects("14.234.105.45","sa","123",
                 "SimpleTravel","1433");
 
         try {

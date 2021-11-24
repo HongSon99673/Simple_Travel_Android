@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class PhotoCommentAdapter extends RecyclerView.Adapter<PhotoCommentAdapter.PhotoViewHodler>{
     private Context mcontext;
     private List<Uri> mlistPhoto;
+    private String imageString;
 
     public PhotoCommentAdapter(Context mcontext) {
         this.mcontext = mcontext;
@@ -45,6 +48,12 @@ public class PhotoCommentAdapter extends RecyclerView.Adapter<PhotoCommentAdapte
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(mcontext.getContentResolver(), uri);
             holder.imageView.setImageBitmap(bitmap);
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+            imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,5 +75,9 @@ public class PhotoCommentAdapter extends RecyclerView.Adapter<PhotoCommentAdapte
             super(itemView);
             imageView = itemView.findViewById(R.id.evaluate_item_img_Photo);
         }
+    }
+
+    public String Images(){
+        return imageString;
     }
 }

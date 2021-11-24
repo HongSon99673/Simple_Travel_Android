@@ -7,13 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Location;
+import com.example.simpletravel.model.Temp.IdLocation;
+import com.example.simpletravel.ui.discovery.LocationFragment;
+import com.example.simpletravel.ui.search.DetailsSearchFragment;
+import com.example.simpletravel.viewmodel.LocationViewModel;
 
 import java.util.List;
 
@@ -45,6 +52,17 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
 //        holder.imageLocation.setImageBitmap(decodedByte);
         holder.nameLocation.setText(location.getNameLocation());
         holder.nameCountry.setText(location.getNameCountry() + ", " + location.getNameContinents());
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IdLocation.IdLocations = location.getIdLocation();//set idLocation
+                FragmentActivity activity = (FragmentActivity) view.getContext();
+                Fragment myFragment = new LocationFragment();
+                activity.getSupportFragmentManager().beginTransaction().add(
+                        R.id.discovery_frameLayout_Main, myFragment).addToBackStack(LocationFragment.TAG1).commit();
+            }
+        });
     }
 
 
@@ -59,6 +77,7 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
     public class ListLocation extends RecyclerView.ViewHolder {
         private ImageView imageLocation;
         private TextView nameLocation, nameCountry;
+        private LinearLayout linearLayout;
 
         public ListLocation(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +85,7 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
             imageLocation = itemView.findViewById(R.id.img_ViewTravel_Item_Discovery);
             nameLocation = itemView.findViewById(R.id.txt_Name_ViewTravel_Discovery);
             nameCountry = itemView.findViewById(R.id.txt_Location_ViewTravel_Discovery);
+            linearLayout = itemView.findViewById(R.id.discovery_item_ViewTravel);
 
         }
     }

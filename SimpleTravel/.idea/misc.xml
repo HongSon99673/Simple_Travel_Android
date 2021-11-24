@@ -84,17 +84,22 @@
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_details_search.xml" value="0.264" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_dilaog_trip.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_discovery.xml" value="0.2" />
-        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_evaluate.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_evaluate.xml" value="0.264" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_item_search.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_location.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_main_discovery.xml" value="0.264" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_main_search.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_planning.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_save_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_search.xml" value="0.264" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_search_item.xml" value="0.4" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_search_item_rating.xml" value="0.25" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/fragment_trip_planning.xml" value="0.13125" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_dialog_listview_trip.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_discovery_location.xml" value="0.264" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_evaluate_listview.xml" value="0.25" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_fragment_item_search.xml" value="0.264" />
+        <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_gridview_serch.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_historyview_fragment_discovery.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_hotelsmall_fragment_discovery.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongs/Simple_Travel_Android/SimpleTravel/app/src/main/res/layout/item_listview_comment.xml" value="0.25416666666666665" />

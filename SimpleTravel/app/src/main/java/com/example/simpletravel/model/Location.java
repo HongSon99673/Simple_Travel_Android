@@ -3,7 +3,6 @@ package com.example.simpletravel.model;
 import java.io.Serializable;
 
 public class Location implements Serializable {
-
     private int IdLocation;
     private String NameLocation;
     private String NameCountry;
