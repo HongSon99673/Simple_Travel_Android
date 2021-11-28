@@ -7,15 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.model.Temp.IdServices;
+import com.example.simpletravel.ui.search.DetailsSearchFragment;
 
 import java.util.List;
+
 public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocationAdapter.ListServices> {
 
     private List<Services> servicesList;
@@ -29,7 +35,7 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
     public ListServices onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_locationvicinity_fragment_search,
-                parent,false);
+                parent, false);
         return new ListServices(view);
     }
 
@@ -37,7 +43,7 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
     public void onBindViewHolder(@NonNull ListServices holder, int position) {
 
         Services services = servicesList.get(position);
-        if(services == null){
+        if (services == null) {
             return;
         }
         holder.txtName.setText(services.getName());
@@ -45,25 +51,25 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
 //        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 //        holder.Image.setImageBitmap(decodedByte);
 
-        if(services.getRatings() == 1){
+        if (services.getRatings() == 1) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if(services.getRatings() == 2){
+        if (services.getRatings() == 2) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if(services.getRatings() == 3){
+        if (services.getRatings() == 3) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if(services.getRatings() == 4){
+        if (services.getRatings() == 4) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-        if(services.getRatings() == 5){
+        if (services.getRatings() == 5) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star2.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star3.setImageResource(R.drawable.outline_star_purple500_black_48);
@@ -74,20 +80,32 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
         holder.txtQuantity.setText(String.valueOf(services.getQuantity()));
         holder.txtSummary.setText(services.getSummary());
         holder.txtStatus.setText(services.getNameStatus());
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IdServices.IdService = services.getID();
+                FragmentActivity activity = (FragmentActivity) view.getContext();
+                Fragment myFragment = new DetailsSearchFragment();
+                activity.getSupportFragmentManager().beginTransaction().add(
+                        R.id.frameLayout_search, myFragment).addToBackStack(DetailsSearchFragment.TAG1).commit();
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if(servicesList != null){
-            return servicesList .size();
+        if (servicesList != null) {
+            return servicesList.size();
         }
         return 0;
     }
 
-    public class ListServices extends RecyclerView.ViewHolder{
+    public class ListServices extends RecyclerView.ViewHolder {
 
         private TextView txtName, txtSummary, txtQuantity, txtStatus;
         private ImageView Image, Star1, Star2, Star3, Star4, Star5;
+        private LinearLayout linearLayout;
 
         public ListServices(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +119,7 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
             Star3 = itemView.findViewById(R.id.search_star_3);
             Star4 = itemView.findViewById(R.id.search_star_4);
             Star5 = itemView.findViewById(R.id.search_star_5);
+            linearLayout = itemView.findViewById(R.id.search_vincinity_item_Layout);
 
         }
     }

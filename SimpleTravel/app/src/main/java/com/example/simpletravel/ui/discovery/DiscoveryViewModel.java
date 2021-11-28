@@ -51,22 +51,22 @@ public class DiscoveryViewModel extends ViewModel implements Runnable {
             connection = jdbcControllers.ConnectionData();
             Log.e("Log", "True");
             Statement statement = connection.createStatement();
-            String sql = "select top(4) Services.IdService,Services.NameService, AVG(Ratings.Ratings) as Ratings ,Count( Ratings.IdService) as Quantity\n" +
-                    ", Services.Summary, Services.Phone, Services.URL, Services.Address, Status.NameStatus, Status.TimeOpen,\n" +
-                    "Services.SuggestTime, Services.Images\n" +
-                    "from Services, Ratings, HistoryServices, Users, Status\n" +
-                    "where Services.IdService = Ratings.IdService and Services.IdService = HistoryServices.IdService \n" +
-                    "and Services.IdStatus = Status.IdStatus and HistoryServices.IdUser = Users.IdUser and Users.IdUser = '" + IdUsers.IdUser + "' \n" +
-                    "group by Services.IdService, Services.NameService,Services.Summary, Services.URL,HistoryServices.IdHS,\n" +
-                    "Services.Phone, Services.SuggestTime,Services.Images,Status.NameStatus, Status.TimeOpen,Services.Address " +
-                    "order by HistoryServices.IdHS DESC ";
-
+            String sql = " select top(4) S.IdService,S.NameService, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity\n" +
+                    "                    , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen,S.SuggestTime, S.Images,\n" +
+                    "                    S.Latitude, S.Longitude\n" +
+                    "            from Services as S, Ratings as R, HistoryServices as H, Users as U, Status as St\n" +
+                    "            where S.IdService = R.IdService and S.IdService = H.IdService\n" +
+                    "            and S.IdStatus = St.IdStatus and H.IdUser = U.IdUser and U.IdUser = '" + IdUsers.IdUser + "'\n" +
+                    "            group by S.IdService, S.NameService,S.Summary, S.URL,H.IdHS,S.Latitude, S.Longitude,\n" +
+                    "                    S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen,S.Address\n" +
+                    "            order by H.IdHS DESC";
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 mlist.add(new Services(resultSet.getInt("IdService"), resultSet.getString(2), resultSet.getInt(3),
                         resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
-                        resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12)));
+                        resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12),
+                        resultSet.getDouble(13), resultSet.getDouble(14)));
             }
             statement.close();
             connection.close();

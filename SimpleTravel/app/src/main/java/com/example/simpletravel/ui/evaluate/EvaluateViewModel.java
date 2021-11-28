@@ -50,7 +50,7 @@ public class EvaluateViewModel extends ViewModel implements Runnable {
 
                 msearch.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"), 0,
                         0, "", "","", resultSet.getString("Address"), "", "",
-                        0, resultSet.getString("Images")));
+                        0, resultSet.getString("Images"),1.1,1.1));
             }
             connection.close();
             resultSet.close();

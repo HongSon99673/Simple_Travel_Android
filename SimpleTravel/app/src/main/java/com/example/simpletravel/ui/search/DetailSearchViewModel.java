@@ -50,17 +50,18 @@ public class DetailSearchViewModel extends ViewModel {
 
         String sql = "select Services.IdService,Services.NameService, AVG(Ratings.Ratings) as Ratings ,Count( Ratings.IdService) as Quantity \n" +
                 "                                 , Services.Summary, Services.Phone, Services.URL, Services.Address, Status.NameStatus, Status.TimeOpen, \n" +
-                "                                Services.SuggestTime, Services.Images\n" +
+                "                                Services.SuggestTime, Services.Images, Services.Latitude,Services.Longitude \n" +
                 "                                 from Services, Ratings, Status\n" +
                 "                                 where Services.IdService = Ratings.IdService and Services.IdStatus = Status.IdStatus and Services.IdService = '"+ IdService +"'\n" +
-                "                                 group by Services.IdService, Services.NameService,Services.Summary, Services.URL,\n" +
+                "                                 group by Services.IdService, Services.NameService,Services.Summary, Services.URL,Services.Latitude,Services.Longitude,\n" +
                 "                                 Services.Phone, Services.SuggestTime,Services.Images,Status.NameStatus, Status.TimeOpen,Services.Address";
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next()){
 
             mlist.add(new Services(resultSet.getInt("IdService"),resultSet.getString(2),resultSet.getInt(3),
                     resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6), resultSet.getString(7),
-                    resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12)));
+                    resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12),
+                    resultSet.getDouble(13), resultSet.getDouble(14)));
         }
         mServices.setValue(mlist);
 

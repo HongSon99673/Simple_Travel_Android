@@ -67,7 +67,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/search_details_NameService"
+                    android:id="@+id/discovery_location_NameService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -78,7 +78,7 @@
 
 
                 <TextView
-                    android:id="@+id/search_details_Summary"
+                    android:id="@+id/discovery_location_Summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -86,10 +86,10 @@
                     android:hint="Summary"
                     android:textSize="20dp" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ban do"/>
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/discovery_google_Map"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

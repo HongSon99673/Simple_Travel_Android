@@ -87,7 +87,6 @@ public class SearchItemRatingFragment extends Fragment {
         discoveryViewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
         evaluateViewModel = new EvaluateViewModel();
         new Thread(evaluateViewModel).start();
-//        evaluateViewModel = new ViewModelProvider(this).get(EvaluateViewModel.class);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_search_item_rating, container, false);
         EvaluateLVControll();//update history see

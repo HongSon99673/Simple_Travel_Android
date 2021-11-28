@@ -14,14 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.ItemSearchAdapter;
+import com.example.simpletravel.adapter.RecentlyRearchAdapter;
 import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.ui.discovery.DiscoveryViewModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,9 +94,12 @@ public class SearchItemFragment extends Fragment  {
         searchViewModel =
                 new ViewModelProvider(this).get(SearchViewModel.class);
 
+        discoveryViewModel =
+                new ViewModelProvider(this).get(DiscoveryViewModel.class);
         view = inflater.inflate(R.layout.fragment_search_item, container, false);
 
         ItemSearchControll();
+        RecentlyList();
 
         //event text view cancel
         Cancel = view.findViewById(R.id.itemsearch_txt_Cancel);
@@ -108,6 +114,39 @@ public class SearchItemFragment extends Fragment  {
         });
         return view;
     }
+
+    //craete variable
+    private ListView listView;
+    private RecentlyRearchAdapter recentlyRearchAdapter;
+    private DiscoveryViewModel discoveryViewModel;
+
+    private void RecentlyList() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listView = view.findViewById(R.id.search_itemsearch_LV);
+                discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                    @Override
+                    public void onChanged(List<Services> services) {
+                        recentlyRearchAdapter = new RecentlyRearchAdapter(getActivity(),R.layout.item_evaluate_listview, services);
+                        listView.setAdapter(recentlyRearchAdapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                IdServices.IdService = recentlyRearchAdapter.getItem(i).getID();//set Idservice
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
+                                transaction.addToBackStack(DetailsSearchFragment.TAG1);
+                                transaction.commit();
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
     //create variable function
     private AutoCompleteTextView autoCompleteTextView;
     private ItemSearchAdapter itemSearchAdapter;
@@ -135,7 +174,6 @@ public class SearchItemFragment extends Fragment  {
                                 //send id service to Fragment Details
                                 int idService = itemSearchAdapter.getItem(i).getID();
                                 IdServices.IdService = idService;
-
                                 Thread thread = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -160,8 +198,6 @@ public class SearchItemFragment extends Fragment  {
                                 transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
                                 transaction.addToBackStack(DetailsSearchFragment.TAG1);
                                 transaction.commit();
-//                                Toast.makeText(getActivity(), itemSearchAdapter.getItem(i).toString(),
-//                                        Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

@@ -48,7 +48,7 @@ public class LocationViewModel extends ViewModel implements Runnable {
             mstay = new ArrayList<>();
             jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
             connection = jdbcControllers.ConnectionData();
-            Log.e("Log", "True");
+            Log.e("Log", "DataStay");
             Statement statement = connection.createStatement();
             String sql = "select top(4) S.IdService,S.NameService, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity\n" +
                     "                            , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen,\n" +
@@ -63,7 +63,8 @@ public class LocationViewModel extends ViewModel implements Runnable {
                 mstay.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"), resultSet.getInt("Ratings"),
                         resultSet.getInt("Quantity"), resultSet.getString("Summary"), resultSet.getString("Phone"),
                         resultSet.getString("URL"), resultSet.getString("Address"), resultSet.getString("NameStatus"),
-                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images")));
+                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images"),
+                        0123.1,0456.1));
             }
             statement.close();
             connection.close();
@@ -87,22 +88,23 @@ public class LocationViewModel extends ViewModel implements Runnable {
             mfood = new ArrayList<>();
             jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
             connection = jdbcControllers.ConnectionData();
-            Log.e("Log", "True");
+            Log.e("Log", "DataFood");
             Statement statement = connection.createStatement();
             String sql = "select top(4) S.IdService,S.NameService, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity\n" +
-                    "                            , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen,\n" +
+                    "                            , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen,  S.Latitude, S.Longitude,\n" +
                     "                            S.SuggestTime, S.Images\n" +
                     "                            from Services as S, Ratings as R, Status as St\n" +
                     "                            where S.IdService = R.IdService and S.IdStatus = St.IdStatus and S.IdTS = 1 and S.IdLocation ="+ IdLocation.IdLocations +"\n" +
                     "                            group by S.IdService, S.NameService,S.Summary, S.URL,\n" +
-                    "                            S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen,S.Address ";
+                    "                            S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen,S.Address, S.Latitude, S.Longitude";
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 mfood.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"), resultSet.getInt("Ratings"),
                         resultSet.getInt("Quantity"), resultSet.getString("Summary"), resultSet.getString("Phone"),
                         resultSet.getString("URL"), resultSet.getString("Address"), resultSet.getString("NameStatus"),
-                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images")));
+                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images"),
+                        resultSet.getDouble("Latitude"),resultSet.getDouble("Longitude")));
             }
             statement.close();
             connection.close();
@@ -126,22 +128,23 @@ public class LocationViewModel extends ViewModel implements Runnable {
             mplay = new ArrayList<>();
             jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
             connection = jdbcControllers.ConnectionData();
-            Log.e("Log", "True");
+            Log.e("Log", "DataPlay");
             Statement statement = connection.createStatement();
             String sql = "select top(4) S.IdService,S.NameService, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity\n" +
-                    "                            , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen,\n" +
+                    "                            , S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen, S.Latitude, S.Longitude,\n" +
                     "                            S.SuggestTime, S.Images\n" +
                     "                            from Services as S, Ratings as R, Status as St\n" +
                     "                            where S.IdService = R.IdService and S.IdStatus = St.IdStatus and S.IdTS = 2 and S.IdLocation =" + IdLocation.IdLocations + " \n" +
-                    "                            group by S.IdService, S.NameService,S.Summary, S.URL,\n" +
-                    "                            S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen,S.Address ";
+                    "                            group by S.IdService, S.NameService,S.Summary, S.URL, S.Latitude,S.Longitude, \n" +
+                    "                            S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen,S.Address";
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 mplay.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"), resultSet.getInt("Ratings"),
                         resultSet.getInt("Quantity"), resultSet.getString("Summary"), resultSet.getString("Phone"),
                         resultSet.getString("URL"), resultSet.getString("Address"), resultSet.getString("NameStatus"),
-                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images")));
+                        resultSet.getString("TimeOpen"), resultSet.getInt("SuggestTime"), resultSet.getString("Images"), resultSet.getDouble("Latitude"),
+                        resultSet.getDouble("Longitude")));
             }
             statement.close();
             connection.close();

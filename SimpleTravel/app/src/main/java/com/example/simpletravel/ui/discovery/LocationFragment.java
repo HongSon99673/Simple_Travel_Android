@@ -2,9 +2,10 @@ package com.example.simpletravel.ui.discovery;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,11 +15,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.simpletravel.R;
-import com.example.simpletravel.adapter.HistoryAdapter;
 import com.example.simpletravel.adapter.ItemLocationAdapter;
+import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
-import com.example.simpletravel.ui.search.DetailsSearchFragment;
+import com.example.simpletravel.my_interface.IClickItemService;
 import com.example.simpletravel.viewmodel.LocationViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -27,7 +35,7 @@ import java.util.List;
  * Use the {@link LocationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LocationFragment extends Fragment {
+public class LocationFragment extends Fragment implements OnMapReadyCallback, IClickItemService {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,17 +68,22 @@ public class LocationFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     //event onclickListener
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(view.getId() == R.id.search_txt_Back_DetailSearch){
+            if (view.getId() == R.id.search_txt_Back_DetailSearch) {
                 if (getFragmentManager() != null) {
                     getFragmentManager().popBackStack();
                 }
             }
         }
     };
+    //create variable
+    private boolean isPermissionGranted;
+    private MapView mapView;
+    private Marker marker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +93,11 @@ public class LocationFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     //create variable function On create View
     private View view;
     private LocationViewModel locationViewModel;
+    private IClickItemService iClickItemService = this;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,14 +112,27 @@ public class LocationFragment extends Fragment {
         PlayController();//handle recycle view play
         StayController();//handle recycle view stay
         FoodController();//handle recycle view food
+
+        //show gg map in fragment
+        mapView.getMapAsync(this);
+        mapView.onCreate(savedInstanceState);
+
         return view;
     }
 
     //create variable
     private TextView Back;
+    private TextView Name, Title;
+
     private void ContructorLocation() {
         Back = view.findViewById(R.id.search_txt_Back_DetailSearch);
         Back.setOnClickListener(onClickListener);
+
+        Name = view.findViewById(R.id.discovery_location_NameService);
+        Title = view.findViewById(R.id.discovery_location_Title);
+
+        mapView = view.findViewById(R.id.discovery_google_Map);
+
 
     }
 
@@ -151,6 +179,7 @@ public class LocationFragment extends Fragment {
             }
         });
     }
+
     //create variable
     private ItemLocationAdapter itemLocationAdapter1;
     private RecyclerView rcv_Food;
@@ -171,5 +200,79 @@ public class LocationFragment extends Fragment {
                 });
             }
         });
+    }
+
+    //
+    public IClickItemService getIClickItemService() {
+        return iClickItemService;
+    }
+
+    @Override
+    public void onClickItem(Location location) {
+        Name.setText(location.getNameLocation());
+        Title.setText(location.getNameLocation());
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        locationViewModel.getFood().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+            @Override
+            public void onChanged(List<Services> services) {
+                for (int i = 0; i < services.size(); i++) {
+                    Services s = (Services) services.get(i);
+                    //create marker
+                    marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))
+                            .title(s.getName())
+                            .snippet(s.getAddress())
+                    );
+                    //Zoom
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 15));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }

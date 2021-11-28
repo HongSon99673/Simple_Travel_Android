@@ -18,13 +18,15 @@ public class Services implements Serializable {
     private String OpenTime;
     private int SuggestTime;
     private String Images;
+    private Double Latitude;
+    private Double Longitude;
 
     public Services(List<Services> list) {
     }
 
     public Services(int ID, String name, int ratings, int quantity, String summary,
                     String phone, String URL, String address, String nameStatus,
-                    String openTime, int suggestTime,String images) {
+                    String openTime, int suggestTime,String images, Double latitude, Double longitude) {
         this.ID = ID;
         Name = name;
         Ratings = ratings;
@@ -37,6 +39,8 @@ public class Services implements Serializable {
         OpenTime = openTime;
         SuggestTime = suggestTime;
         Images = images;
+        Latitude = latitude;
+        Longitude = longitude;
     }
 
     public int getID() {
@@ -133,6 +137,22 @@ public class Services implements Serializable {
 
     public void setImages(String images) {
         Images = images;
+    }
+
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
     }
 
     @Override

@@ -88,8 +88,14 @@
     <string name="title_TPlay">Vui chơi</string>
     <string name="title_TStay">Lưu trú</string>
     <string name="title_TFood">Dùng bữa</string>
-<!--    search item rating-->
+    <!--    search item rating-->
     <string name="title_Ratings">Bạn muốn đánh giá địa điểm nào ?</string>
+
+    <string name="title_RatingAdd">Thêm nhận xét</string>
+    <string name="title_Confirm">Bạn chắc chắn muốn xóa ?</string>
+    <string name="title_Edit_Trip">Mời bạn thay đổi tên chuyến đi</string>
+    <string name="title_Yes">Đồng ý</string>
+    <string name="title_No">Từ chối</string>
 
 
 </resources>

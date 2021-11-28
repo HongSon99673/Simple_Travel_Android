@@ -3,11 +3,14 @@ package com.example.simpletravel.ui.search;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -40,6 +43,13 @@ import com.example.simpletravel.model.Photo;
 import com.example.simpletravel.model.Services;
 import com.example.simpletravel.ui.evaluate.EvaluateActivity;
 import com.example.simpletravel.ui.planning.PlanningViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,7 +63,7 @@ import me.relex.circleindicator.CircleIndicator;
  * Use the {@link DetailsSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailsSearchFragment extends Fragment  {
+public class DetailsSearchFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String TAG1 = DetailsSearchFragment.class.getName();
     // TODO: Rename parameter arguments, choose names that match
@@ -116,17 +126,17 @@ public class DetailsSearchFragment extends Fragment  {
                 DialogSaveServiceinTrip(Gravity.BOTTOM);
 //                DialogSaveServiceinTrip1();
             }
-            if (view.getId() == R.id.search_btn_Rating){
+            if (view.getId() == R.id.search_btn_Rating) {
                 Intent intent = new Intent(getActivity(), EvaluateActivity.class);
                 startActivity(intent);
             }
-            if (view.getId() == R.id.search_details_URL){
+            if (view.getId() == R.id.search_details_URL) {
                 //call wed site Services
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(URL.getText().toString()));
                 startActivity(i);
             }
-            if (view.getId() == R.id.search_details_Phone){
+            if (view.getId() == R.id.search_details_Phone) {
                 //call phone
                 Intent in = new Intent(Intent.ACTION_DIAL);
                 in.setData(Uri.parse("tel:" + Phone.getText().toString()));
@@ -135,10 +145,13 @@ public class DetailsSearchFragment extends Fragment  {
         }
     };
 
+    //create variable
+    private MapView mapView;
+    private Marker marker;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         detailSearchViewModel =
                 new ViewModelProvider(this).get(DetailSearchViewModel.class);
         planningViewModel =
@@ -150,6 +163,9 @@ public class DetailsSearchFragment extends Fragment  {
         PhotoControll();//Viewpager photo in layout details
         ShowDetailItemSearch();
         ShowDeatailComment();
+        //show gg map in fragment
+        mapView.getMapAsync(this);
+        mapView.onCreate(savedInstanceState);
 
         return view;
     }
@@ -223,7 +239,7 @@ public class DetailsSearchFragment extends Fragment  {
                     @Override
                     public void onClick(View view) {
                         //checkbox is true then when click button perfect add Service in Trip this
-                        for (int i =0; i< lenght; i++ ){
+                        for (int i = 0; i < lenght; i++) {
                             ListTrip listTrip = listTrips.get(i);
                             if (listTrip.isChecked()) {
                                 new Thread(new Runnable() {
@@ -386,6 +402,7 @@ public class DetailsSearchFragment extends Fragment  {
                 Quantity.setText(String.valueOf(servicesList.get(0).getQuantity() + " " + "đánh giá"));
                 Summary.setText(servicesList.get(0).getSummary());
                 URL.setText(servicesList.get(0).getURL());
+                URL.setPaintFlags(URL.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 Phone.setText(servicesList.get(0).getPhone());
                 NameStatus.setText(servicesList.get(0).getNameStatus());
                 TimeOpen.setText(servicesList.get(0).getOpenTime());
@@ -431,6 +448,8 @@ public class DetailsSearchFragment extends Fragment  {
         Ratings = view.findViewById(R.id.search_btn_Rating);
         Ratings.setOnClickListener(onClickListener);
 
+        mapView = view.findViewById(R.id.google_map);
+
 
     }
 
@@ -450,8 +469,70 @@ public class DetailsSearchFragment extends Fragment  {
         photos.add(new Photo(R.drawable.avartar1));
         photos.add(new Photo(R.drawable.avartar1));
         photos.add(new Photo(R.drawable.avartar1));
-
         return photos;
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        detailSearchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+            @Override
+            public void onChanged(List<Services> services) {
+                for (int i = 0; i < services.size(); i++) {
+                    Services s = (Services) services.get(i);
+                    //create marker
+                    marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))
+                            .title(s.getName())
+                            .snippet(s.getAddress())
+                    );
+                    //Zoom
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 15));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
 }

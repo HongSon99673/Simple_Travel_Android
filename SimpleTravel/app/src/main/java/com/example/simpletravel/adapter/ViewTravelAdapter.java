@@ -1,8 +1,5 @@
 package com.example.simpletravel.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Temp.IdLocation;
+import com.example.simpletravel.my_interface.IClickItemService;
 import com.example.simpletravel.ui.discovery.LocationFragment;
-import com.example.simpletravel.ui.search.DetailsSearchFragment;
-import com.example.simpletravel.viewmodel.LocationViewModel;
 
 import java.util.List;
 
 public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.ListLocation> {
 
     private List<Location> locationList;
+    private IClickItemService iClickItemService;
 
-    public ViewTravelAdapter(List<Location> locationList) {
+    public ViewTravelAdapter(List<Location> locationList, IClickItemService iClickItemService) {
         this.locationList = locationList;
+        this.iClickItemService = iClickItemService;
     }
 
     @NonNull

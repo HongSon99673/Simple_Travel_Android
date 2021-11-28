@@ -20,6 +20,7 @@ import com.example.simpletravel.adapter.HotelLocationAdapter;
 import com.example.simpletravel.adapter.ViewTravelAdapter;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.my_interface.IClickItemService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -127,13 +128,19 @@ public class MainDiscoveryFragment extends Fragment {
         imgAvatar.setOnClickListener(onClickListener);
     }
 
+    //private create
+    IClickItemService iClickItemService;
+
+    public void setIClickItemService(IClickItemService iClickItemService){
+            this.iClickItemService = iClickItemService;
+    }
     private void ViewTravelController() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         rcv_ViewTravel_Discovery.setLayoutManager(layoutManager);
         discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
             public void onChanged(List<Location> locations) {
-                viewTravelAdapter = new ViewTravelAdapter(locations);
+                viewTravelAdapter = new ViewTravelAdapter(locations, iClickItemService);
                 rcv_ViewTravel_Discovery.setAdapter(viewTravelAdapter);
             }
         });

@@ -149,14 +149,9 @@ public class MainSearchFragment extends Fragment {
                 rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
 //        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 //        rcv_VicinityLocation_Search.addItemDecoration(itemDecoration);
-                searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                searchViewModel.getRecently().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
                     @Override
                     public void onChanged(List<Services> services) {
-                        if(services.size() < 4){
-                            list.add(new Services(services));
-                            vinicityLocationAdapter = new VinicityLocationAdapter(services);
-                            rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
-                        }
                         vinicityLocationAdapter = new VinicityLocationAdapter(services);
                         rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
                     }

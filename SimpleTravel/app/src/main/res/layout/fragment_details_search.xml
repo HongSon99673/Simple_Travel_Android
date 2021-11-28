@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/fragment_details"
     android:background="@color/white"
@@ -74,16 +75,15 @@
                     android:id="@+id/search_details_NameService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:hint="Name Service"
-                    android:textSize="35dp"
+                    android:textSize="30dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
@@ -134,18 +134,32 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Giới thiệu"
+                    android:textSize="18dp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"/>
+
+                <TextView
                     android:id="@+id/search_details_Summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="Summary"
                     android:textSize="18dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Liên hệ"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
@@ -156,7 +170,7 @@
                         android:layout_marginRight="10dp"
                         android:hint="Truy cap trang wed"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        />
 
                     <TextView
                         android:id="@+id/search_details_Phone"
@@ -165,7 +179,7 @@
                         android:layout_marginLeft="10dp"
                         android:hint="Goi"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        />
 
                 </LinearLayout>
 
@@ -219,33 +233,62 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Địa chỉ"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
+
+                <TextView
                     android:id="@+id/search_details_Address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="Dia chi"
                     android:textSize="18dp" />
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/google_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    tools:context=".googlemap.MapsFragment" />
 
                 <Button
                     android:id="@+id/search_btn_Rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:text="@string/title_RatingAdd"
+                    android:textColor="@color/teal_200"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    app:cornerRadius="30dp"
+                    app:rippleColor="#33F8F5F5"
+                    app:strokeColor="@color/INK_GG"
+                    app:strokeWidth="2dp"
                     />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/teal_200"
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_evaluate"
-                    android:textSize="35dp" />
+                    android:textSize="25dp"
+                    android:layout_marginTop="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginBottom="50dp">
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="20dp">
 
                     <ListView
                         android:id="@+id/search_lv_Rating"

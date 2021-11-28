@@ -22,6 +22,9 @@ public class SearchViewModel extends ViewModel implements Runnable {
     private MutableLiveData<List<Services>> mServices;
     private List<Services> mlist;
 
+    private MutableLiveData<List<Services>> mRecently;
+    private List<Services> mrecently;
+
     private MutableLiveData<List<Location>> mLocation;
     private List<Location> mlocation;
 
@@ -33,20 +36,55 @@ public class SearchViewModel extends ViewModel implements Runnable {
         mServices = new MutableLiveData<>();
         InitData();
 
+        mRecently = new MutableLiveData<>();
+        DataRecently();
+
         mLocation = new MutableLiveData<>();
         MListLocation();
     }
 
+    private void DataRecently() {
+        run();
+        mRecently.setValue(mrecently);
+    }
+    public MutableLiveData<List<Services>> getRecently(){
+        return mRecently;
+    }
+
+    private void getDataRecently() {
+        try {
+            mrecently = new ArrayList<>();
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            Log.e("Log", "True");
+            Statement statement = connection.createStatement();
+            String sql = "select S.IdService, S.NameService, S.Summary, St.NameStatus, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity, S.Images\n" +
+                    "from Services as S, Ratings as R, Status as St\n" +
+                    "where S.IdService = R.IdService and S.IdStatus = St.IdStatus and S.IdLocation = (select top(1) S.IdLocation\n" +
+                    "\t\t\t\t\t\t\t\t\t\t\t\t\tfrom Services as S, HistoryServices as H\n" +
+                    "\t\t\t\t\t\t\t\t\t\t\t\t\twhere S.IdService = H.IdService\n" +
+                    "\t\t\t\t\t\t\t\t\t\t\t\t\torder by H.IdHS Desc)\n" +
+                    "group by  S.IdService, S.NameService, S.Summary, St.NameStatus, S.Images";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+
+                mrecently.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"),
+                        resultSet.getInt("Ratings"), resultSet.getInt("Quantity"), resultSet.getString("Summary"), "",
+                        "", "", resultSet.getString("NameStatus"), "", 0, resultSet.getString("Images"),
+                        1.1, 2.1));
+            }
+        } catch (Exception ex) {
+            Log.e("Log", ex.getMessage());
+        }
+    }
+
     //get data
     private void MListLocation() {
-        mlocation = new ArrayList<>();
-        jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-        connection = jdbcControllers.ConnectionData();
-        Log.e("Log", "get list 4 item Location");
-        //        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
         try {
+            mlocation = new ArrayList<>();
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            Log.e("Log", "get list 4 item Location");
             Statement statement = connection.createStatement();
             String sql = "select top 4 S.IdService,S.NameService, S.Address ,S.Images, COUNT(R.IdService) as NORating, AVG(R.Ratings) as AVGRating\n" +
                     "from Ratings as R, Services as S\n" +
@@ -61,8 +99,7 @@ public class SearchViewModel extends ViewModel implements Runnable {
         } catch (Exception ex) {
             Log.e("Log", ex.getMessage());
         }
-//            }
-//        }).start();
+
         mLocation.setValue(mlocation);
     }
 
@@ -71,36 +108,24 @@ public class SearchViewModel extends ViewModel implements Runnable {
     }
 
     private void InitData() throws SQLException {
-        mlist = new ArrayList<>();
-        jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-        connection = jdbcControllers.ConnectionData();
-        Log.e("Log", "True");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Statement statement = connection.createStatement();
-                    String sql = "select top(4) S.IdService,S.NameService, AVG(R.Ratings) as Ratings ,Count( R.IdService) as Quantity\n" +
-                            ", S.Summary, S.Phone, S.URL, S.Address, St.NameStatus, St.TimeOpen, S.SuggestTime, S.Images\n" +
-                            "from Services as S, Ratings as R, Status as St\n" +
-                            "where S.IdService = R.IdService and S.IdStatus = St.IdStatus \n" +
-                            "and S.IdLocation = (select top(1) S.IdLocation \n" +
-                            "from HistoryServices as H, Services as S \n" +
-                            "where S.IdService = H.IdService\n" +
-                            "order by H.IdHS DESC)\n" +
-                            "group by S.IdService, S.NameService,S.Summary, S.URL,S.Phone, S.SuggestTime,S.Images,St.NameStatus, St.TimeOpen, S.Address";
-                    ResultSet resultSet = statement.executeQuery(sql);
-                    while (resultSet.next()) {
+        try {
+            mlist = new ArrayList<>();
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            Log.e("Log", "True");
+            Statement statement = connection.createStatement();
+            String sql = "select IdService, NameService, Address, Images from Services";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
 
-                        mlist.add(new Services(resultSet.getInt("IdService"), resultSet.getString(2), resultSet.getInt(3),
-                                resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
-                                resultSet.getString(8), resultSet.getString(9), resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12)));
-                    }
-                } catch (Exception ex) {
-                    Log.e("Log", ex.getMessage());
-                }
+                mlist.add(new Services(resultSet.getInt("IdService"), resultSet.getString("NameService"), 0,
+                        0, "", "", "", resultSet.getString("Address"), "", "",
+                        0, resultSet.getString("Images"),1.1, 1.1));
             }
-        }).start();
+        } catch (Exception ex) {
+            Log.e("Log", ex.getMessage());
+        }
+
         mServices.setValue(mlist);
 
     }
@@ -111,6 +136,7 @@ public class SearchViewModel extends ViewModel implements Runnable {
 
     @Override
     public void run() {
+        getDataRecently();
 
     }
 }

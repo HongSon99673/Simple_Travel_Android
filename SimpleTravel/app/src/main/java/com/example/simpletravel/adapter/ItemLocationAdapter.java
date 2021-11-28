@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.model.Temp.IdLocation;
 import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.ui.discovery.LocationFragment;
 import com.example.simpletravel.ui.search.DetailsSearchFragment;
@@ -81,7 +83,7 @@ public class ItemLocationAdapter  extends RecyclerView.Adapter<ItemLocationAdapt
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                IdLocation.IdLocations = 1;//set IdLocation
                 IdServices.IdService = services.getID();//set idService
                 FragmentActivity activity = (FragmentActivity) view.getContext();
                 Fragment myFragment = new DetailsSearchFragment();

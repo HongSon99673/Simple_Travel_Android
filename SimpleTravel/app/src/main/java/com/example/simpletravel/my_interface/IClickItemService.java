@@ -1,5 +1,8 @@
 package com.example.simpletravel.my_interface;
 
+import com.example.simpletravel.model.Location;
+import com.example.simpletravel.model.Services;
+
 public interface IClickItemService {
-    void onClickItem(int IdService);
+    void onClickItem(Location location);
 }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/backround_dialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="7"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-"
+            android:textColor="@color/teal_700"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-"
+            android:textColor="@color/teal_700"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-"
+            android:textColor="@color/teal_700"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-"
+            android:textColor="@color/teal_700"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-"
+        android:textColor="@color/teal_700"
+        android:gravity="center_horizontal"/>
+
+        <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-"
+        android:textColor="@color/teal_700"
+        android:gravity="center_horizontal"/>
+
+        <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-"
+        android:textColor="@color/teal_700"
+        android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_Confirm"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:layout_marginTop="29dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_margin="20dp">
+
+        <Button
+            android:id="@+id/dialog_Confirm_No"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/title_No"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="30dp"
+            app:rippleColor="#33F8F5F5"
+            app:strokeColor="@color/INK_grey"
+            app:strokeWidth="0.5dp"/>
+
+        <Button
+            android:id="@+id/dialog_Confirm_Yes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/title_Yes"
+            android:textColor="@color/black"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="30dp"
+            app:rippleColor="#33F8F5F5"
+            app:strokeColor="@color/INK_grey"
+            app:strokeWidth="0.5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
