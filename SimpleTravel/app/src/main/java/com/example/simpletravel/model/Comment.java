@@ -5,7 +5,10 @@ import java.io.Serializable;
 public class Comment implements Serializable {
 
     private int IdRating;
+    private int IdUser;
     private  String UserName;
+    private String Introduce;
+    private String Images;
     private int Contribute;
     private int Evaluate;
     private String Title;
@@ -17,10 +20,13 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(int idRating, String userName, int contribute, int evaluate,
+    public Comment(int idRating, int idUser, String userName, String introduce, String images, int contribute, int evaluate,
                    String title, String time, String type, String summary, int like) {
         IdRating = idRating;
+        IdUser = idUser;
         UserName = userName;
+        Introduce = introduce;
+        Images = images;
         Contribute = contribute;
         Evaluate = evaluate;
         Title = title;
@@ -100,6 +106,30 @@ public class Comment implements Serializable {
 
     public void setLike(int like) {
         Like = like;
+    }
+
+    public int getIdUser() {
+        return IdUser;
+    }
+
+    public void setIdUser(int idUser) {
+        IdUser = idUser;
+    }
+
+    public String getIntroduce() {
+        return Introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        Introduce = introduce;
+    }
+
+    public String getImages() {
+        return Images;
+    }
+
+    public void setImages(String images) {
+        Images = images;
     }
 
     @Override

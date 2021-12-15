@@ -17,15 +17,19 @@ import android.widget.Toast;
 import com.example.simpletravel.JDBC.JDBCControllers;
 
 import com.example.simpletravel.R;
+import com.example.simpletravel.model.Temp.IdUsers;
+import com.example.simpletravel.model.Users;
 import com.example.simpletravel.security.AESUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SignUpEmailActivity extends AppCompatActivity {
 
-    private TextView Back, EmailAlert, PasswordAlert, ShowPassWord;
-    private EditText txtEmail, txtPassword;
+    private TextView Back, EmailAlert, PasswordAlert, ShowPassWord, ConfirmAlert, ConfirmShowPW;
+    private EditText txtEmail, txtPassword, txtConfirm;
     private Button SignIn, SignUp;
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -38,18 +42,18 @@ public class SignUpEmailActivity extends AppCompatActivity {
             }
             if (view.getId() == R.id.btn_Signup_SignUp_Email) {
                 //check variable in
-                if (checkEmail(true)) {
+                if (checkEmail(true) && AccountExists(true)) {
                     SignUpControll(); // connect database and send data
                     Log.e("Log", "Send data true");
                     Intent intent = new Intent(SignUpEmailActivity.this, LoginEmailActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(),"Dang ky thanh cong",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 Log.e("Log", "Send data fail");
 
             }
-
+            //event click icon eye password
             if (view.getId() == R.id.btn_SignIn_SignUp_Email) {
                 Intent intent = new Intent(SignUpEmailActivity.this, LoginEmailActivity.class);
                 startActivity(intent);
@@ -64,6 +68,19 @@ public class SignUpEmailActivity extends AppCompatActivity {
                     //Hide Password
                     ShowPassWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visit_main, 0, 0, 0);
                     txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                }
+            }
+            //event click icon eye confirm password
+            if (view.getId() == R.id.txt_ConfirmShowPassWord_SignUp_Email) {
+                if (txtConfirm.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+                    //Show Password
+                    ConfirmShowPW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_eye_white, 0, 0, 0);
+                    txtConfirm.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //Hide Password
+                    ConfirmShowPW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visit_main, 0, 0, 0);
+                    txtConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 }
             }
@@ -98,7 +115,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
         //check password valid
         if (txtPassword.getText().toString().isEmpty()) {//check pass is null
-            PasswordAlert.setText("Mật khẩu để trống.");
+            PasswordAlert.setText("Mật khẩu không để trống.");
             PasswordAlert.setTextColor(getResources().getColor(R.color.INK_RED));
             Toast.makeText(getApplicationContext(), "empty password valid or invalid password", Toast.LENGTH_SHORT);
             isValid = false;
@@ -114,6 +131,24 @@ public class SignUpEmailActivity extends AppCompatActivity {
                 isValid = false;
             }
         }
+        //check confirm password
+        if (txtConfirm.getText().toString().isEmpty()) {//check pass is null
+            ConfirmAlert.setText("Xác nhận mật khẩu không để trống.");
+            ConfirmAlert.setTextColor(getResources().getColor(R.color.INK_RED));
+            Toast.makeText(getApplicationContext(), "empty password valid or invalid password", Toast.LENGTH_SHORT);
+            isValid = false;
+        } else {
+            if (txtConfirm.getText().toString().equals(txtPassword.getText().toString())) {
+                ConfirmAlert.setText("Xác nhận mật khẩu chính xác.");
+                ConfirmAlert.setTextColor(getResources().getColor(R.color.INK_GREEN));
+                Toast.makeText(getApplicationContext(), "valid password address", Toast.LENGTH_SHORT);
+            } else {
+                ConfirmAlert.setText("Xác nhận sai. Vui lòng kiểm tra lại.");
+                ConfirmAlert.setTextColor(getResources().getColor(R.color.INK_RED));
+                Toast.makeText(getApplicationContext(), "Invalid password address", Toast.LENGTH_SHORT);
+                isValid = false;
+            }
+        }
         return isValid;
 
     }
@@ -125,13 +160,13 @@ public class SignUpEmailActivity extends AppCompatActivity {
         SignUpConstructor();
         Encrypt();
     }
+
     //Send data give SQL
     private JDBCControllers jdbcControllers;
     private Connection connection;
     private PreparedStatement preparedStatement;
 
     private void SignUpControll() {
-
         String Email = txtEmail.getText().toString();
         String PassWord = txtPassword.getText().toString();
         Thread thread = new Thread(new Runnable() {
@@ -142,7 +177,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
                     connection = jdbcControllers.ConnectionData();
                     Log.e("Log", "Connect true");
                     String sql = "Insert into Users " +
-                            " ( Name, Gmail, Password, Address) values " + "('','" + Email + "','" + Encrypt()+ "','')";
+                            " ( Name, Gmail, Password, Address) values " + "('','" + Email + "','" + Encrypt() + "','')";
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(sql);
 
@@ -155,11 +190,52 @@ public class SignUpEmailActivity extends AppCompatActivity {
             }
         });
         thread.start();
-
     }
+
+    //check email exits
+    private Boolean AccountExists(Boolean isCheck) {
+        isCheck = true;
+        try {
+            String Email = txtEmail.getText().toString();//get email
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            String sql = "select  Gmail from  Users where Gmail = '" + Email + "'";//check email exits
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String passcode = rs.getString("Gmail");
+                //send data in activity account
+                Users users = new Users(0, "", rs.getString("Gmail"), "",
+                        "", "", "", "", "");
+                // send IdUser for DiscoveryViewModel check History
+
+                connection.close();//close connect to data
+                rs.close();
+                ps.close();
+                //check email in database
+                if (passcode == null) {
+                    Log.e("Email not exits", "True");
+                    EmailAlert.setText("");
+                } else {
+                    Log.e("Email not exits", "True");
+                    EmailAlert.setText("Email đã tồn tại");
+                    EmailAlert.setTextColor(getResources().getColor(R.color.INK_RED));
+                    isCheck = false;
+                }
+
+            }
+
+        } catch (SQLException e) {
+            Log.e("Error:", e.getMessage());
+            isCheck = false;
+
+        }
+        return isCheck;
+    }
+
     //Encrypt password into the database
-    private String Encrypt(){
-         String encrypted = "";
+    private String Encrypt() {
+        String encrypted = "";
         String sourceStr = txtPassword.getText().toString();
         try {
             encrypted = AESUtils.encrypt(sourceStr);
@@ -189,5 +265,10 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
         ShowPassWord = findViewById(R.id.txt_ShowPassWord_SignUp_Email);
         ShowPassWord.setOnClickListener(onClickListener);
+
+        txtConfirm = findViewById(R.id.txt_ConfirmPassword_SignUp_Email);
+        ConfirmAlert = findViewById(R.id.txt_ConfirmPasswordAlert_SignUp_Email);
+        ConfirmShowPW = findViewById(R.id.txt_ConfirmShowPassWord_SignUp_Email);
+        ConfirmShowPW.setOnClickListener(onClickListener);
     }
 }

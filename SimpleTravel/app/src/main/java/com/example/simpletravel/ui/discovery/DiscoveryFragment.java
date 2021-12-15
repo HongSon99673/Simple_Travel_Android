@@ -1,34 +1,45 @@
 package com.example.simpletravel.ui.discovery;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
-import com.example.simpletravel.activity.AccountActivity;
-import com.example.simpletravel.adapter.HistoryAdapter;
-import com.example.simpletravel.adapter.HotelLocationAdapter;
-import com.example.simpletravel.adapter.ViewTravelAdapter;
 import com.example.simpletravel.databinding.FragmentDiscoveryBinding;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
+import com.example.simpletravel.model.Temp.IdUsers;
+import com.example.simpletravel.model.Users;
 import com.example.simpletravel.ui.search.MainSearchFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,44 +49,15 @@ public class DiscoveryFragment extends Fragment {
 
     private FragmentDiscoveryBinding binding;
     private View root;
-    private DiscoveryViewModel discoveryViewModel;
-//    private RecyclerView rcv_History_View_Discovery, rcv_HotelSmall_View_Discovery,
-//    rcv_ViewTravel_Discovery;
-//    private HistoryAdapter historyAdapter;
-//    private HotelLocationAdapter hotelAdapter;
-//    private ViewTravelAdapter viewTravelAdapter;
-//    private CircleImageView imgAvatar;
-//
-//    View.OnClickListener onClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            if(view.getId()==R.id.img_Avatar) {
-//                startActivity(new Intent(getActivity(), AccountActivity.class));
-//            }
-//
-//        }
-//    };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                             ViewGroup container, Bundle savedInstanceState) {
-
-        discoveryViewModel =
-                new ViewModelProvider(this).get(DiscoveryViewModel.class);
 
         binding = FragmentDiscoveryBinding.inflate(inflater, container, false);
          root = binding.getRoot();
 
-//        rcv_History_View_Discovery = root.findViewById(R.id.rcv_History_View_Discovery);
-//        HistoryController();
-//
-//        rcv_HotelSmall_View_Discovery = root.findViewById(R.id.rcv_HotelSmall_View_Discovery);
-//        HotelController();
-//
-//        rcv_ViewTravel_Discovery = root.findViewById(R.id.rcv_ViewTravel_Discovery);
-//        ViewTravelController();
-//
-//        ViewConstructor();
+        InsertUser();
         InitFragment();
-
          return root;
 
     }
@@ -88,62 +70,101 @@ public class DiscoveryFragment extends Fragment {
         transaction.commit();
     }
 
-//    private void ViewConstructor() {
-//        imgAvatar = root.findViewById(R.id.img_Avatar);
-//        imgAvatar.setOnClickListener(onClickListener);
-//    }
-//
-//    private void ViewTravelController() {
-//        rcv_ViewTravel_Discovery = binding.rcvViewTravelDiscovery;
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
-//        rcv_ViewTravel_Discovery.setLayoutManager(layoutManager);
-//
-//        discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
-//            @Override
-//            public void onChanged(List<Location> locations) {
-//                viewTravelAdapter = new ViewTravelAdapter(locations);
-//                rcv_ViewTravel_Discovery.setAdapter(viewTravelAdapter);
-//            }
-//        });
-//    }
-//
-//    private void HotelController() {
-//
-//        rcv_HotelSmall_View_Discovery = binding.rcvHotelSmallViewDiscovery;
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
-//        rcv_HotelSmall_View_Discovery.setLayoutManager(layoutManager);
-//
-//        discoveryViewModel.getLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
-//            @Override
-//            public void onChanged(List<Location> locations) {
-//                hotelAdapter = new HotelLocationAdapter(locations);
-//                rcv_HotelSmall_View_Discovery.setAdapter(hotelAdapter);
-//            }
-//        });
-//    }
-//
-//    private void HistoryController() {
-//        rcv_History_View_Discovery = binding.rcvHistoryViewDiscovery;
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false);
-//        rcv_History_View_Discovery.setLayoutManager(layoutManager);
-//
-//        discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
-//            @Override
-//            public void onChanged(List<Services> services) {
-//                historyAdapter = new HistoryAdapter(services);
-//                rcv_History_View_Discovery.setAdapter(historyAdapter);
-//            }
-//        });
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
+    //save information user
+    //Send data give SQL
+    private JDBCControllers jdbcControllers;
+    private Connection connection;
+    private GoogleSignInClient mGoogleSignInClient;
+    private String imageString;
+
+    private void InsertUser(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+//            String personGivenName = acct.getGivenName();
+//            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+//            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            //Add User if account not exist
+            if (AccountExists(true)){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                            connection = jdbcControllers.ConnectionData();
+                            Log.e("Gmail", "True");
+                            String sql = "Insert into Users " +
+                                    " ( Name, Gmail) values " + "(N'" + personName + "',N'" + personEmail + "')";
+                            PreparedStatement preparedStatement = connection
+                                    .prepareStatement(sql);
+
+                            preparedStatement.executeUpdate();
+                            preparedStatement.close();
+                            connection.close();//close connect database
+                        } catch (Exception ex) {
+                            Log.e("Gmail", ex.toString());
+                        }
+                    }
+                }).start();
+            }
+        }
+    }
+    //check email exits
+    private Boolean AccountExists(Boolean isCheck) {
+        isCheck = true;
+        try {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            // Build a GoogleSignInClient with the options specified by gso.
+            mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
+            String Email = acct.getEmail();//get email
+            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+            connection = jdbcControllers.ConnectionData();
+            String sql = "select  IdUser, Gmail, Name from  Users where Gmail = '" + Email + "'";//check email exits
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String passcode = rs.getString("Gmail");
+                //send data in activity account
+                Users users = new Users(rs.getInt("IdUser"), rs.getString("Name"), rs.getString("Gmail"), "",
+                        "", "", "", "", "");
+                // send IdUser for DiscoveryViewModel check History
+                IdUsers.IdUser = users.getIdUser();
+                IdUsers.NameUser = users.getUserName();
+                connection.close();//close connect to data
+                rs.close();
+                ps.close();
+                //check email in database
+                if (passcode == null) {
+                    Log.e("Email not exits", "True");
+                } else {
+                    Log.e("Email exits", "True");
+                    isCheck = false;
+                }
+
+            }
+
+        } catch (SQLException e) {
+            Log.e("Error:", e.getMessage());
+            isCheck = false;
+
+        }
+        return isCheck;
+    }
 
 }

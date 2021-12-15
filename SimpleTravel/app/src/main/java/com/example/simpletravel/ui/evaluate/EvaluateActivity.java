@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.PhotoCommentAdapter;
+import com.example.simpletravel.model.Services;
 import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.model.Temp.IdUsers;
 import com.gun0912.tedpermission.PermissionListener;
@@ -258,16 +259,15 @@ public class EvaluateActivity extends AppCompatActivity {
     }
 
     private void InformationEvaluate() {
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            Name.setText(bundle.getString("location1"));//set Name Services
-            Location.setText(bundle.getString("location3"));//set Location
+        Services services = IdUsers.services;
+        if (services != null){
+            Name.setText(services.getName());//set Name Services
+            Location.setText(services.getAddress());//set Location
             //set Images
-            byte[] decodedString = Base64.decode(String.valueOf(bundle.getString("location2")), Base64.DEFAULT);
+            byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             Img.setImageBitmap(decodedByte);
         }
-
     }
 
     //check data

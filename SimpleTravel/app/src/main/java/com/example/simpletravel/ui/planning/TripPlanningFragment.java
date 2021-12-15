@@ -6,8 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,17 +19,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.TripAdapter;
+import com.example.simpletravel.asynctask.planning.TripAsyncTask;
 import com.example.simpletravel.model.Temp.IdUsers;
-import com.example.simpletravel.model.Trip;
+import com.example.simpletravel.viewmodel.PlanningViewModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,7 +87,6 @@ public class TripPlanningFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        planningViewModel = new ViewModelProvider(this).get(PlanningViewModel.class);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_trip_planning, container, false);
 
@@ -100,10 +99,8 @@ public class TripPlanningFragment extends Fragment {
                 OpenCreateTripDialog(Gravity.BOTTOM);
                 //update Fragment TripPlanning
                 UpdateListTrip();
-
             }
         });
-
 
 
         return view;
@@ -114,13 +111,13 @@ public class TripPlanningFragment extends Fragment {
     private JDBCControllers jdbcControllers;
     private Connection connection;
 
-    private void OpenCreateTripDialog(int gravity){
+    private void OpenCreateTripDialog(int gravity) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_create_trip);
 
         Window window = dialog.getWindow();
-        if(window == null){
+        if (window == null) {
             return;
         }
 
@@ -132,7 +129,7 @@ public class TripPlanningFragment extends Fragment {
         window.setAttributes(windowAttribute);
 
         //Gravity is bottom then dialog close
-        if(Gravity.BOTTOM == gravity){
+        if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(true);
         } else {
             dialog.setCancelable(false);
@@ -140,38 +137,36 @@ public class TripPlanningFragment extends Fragment {
 
         EditText nameTrip = dialog.findViewById(R.id.dialog_txt_NameTrip);
         Button createTrip = dialog.findViewById(R.id.dialog_btn_CreateTrip);
+        TextView alert = dialog.findViewById(R.id.dialoglisttrip_txt_NameTrip_Alert);
         createTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String NameTrip = nameTrip.getText().toString();
                 int IdUser = IdUsers.IdUser;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                            connection = jdbcControllers.ConnectionData();
-                            Log.e("Log", "Connect true");
-                            String sql = "Insert into Planning " +
-                                    " ( NamePlan,IdUser) values " + "('" + NameTrip + "','" + IdUser+ "')";
-                            PreparedStatement preparedStatement = connection
-                                    .prepareStatement(sql);
-                            preparedStatement.executeUpdate();
-                            preparedStatement.close();
-                            Toast.makeText(getActivity(), "Send true", Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();//close dialog
-                        } catch (Exception ex) {
-                            Log.e("Log", ex.toString());
-                        }
+                if (NameTrip.isEmpty()) {
+                    alert.setText("Tên chuyến đi không để trống");
+                    alert.setTextColor(getResources().getColor(R.color.INK_RED));
+                } else {
+                    try {
+                        jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                        connection = jdbcControllers.ConnectionData();
+                        Log.e("Create Trip", "Connect true");
+                        String sql = "Insert into Planning " +
+                                " ( NamePlan,IdUser) values " + "('" + NameTrip + "','" + IdUser + "')";
+                        PreparedStatement preparedStatement = connection
+                                .prepareStatement(sql);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
+                        Toast.makeText(getActivity(), "Tạo chuyến đi thành công !", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();//close dialog
+                    } catch (Exception ex) {
+                        Log.e("Create Trip", ex.toString());
                     }
-                }).start();
+                }
             }
         });
         dialog.show();
     }
-
 
     //create variable
     private RecyclerView recyclerView;
@@ -179,18 +174,22 @@ public class TripPlanningFragment extends Fragment {
     private PlanningViewModel planningViewModel;
 
     private void UpdateListTrip() {
-
-        recyclerView = view.findViewById(R.id.planning_lv_Trip);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        planningViewModel.getTrip().observe(getViewLifecycleOwner(), new Observer<List<Trip>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onChanged(List<Trip> trips) {
-                tripAdapter = new TripAdapter(trips);
-                recyclerView.setAdapter(tripAdapter);
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView = view.findViewById(R.id.planning_lv_Trip);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+                        recyclerView.addItemDecoration(itemDecoration);
+                        new TripAsyncTask(getContext(), recyclerView).execute();
+                    }
+                });
             }
-        });
+        }).start();
     }
 
 }

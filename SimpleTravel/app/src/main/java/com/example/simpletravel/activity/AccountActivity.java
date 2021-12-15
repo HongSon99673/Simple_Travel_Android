@@ -21,12 +21,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.MainActivity;
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.Users;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.gun0912.tedpermission.PermissionListener;
@@ -103,7 +107,7 @@ public class AccountActivity extends AppCompatActivity {
                 try {
                     jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
                     connection = jdbcControllers.ConnectionData();
-                    Log.e("Log", "Connect Data True");
+                    Log.e("Account", "Connect Data True");
                     String sql = "select * from  Users where IdUser = '" + IdUsers.IdUser + "'";//check email exits
                     PreparedStatement ps = connection.prepareStatement(sql);
                     Log.e("query", sql);
@@ -144,7 +148,7 @@ public class AccountActivity extends AppCompatActivity {
                         ps.close();
                     }
                 } catch (SQLException e) {
-                    Log.e("Error:", e.getMessage());
+                    Log.e("Account", e.getMessage());
                 }
             }
         }).start();
@@ -208,23 +212,27 @@ public class AccountActivity extends AppCompatActivity {
                 introduce = editTextIntroduce.getText().toString().trim();
                 contact = editTextContact.getText().toString().trim();
                 //update data user edit
-                try {
-                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                    connection = jdbcControllers.ConnectionData();
-                    Log.e("Log", "Connect Data True");
-                    String sql = "Update Users set Name = N'" + username + "', Address = N'" + livenow + "', " +
-                            "Introduce = N'" + introduce + "', Phone = '" + contact + "' Where IdUser = '" + IdUsers.IdUser + "'";//check id user
-                    PreparedStatement ps = connection.prepareStatement(sql);
-                    ps.executeUpdate();
-                    ps.close();
-                    Log.e("query", sql);
-                    Log.e("Log", "Update true");
-                    UpdateInformation();//update reset layout Account
+               new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       try {
+                           jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                           connection = jdbcControllers.ConnectionData();
+                           Log.e("Update Account", "Connect Data True");
+                           String sql = "Update Users set Name = N'" + username + "', Address = N'" + livenow + "', " +
+                                   "Introduce = N'" + introduce + "', Phone = '" + contact + "' Where IdUser = '" + IdUsers.IdUser + "'";//check id user
+                           PreparedStatement ps = connection.prepareStatement(sql);
+                           ps.executeUpdate();
+                           ps.close();
+                           connection.close();//close connect data base
+                           UpdateInformation();//update reset layout Account
 
-                } catch (SQLException e) {
-                    Log.e("Error:", e.getMessage());
-                    Toast.makeText(getApplicationContext(), "Cập nhật không thành công ", Toast.LENGTH_LONG).show();
-                }
+                       } catch (SQLException e) {
+                           Log.e("Update Account:", e.getMessage());
+                           Toast.makeText(getApplicationContext(), "Cập nhật không thành công ", Toast.LENGTH_LONG).show();
+                       }
+                   }
+               }).start();
 
                 Toast.makeText(getApplicationContext(), "Cập nhật thành công", Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
@@ -243,25 +251,25 @@ public class AccountActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
 
     private void InformationGoogle() {
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        // Build a GoogleSignInClient with the options specified by gso.
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-//        if (acct != null) {
-//            String personName = acct.getDisplayName();
-////            String personGivenName = acct.getGivenName();
-////            String personFamilyName = acct.getFamilyName();
+//         Configure sign-in to request the user's ID, email address, and basic
+//         profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+//            String personGivenName = acct.getGivenName();
+//            String personFamilyName = acct.getFamilyName();
 //            String personEmail = acct.getEmail();
-////            String personId = acct.getId();
-//            Uri personPhoto = acct.getPhotoUrl();
+//            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
 //            Name.setText(personName);
 //            Email.setText(personEmail);
-//            Glide.with(this).load(String.valueOf(personPhoto)).into(img);
-//        }
+            Glide.with(this).load(String.valueOf(personPhoto)).into(img);
+        }
 
     }
 

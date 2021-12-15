@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.databinding.FragmentSearchBinding;
+import com.example.simpletravel.viewmodel.SearchViewModel;
 
 public class SearchFragment extends Fragment  {
 
@@ -20,8 +21,8 @@ public class SearchFragment extends Fragment  {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
+//        homeViewModel =
+//                new ViewModelProvider(this).get(SearchViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         InitFragment();

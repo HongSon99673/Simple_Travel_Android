@@ -18,15 +18,15 @@
             android:src="@drawable/avartar1"
             android:scaleType="centerCrop"/>
 
-        <RadioButton
-            android:id="@+id/rdb_Choose_Item_Discovery"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
-            android:background="@drawable/ic_shape_round"
-            android:layout_margin="10dp"
-            android:layout_gravity="right"
-            android:visibility="visible"
-            />
+<!--        <RadioButton-->
+<!--            android:id="@+id/rdb_Choose_Item_Discovery"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:background="@drawable/ic_shape_round"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:visibility="visible"-->
+<!--            />-->
 
     </FrameLayout>
 

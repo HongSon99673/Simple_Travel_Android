@@ -144,22 +144,23 @@ public class LoginEmailActivity extends AppCompatActivity {
             jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
             connection = jdbcControllers.ConnectionData();
             Log.e("Log", "Connect Data True");
-            String sql = "select IdUser, Gmail, Password from  Users where Gmail = '" + Email + "'";//check email exits
+            String sql = "select IdUser, Name, Gmail, Password from  Users where Gmail = '" + Email + "'";//check email exits
             PreparedStatement ps = connection.prepareStatement(sql);
             Log.e("query", sql);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String passcode = rs.getString("Password");
                 //send data in activity account
-                Users users = new Users(rs.getInt("IdUser"), "", rs.getString("Gmail"), rs.getString("Password"),
+                Users users = new Users(rs.getInt("IdUser"), rs.getString("Name"), rs.getString("Gmail"), rs.getString("Password"),
                        "", "", "", "","");
                 // send IdUser for DiscoveryViewModel check History
                 int idUser = users.getIdUser();
                 IdUsers.IdUser = idUser;//set IdUser
-
+                IdUsers.NameUser = users.getUserName();//set name user
                 connection.close();//close connect to data
                 rs.close();
                 ps.close();
+
                 //check password in database and password in txtPassword
                 if (passcode != null && !passcode.trim().equals("") && passcode.equals(Encrypt())) {
                     Log.e("Log", "Password true");

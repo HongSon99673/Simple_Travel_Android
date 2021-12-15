@@ -1,10 +1,14 @@
 package com.example.simpletravel.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,7 @@ public class RecentlyRearchAdapter extends ArrayAdapter<Services> {
             viewdialog = View.inflate(parent.getContext(), R.layout.item_evaluate_listview, null);
 
             holder = new RecentlyRearchAdapter.ViewHodler();
+            holder.Images = (ImageView) viewdialog.findViewById(R.id.evaluate_item_img_Avatar);
             holder.NameService = (TextView) viewdialog.findViewById(R.id.evaluate_txt_NameService);
             holder.Location = (TextView) viewdialog.findViewById(R.id.evaluate_txt_Location);
             viewdialog.setTag(holder);
@@ -48,13 +53,16 @@ public class RecentlyRearchAdapter extends ArrayAdapter<Services> {
         }
 
         Services services = servicesList.get(position);
+        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.Images.setImageBitmap(decodedByte);
         holder.NameService.setText(services.getName());
         holder.Location.setText(services.getAddress());
         return viewdialog;
     }
 
     class ViewHodler{
-        String Images;
+        ImageView Images;
         TextView NameService, Location;
     }
 }

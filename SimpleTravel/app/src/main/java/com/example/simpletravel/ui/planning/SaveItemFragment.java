@@ -3,8 +3,6 @@ package com.example.simpletravel.ui.planning;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,9 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.SavedItemAdapter;
-import com.example.simpletravel.model.SavedItem;
-
-import java.util.List;
+import com.example.simpletravel.asynctask.planning.SaveItemAsyncTask;
+import com.example.simpletravel.viewmodel.PlanningViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +68,6 @@ public class SaveItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        planningViewModel = new ViewModelProvider(this).get(PlanningViewModel.class);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_save_item, container, false);
 
@@ -84,17 +80,28 @@ public class SaveItemFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private void UpdateSavedItem() {
-        recyclerView = view.findViewById(R.id.planning_lv_SaveItemFragment);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        planningViewModel.getSavedItem().observe(getViewLifecycleOwner(), new Observer<List<SavedItem>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onChanged(List<SavedItem> savedItems) {
-                savedItemAdapter = new SavedItemAdapter(savedItems);
-                recyclerView.setAdapter(savedItemAdapter );
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView = view.findViewById(R.id.planning_lv_SaveItemFragment);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        new SaveItemAsyncTask(getActivity(), recyclerView).execute();
+                    }
+                });
             }
-        });
+        }).start();
+
+//        planningViewModel.getSavedItem().observe(getViewLifecycleOwner(), new Observer<List<SavedItem>>() {
+//            @Override
+//            public void onChanged(List<SavedItem> savedItems) {
+//                savedItemAdapter = new SavedItemAdapter(savedItems);
+//                recyclerView.setAdapter(savedItemAdapter );
+//            }
+//        });
 
     }
 }

@@ -1,6 +1,9 @@
 package com.example.simpletravel.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +53,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServ
             return;
         }
 
-//        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        holder.Image.setImageBitmap(decodedByte);
+        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.Image.setImageBitmap(decodedByte);
 
         holder.txtName.setText(services.getName());
         if (services.getRatings() == 1) {
@@ -90,10 +93,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListServ
             public void onClick(View view) {
                 IdServices.IdService = services.getID();
                 Toast.makeText(view.getContext(), services.getName(), Toast.LENGTH_SHORT).show();
-
-//                ((FragmentActivity) view.getContext()).getFragmentManager().beginTransaction()
-//                        .replace(R.id.discovery_frameLayout_Main, new DetailsSearchFragment())
-//                        .commit();
 
                 FragmentActivity activity = (FragmentActivity) view.getContext();
                 Fragment myFragment = new DetailsSearchFragment();

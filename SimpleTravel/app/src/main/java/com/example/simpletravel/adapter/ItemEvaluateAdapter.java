@@ -1,11 +1,15 @@
 package com.example.simpletravel.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,14 +46,18 @@ public class ItemEvaluateAdapter extends ArrayAdapter<Services> {
             convertView = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.item_evaluate_listview, parent, false);
         }
-
+        ImageView imageView = convertView.findViewById(R.id.evaluate_item_img_Avatar);
         TextView textViewName = convertView.findViewById(R.id.evaluate_txt_NameService);
         TextView textViewLocation = convertView.findViewById(R.id.evaluate_txt_Location);
-
         Services services = getItem(position);
 
         if(services != null){
+            byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imageView.setImageBitmap(decodedByte);//set image
+            //set name
             textViewName.setText(services.getName());
+            //set address
             textViewLocation.setText(services.getAddress());
         }
         return convertView;

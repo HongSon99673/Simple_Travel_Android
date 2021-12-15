@@ -11,12 +11,15 @@ public class SavedItem implements Serializable {
     private String TimeOpen;
     private String NamePlan;
     private int Choose;
+    private Double Latitude;
+    private Double Longitude;
+    private String Images;
 
     public SavedItem() {
     }
 
-    public SavedItem(int idService, String nameType, String nameService,int rating,
-                     String summary, String timeOpen, String namePlan, int choose) {
+    public SavedItem(int idService, String nameType, String nameService,int rating, String summary,
+                     String timeOpen, String namePlan, int choose, Double latitude, Double longitude,String images) {
         IdService = idService;
         NameType = nameType;
         NameService = nameService;
@@ -25,6 +28,9 @@ public class SavedItem implements Serializable {
         TimeOpen = timeOpen;
         NamePlan = namePlan;
         Choose = choose;
+        Latitude = latitude;
+        Longitude = longitude;
+        Images = images;
     }
 
     public int getIdService() {
@@ -89,6 +95,30 @@ public class SavedItem implements Serializable {
 
     public void setRating(int rating) {
         Rating = rating;
+    }
+
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        Latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
+
+    public String getImages() {
+        return Images;
+    }
+
+    public void setImages(String images) {
+        Images = images;
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.example.simpletravel.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.simpletravel.R;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Temp.IdLocation;
-import com.example.simpletravel.my_interface.IClickItemService;
+import com.example.simpletravel.model.Temp.LocationTemp;
 import com.example.simpletravel.ui.discovery.LocationFragment;
 
 import java.util.List;
@@ -23,11 +27,9 @@ import java.util.List;
 public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.ListLocation> {
 
     private List<Location> locationList;
-    private IClickItemService iClickItemService;
 
-    public ViewTravelAdapter(List<Location> locationList, IClickItemService iClickItemService) {
+    public ViewTravelAdapter(List<Location> locationList) {
         this.locationList = locationList;
-        this.iClickItemService = iClickItemService;
     }
 
     @NonNull
@@ -41,13 +43,12 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
     public void onBindViewHolder(@NonNull ListLocation holder, int position) {
 
         Location location = locationList.get(position);
-
         if (location == null) {
             return;
         }
-//        byte[] decodedString = Base64.decode(String.valueOf(location.getImageLocation()), Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        holder.imageLocation.setImageBitmap(decodedByte);
+        byte[] decodedString = Base64.decode(String.valueOf(location.getImageLocation()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.imageLocation.setImageBitmap(decodedByte);
         holder.nameLocation.setText(location.getNameLocation());
         holder.nameCountry.setText(location.getNameCountry() + ", " + location.getNameContinents());
 
@@ -55,13 +56,17 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
             @Override
             public void onClick(View view) {
                 IdLocation.IdLocations = location.getIdLocation();//set idLocation
+                //send data to fragment detail location
+                LocationTemp.location = location;
                 FragmentActivity activity = (FragmentActivity) view.getContext();
                 Fragment myFragment = new LocationFragment();
                 activity.getSupportFragmentManager().beginTransaction().add(
                         R.id.discovery_frameLayout_Main, myFragment).addToBackStack(LocationFragment.TAG1).commit();
             }
+
         });
     }
+
 
 
     @Override
@@ -87,4 +92,5 @@ public class ViewTravelAdapter extends RecyclerView.Adapter<ViewTravelAdapter.Li
 
         }
     }
+
 }

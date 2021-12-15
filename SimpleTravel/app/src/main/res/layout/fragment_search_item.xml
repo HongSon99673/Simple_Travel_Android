@@ -41,12 +41,12 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/search_txt_Recently"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_vicinity"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_baseline_near_me_24"/>
 

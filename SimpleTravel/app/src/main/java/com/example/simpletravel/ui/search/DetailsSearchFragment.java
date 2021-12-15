@@ -2,6 +2,8 @@ package com.example.simpletravel.ui.search;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -10,11 +12,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,14 +38,13 @@ import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.CommentAdapter;
 import com.example.simpletravel.adapter.DialogListTripAdapter;
-import com.example.simpletravel.adapter.PhotoAdapter;
-import com.example.simpletravel.model.Comment;
+import com.example.simpletravel.asynctask.search.CommentAsyncTask;
 import com.example.simpletravel.model.Temp.IdUsers;
 import com.example.simpletravel.model.ListTrip;
-import com.example.simpletravel.model.Photo;
 import com.example.simpletravel.model.Services;
 import com.example.simpletravel.ui.evaluate.EvaluateActivity;
-import com.example.simpletravel.ui.planning.PlanningViewModel;
+import com.example.simpletravel.viewmodel.PlanningViewModel;
+import com.example.simpletravel.viewmodel.DetailSearchViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -53,10 +55,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
-
-import me.relex.circleindicator.CircleIndicator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,12 +97,11 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
     }
 
     //create variable
-    private ViewPager viewPager;
-    private CircleIndicator circleIndicator;
-    private PhotoAdapter photoAdapter;
     private View view;
     private DetailSearchViewModel detailSearchViewModel;
     private PlanningViewModel planningViewModel;
+    private int TempID ;
+    private String TempName, TempImage, TempAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +125,8 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
 //                DialogSaveServiceinTrip1();
             }
             if (view.getId() == R.id.search_btn_Rating) {
-                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
+                //show activity evaluate
+                Intent intent = new Intent(getContext(), EvaluateActivity.class);
                 startActivity(intent);
             }
             if (view.getId() == R.id.search_details_URL) {
@@ -160,7 +159,6 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details_search, container, false);
         DetailSearchConstructor();
-        PhotoControll();//Viewpager photo in layout details
         ShowDetailItemSearch();
         ShowDeatailComment();
         //show gg map in fragment
@@ -173,17 +171,24 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
     //show all comment in service
     //create variable function
     private CommentAdapter commentAdapter;
-    private ListView listViewComment;
+    private RecyclerView listViewComment;
 
     private void ShowDeatailComment() {
-
-        detailSearchViewModel.getConmment().observe(getViewLifecycleOwner(), new Observer<List<Comment>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onChanged(List<Comment> comments) {
-                commentAdapter = new CommentAdapter(comments);
-                listViewComment.setAdapter(commentAdapter);
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        listViewComment.setLayoutManager(layoutManager);
+                        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+                        listViewComment.addItemDecoration(itemDecoration);
+                        new CommentAsyncTask(getContext(), listViewComment).execute();
+                    }
+                });
             }
-        });
+        }).start();
 
     }
 
@@ -222,8 +227,6 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
         } else {
             dialog.setCancelable(false);
         }
-        dialog.show();
-
         //show list view trip
         ListView listView = view1.findViewById(R.id.dialoglistrip_lv_Trip);
         planningViewModel.getListTrip().observe(getViewLifecycleOwner(), new Observer<List<ListTrip>>() {
@@ -254,32 +257,22 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
                                             preparedStatement = connection
                                                     .prepareStatement(sql);
                                             preparedStatement.executeUpdate();
-                                            connection.close();
                                             preparedStatement.close();
+                                            connection.close();
+//                                            Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();//close dialog
                                         } catch (Exception ex) {
                                             Log.e("Log", ex.toString());
+//                                            Toast.makeText(getActivity(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }).start();
-                                Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        Toast.makeText(getActivity(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();//close dialog
-                    }
-                });
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        checkBox.setChecked(true);
-//                        IdPlan = dialogListTripAdapter.getItem(i).getIdTrip();
                     }
                 });
             }
         });
-
-
         //event click text Create Trip
         CreateTrip = dialog.findViewById(R.id.dialog_list_txt_Create_Trip);
         CreateTrip.setOnClickListener(new View.OnClickListener() {
@@ -288,6 +281,7 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
                 OpenCreateTripDialog(Gravity.BOTTOM);
             }
         });
+        dialog.show();
     }
 
     //show dialog Create Trip
@@ -367,13 +361,20 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
     private int IdTemp;
 
     public void ShowDetailItemSearch() {
-
         detailSearchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
             @Override
             public void onChanged(List<Services> servicesList) {
+                IdUsers.services = servicesList.get(0);//set services temp
                 IdTemp = servicesList.get(0).getID();
-
+                //set title
+                Title.setText(servicesList.get(0).getName());
+                //set images
+                byte[] decodedString = Base64.decode(String.valueOf(servicesList.get(0).getImages()), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                Images.setImageBitmap(decodedByte);
+                //set name service
                 NameService.setText(servicesList.get(0).getName());
+                //set star
                 if (servicesList.get(0).getRatings() == 1) {
                     Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
                 }
@@ -399,30 +400,37 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
                     Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
                     Star5.setImageResource(R.drawable.outline_star_purple500_black_48);
                 }
+                //set quantity
                 Quantity.setText(String.valueOf(servicesList.get(0).getQuantity() + " " + "đánh giá"));
+                //set summary
                 Summary.setText(servicesList.get(0).getSummary());
+                //set URL
                 URL.setText(servicesList.get(0).getURL());
                 URL.setPaintFlags(URL.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                //set Phone
                 Phone.setText(servicesList.get(0).getPhone());
+                //set status
                 NameStatus.setText(servicesList.get(0).getNameStatus());
+                //set time open
                 TimeOpen.setText(servicesList.get(0).getOpenTime());
+                //set time suggest
                 SuggestTime.setText(String.valueOf(servicesList.get(0).getSuggestTime() + " " + "giờ"));
+                //set address
                 Address.setText(servicesList.get(0).getAddress());
             }
         });
-
     }
 
     //create variable
     private TextView Back, NameService, Rating, Quantity, Summary, URL, Phone, TimeOpen, NameStatus, SuggestTime, Address;
-    private TextView Choose;
-    private ImageView Star1, Star2, Star3, Star4, Star5;
+    private TextView Choose, Title;
+    private ImageView Star1, Star2, Star3, Star4, Star5, Images;
     private Button Ratings;
 
     private void DetailSearchConstructor() {
         Back = view.findViewById(R.id.search_txt_Back_DetailSearch);
         Back.setOnClickListener(onClickListener);
-
+        Images = view.findViewById(R.id.search_detail_Images);
         NameService = view.findViewById(R.id.search_details_NameService);
         Star1 = view.findViewById(R.id.details_star_1);
         Star2 = view.findViewById(R.id.details_star_2);
@@ -439,7 +447,7 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
         TimeOpen = view.findViewById(R.id.search_details_TimeOpen);
         SuggestTime = view.findViewById(R.id.search_details_SuggestTime);
         Address = view.findViewById(R.id.search_details_Address);
-
+        Title = view.findViewById(R.id.search_details_Title);
         listViewComment = view.findViewById(R.id.search_lv_Rating);
 
         Choose = view.findViewById(R.id.search_txt_Choose_DetailSearch);
@@ -451,25 +459,6 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
         mapView = view.findViewById(R.id.google_map);
 
 
-    }
-
-    private void PhotoControll() {
-        viewPager = view.findViewById(R.id.search_viewpager);
-//        circleIndicator = view.findViewById(R.id.search_Circle_Indicator);
-
-        photoAdapter = new PhotoAdapter(getActivity(), getListPhoto());
-        viewPager.setAdapter(photoAdapter);
-
-//        circleIndicator.setViewPager(viewPager);
-//        photoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
-    }
-
-    private List<Photo> getListPhoto() {
-        List<Photo> photos = new ArrayList<>();
-        photos.add(new Photo(R.drawable.avartar1));
-        photos.add(new Photo(R.drawable.avartar1));
-        photos.add(new Photo(R.drawable.avartar1));
-        return photos;
     }
 
     @Override
@@ -486,7 +475,7 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
                             .snippet(s.getAddress())
                     );
                     //Zoom
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 15));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 10));
                 }
             }
         });
@@ -534,5 +523,4 @@ public class DetailsSearchFragment extends Fragment implements OnMapReadyCallbac
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
 }

@@ -1,5 +1,8 @@
 package com.example.simpletravel.ui.discovery;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,16 +12,27 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.ItemLocationAdapter;
+import com.example.simpletravel.asynctask.discovery.CoordinatesAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemFoodAllAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemFoodAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemPlayAllAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemPlayAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemStayAllAsyncTask;
+import com.example.simpletravel.asynctask.discovery.ItemStayAsyncTask;
+import com.example.simpletravel.asynctask.discovery.LocationAsyncTask;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
-import com.example.simpletravel.my_interface.IClickItemService;
+import com.example.simpletravel.model.Temp.LocationTemp;
 import com.example.simpletravel.viewmodel.LocationViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,7 +49,7 @@ import java.util.List;
  * Use the {@link LocationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LocationFragment extends Fragment implements OnMapReadyCallback, IClickItemService {
+public class LocationFragment extends Fragment implements OnMapReadyCallback{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +92,54 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
                     getFragmentManager().popBackStack();
                 }
             }
+            //view play all
+            if (view.getId() == R.id.discovery_txt_PlayAll){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                                rcv_Play.setLayoutManager(layoutManager);
+                                new ItemPlayAllAsyncTask(getContext(),rcv_Play).execute();
+                            }
+                        });
+                    }
+                }).start();
+            }
+            //view stay all
+            if (view.getId() == R.id.discovery_txt_StayAll){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                                rcv_Stay.setLayoutManager(layoutManager);
+                                new ItemStayAllAsyncTask(getContext(), rcv_Stay).execute();
+                            }
+                        });
+                    }
+                }).start();
+            }
+            //view food all
+            if (view.getId() == R.id.discovery_txt_FoodAll){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                                rcv_Food.setLayoutManager(layoutManager);
+                                new ItemFoodAllAsyncTask(getContext(), rcv_Food).execute();
+                            }
+                        });
+                    }
+                }).start();
+            }
         }
     };
     //create variable
@@ -97,7 +159,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
     //create variable function On create View
     private View view;
     private LocationViewModel locationViewModel;
-    private IClickItemService iClickItemService = this;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,30 +170,45 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_location, container, false);
         ContructorLocation();
-        PlayController();//handle recycle view play
-        StayController();//handle recycle view stay
-        FoodController();//handle recycle view food
-
+        SetInformation();
         //show gg map in fragment
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
+
+        PlayController();//handle recycle view play
+        StayController();//handle recycle view stay
+        FoodController();//handle recycle view food
 
         return view;
     }
 
     //create variable
-    private TextView Back;
+    private TextView Back, PlayAll, StayAll, FoodAll;
     private TextView Name, Title;
+    private ImageView imageView;
 
     private void ContructorLocation() {
         Back = view.findViewById(R.id.search_txt_Back_DetailSearch);
         Back.setOnClickListener(onClickListener);
-
         Name = view.findViewById(R.id.discovery_location_NameService);
         Title = view.findViewById(R.id.discovery_location_Title);
-
+        imageView = view.findViewById(R.id.discovery_location_Avatar);
         mapView = view.findViewById(R.id.discovery_google_Map);
+        rcv_Play = view.findViewById(R.id.discovery_location_rcv_Play);
+        rcv_Stay = view.findViewById(R.id.discovery_location_rcv_Stay);
+        rcv_Food = view.findViewById(R.id.discovery_location_rcv_Food);
 
+        PlayAll = view.findViewById(R.id.discovery_txt_PlayAll);
+        PlayAll.setPaintFlags(PlayAll.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        PlayAll.setOnClickListener(onClickListener);
+
+        StayAll = view.findViewById(R.id.discovery_txt_StayAll);
+        StayAll .setPaintFlags(StayAll .getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        StayAll.setOnClickListener(onClickListener);
+
+        FoodAll = view.findViewById(R.id.discovery_txt_FoodAll);
+        FoodAll.setPaintFlags(FoodAll.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        FoodAll.setOnClickListener(onClickListener);
 
     }
 
@@ -141,21 +217,19 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
     private ItemLocationAdapter itemLocationAdapter2;
 
     private void StayController() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                rcv_Stay = view.findViewById(R.id.discovery_location_rcv_Stay);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rcv_Stay.setLayoutManager(layoutManager);
-                locationViewModel.getStay().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
-                    @Override
-                    public void onChanged(List<Services> services) {
-                        itemLocationAdapter2 = new ItemLocationAdapter(services);
-                        rcv_Stay.setAdapter(itemLocationAdapter2);
-                    }
-                });
-            }
-        });
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               getActivity().runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                       rcv_Stay.setLayoutManager(layoutManager);
+                       new ItemStayAsyncTask(getContext(), rcv_Stay).execute();
+                   }
+               });
+           }
+       }).start();
     }
 
     //create variable
@@ -163,21 +237,20 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
     private ItemLocationAdapter itemLocationAdapter;
 
     private void PlayController() {
-        getActivity().runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                rcv_Play = view.findViewById(R.id.discovery_location_rcv_Play);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rcv_Play.setLayoutManager(layoutManager);
-                locationViewModel.getPlay().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        itemLocationAdapter = new ItemLocationAdapter(services);
-                        rcv_Play.setAdapter(itemLocationAdapter);
+                    public void run() {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rcv_Play.setLayoutManager(layoutManager);
+                        new ItemPlayAsyncTask(getContext(),rcv_Play).execute();
                     }
                 });
             }
-        });
+        }).start();
+
     }
 
     //create variable
@@ -185,38 +258,37 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
     private RecyclerView rcv_Food;
 
     private void FoodController() {
-        getActivity().runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                rcv_Food = view.findViewById(R.id.discovery_location_rcv_Food);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rcv_Food.setLayoutManager(layoutManager);
-                locationViewModel.getFood().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        itemLocationAdapter1 = new ItemLocationAdapter(services);
-                        rcv_Food.setAdapter(itemLocationAdapter1);
+                    public void run() {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rcv_Food.setLayoutManager(layoutManager);
+                        new ItemFoodAsyncTask(getContext(), rcv_Food).execute();
                     }
                 });
             }
-        });
+        }).start();
     }
 
-    //
-    public IClickItemService getIClickItemService() {
-        return iClickItemService;
-    }
-
-    @Override
-    public void onClickItem(Location location) {
-        Name.setText(location.getNameLocation());
-        Title.setText(location.getNameLocation());
+    //get data from fragment Discovery
+    private void SetInformation(){
+        //set images avatar
+        byte[] decodedString = Base64.decode(String.valueOf(LocationTemp.location.getImageLocation()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imageView.setImageBitmap(decodedByte );
+        //set Name location
+        Name.setText(LocationTemp.location.getNameLocation());
+        //set title name
+        Title.setText(LocationTemp.location.getNameLocation());
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
-        locationViewModel.getFood().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+        locationViewModel.getCoordinates().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
             @Override
             public void onChanged(List<Services> services) {
                 for (int i = 0; i < services.size(); i++) {
@@ -227,7 +299,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, IC
                             .snippet(s.getAddress())
                     );
                     //Zoom
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 15));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 10));
                 }
             }
         });

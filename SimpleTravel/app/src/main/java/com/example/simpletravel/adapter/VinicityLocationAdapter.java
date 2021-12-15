@@ -46,11 +46,13 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
         if (services == null) {
             return;
         }
+        //set text name service
         holder.txtName.setText(services.getName());
-//        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        holder.Image.setImageBitmap(decodedByte);
-
+        //set images service
+        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.Image.setImageBitmap(decodedByte);
+        //set star service
         if (services.getRatings() == 1) {
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
@@ -76,10 +78,13 @@ public class VinicityLocationAdapter extends RecyclerView.Adapter<VinicityLocati
             holder.Star4.setImageResource(R.drawable.outline_star_purple500_black_48);
             holder.Star5.setImageResource(R.drawable.outline_star_purple500_black_48);
         }
-
+        //set text quantity
         holder.txtQuantity.setText(String.valueOf(services.getQuantity()));
+        //set summary
         holder.txtSummary.setText(services.getSummary());
+        //set status service
         holder.txtStatus.setText(services.getNameStatus());
+        //event click item in list view
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

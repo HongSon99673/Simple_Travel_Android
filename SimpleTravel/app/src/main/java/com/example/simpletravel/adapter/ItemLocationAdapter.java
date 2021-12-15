@@ -1,5 +1,8 @@
 package com.example.simpletravel.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +49,9 @@ public class ItemLocationAdapter  extends RecyclerView.Adapter<ItemLocationAdapt
         }
 //        holder.txtTitle.setText(services.getName());
         holder.txtName.setText(services.getName());
-//        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        holder.Image.setImageBitmap(decodedByte);
+        byte[] decodedString = Base64.decode(String.valueOf(services.getImages()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.Image.setImageBitmap(decodedByte);
 
         if(services.getRatings() == 1){
             holder.Star1.setImageResource(R.drawable.outline_star_purple500_black_48);

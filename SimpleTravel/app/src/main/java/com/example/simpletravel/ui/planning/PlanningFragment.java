@@ -9,12 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.simpletravel.R;
 import com.example.simpletravel.databinding.FragmentPlanningBinding;
-
-import java.sql.SQLException;
+import com.example.simpletravel.viewmodel.PlanningViewModel;
 
 public class PlanningFragment extends Fragment {
 
@@ -54,13 +52,6 @@ public class PlanningFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        try {
-            planningViewModel = new PlanningViewModel();
-            new Thread(planningViewModel).start();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
          root = binding.getRoot();
         PlanningConstructor();//function create constructor

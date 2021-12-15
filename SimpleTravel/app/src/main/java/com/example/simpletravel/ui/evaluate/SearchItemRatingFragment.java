@@ -1,33 +1,24 @@
 package com.example.simpletravel.ui.evaluate;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.simpletravel.R;
-import com.example.simpletravel.adapter.HistoryAdapter;
 import com.example.simpletravel.adapter.ItemEvaluateAdapter;
-import com.example.simpletravel.adapter.ItemLocationAdapter;
 import com.example.simpletravel.adapter.RecentlyRearchAdapter;
-import com.example.simpletravel.model.Services;
-import com.example.simpletravel.model.Temp.IdServices;
-import com.example.simpletravel.ui.discovery.DiscoveryViewModel;
-import com.example.simpletravel.ui.search.SearchViewModel;
-
-import java.util.List;
+import com.example.simpletravel.asynctask.evaluate.ListServiceEvaluateAsyncTask;
+import com.example.simpletravel.asynctask.evaluate.RecentlyEvaluateAsyncTask;
+import com.example.simpletravel.viewmodel.DiscoveryViewModel;
+import com.example.simpletravel.viewmodel.EvaluateViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,15 +69,11 @@ public class SearchItemRatingFragment extends Fragment {
     }
     //create variable
     private View view;
-    private DiscoveryViewModel discoveryViewModel;
-    private EvaluateViewModel evaluateViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        discoveryViewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
-        evaluateViewModel = new EvaluateViewModel();
-        new Thread(evaluateViewModel).start();
+//        discoveryViewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_search_item_rating, container, false);
         EvaluateLVControll();//update history see
@@ -115,66 +102,36 @@ public class SearchItemRatingFragment extends Fragment {
     private ItemEvaluateAdapter itemEvaluateAdapter;
 
     private void EvaluateLVControll() {
-        getActivity().runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                autoCompleteTextView = view.findViewById(R.id.evaluate_ATC_Search);
-                evaluateViewModel.getSearch().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        itemEvaluateAdapter = new ItemEvaluateAdapter(getActivity(), R.layout.item_evaluate_listview, services);
-                        autoCompleteTextView.setAdapter(itemEvaluateAdapter);
-                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                IdServices.IdService = itemEvaluateAdapter.getItem(i).getID();//set Id Service
-                                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("location",itemEvaluateAdapter.getItem(i).getID());
-                                bundle.putString("location1",itemEvaluateAdapter.getItem(i).getName());
-                                bundle.putString("location2",itemEvaluateAdapter.getItem(i).getImages());
-                                bundle.putString("location3",itemEvaluateAdapter.getItem(i).getAddress());
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
-                        });
+                    public void run() {
+                        autoCompleteTextView = view.findViewById(R.id.evaluate_ATC_Search);
+                        new ListServiceEvaluateAsyncTask(getContext(),autoCompleteTextView).execute();
                     }
                 });
             }
-        });
+        }).start();
     }
 
     //create variable
     private ListView listView;
-    private RecentlyRearchAdapter recentlyRearchAdapter;
 
     private void RecentlyService(){
-        getActivity().runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                listView = view.findViewById(R.id.evaluate_item_lv_Recently);
-                discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        recentlyRearchAdapter = new RecentlyRearchAdapter(getActivity(),R.layout.item_evaluate_listview, services);
-                        listView.setAdapter(recentlyRearchAdapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                IdServices.IdService = recentlyRearchAdapter.getItem(i).getID();//set Idservice
-                                Intent intent = new Intent(getActivity(), EvaluateActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("location",recentlyRearchAdapter.getItem(i).getID());
-                                bundle.putString("location1",recentlyRearchAdapter.getItem(i).getName());
-                                bundle.putString("location2",recentlyRearchAdapter.getItem(i).getImages());
-                                bundle.putString("location3",recentlyRearchAdapter.getItem(i).getAddress());
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
-                        });
+                    public void run() {
+                        listView = view.findViewById(R.id.evaluate_item_lv_Recently);
+                        new RecentlyEvaluateAsyncTask(getContext(), listView).execute();
+
                     }
                 });
             }
-        });
+        }).start();
     }
 }

@@ -51,6 +51,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ListTrip>  {
             @Override
             public void onClick(View view) {
                 IdTrip.IdTrips = trip.getIdTrip();//set id Trip in Temp
+                IdTrip.NameTrip = trip.getNameTrip();//set name trip in variable temp
+                IdTrip.Save = trip.getSavedItem();//set save item
+                //replace fragment trip = fragment detail trip
                 FragmentActivity activity = (FragmentActivity) view.getContext();
                 Fragment myFragment = new DetailsTripFragment();
                 activity.getSupportFragmentManager().beginTransaction().add(

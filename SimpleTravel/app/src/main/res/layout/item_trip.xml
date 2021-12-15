@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:id="@+id/trip_Layout"
     android:orientation="vertical"
-    android:layout_margin="20dp">
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="15dp"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,6 +43,5 @@
         android:hint="Name Trip"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:layout_marginTop="15dp"/>
-
+        android:layout_marginTop="5dp"/>
 </LinearLayout>

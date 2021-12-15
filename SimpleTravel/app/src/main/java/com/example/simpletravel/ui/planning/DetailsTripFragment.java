@@ -7,8 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,17 +26,23 @@ import android.widget.Toast;
 import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.SavedItemAdapter;
+import com.example.simpletravel.asynctask.planning.DetailTripAsyncTask;
 import com.example.simpletravel.model.SavedItem;
-import com.example.simpletravel.model.Temp.IdServices;
 import com.example.simpletravel.model.Temp.IdTrip;
+import com.example.simpletravel.model.Temp.IdUsers;
+import com.example.simpletravel.viewmodel.PlanningViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,17 +88,17 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
         @Override
         public void onClick(View view) {
             //event click text view back
-            if (view.getId() == R.id.detailstrip_txt_Back){
-                if(getFragmentManager() != null){
+            if (view.getId() == R.id.detailstrip_txt_Back) {
+                if (getFragmentManager() != null) {
                     getFragmentManager().popBackStack();
                 }
             }
             //event click text view delete
-            if (view.getId() == R.id.detailstrip_txt_Delete){
+            if (view.getId() == R.id.detailstrip_txt_Delete) {
                 DeleteTrip(Gravity.BOTTOM);
             }
             //event click text view edit
-            if (view.getId() == R.id.detailstrip_txt_Edit){
+            if (view.getId() == R.id.detailstrip_txt_Edit) {
                 EditTrip(Gravity.BOTTOM);
             }
         }
@@ -107,6 +112,7 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     //create variable
     private View view;
     private MapView mapView;
@@ -119,8 +125,6 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        planningViewModel = new ViewModelProvider(this).get(PlanningViewModel.class);
-
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details_trip, container, false);
         ContructorSeatlsTrip();
@@ -130,7 +134,6 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
         DetailsListService();//list all service in Trip this
 
         return view;
-
     }
 
     //create variable
@@ -138,27 +141,44 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
     private SavedItemAdapter savedItemAdapter;
 
     private void DetailsListService() {
-        recyclerView = view.findViewById(R.id.detailstrip_rcv_List_Service);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        planningViewModel.getListItem().observe(getViewLifecycleOwner(), new Observer<List<SavedItem>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onChanged(List<SavedItem> savedItems) {
-                savedItemAdapter = new SavedItemAdapter(savedItems);
-                recyclerView.setAdapter(savedItemAdapter );
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView = view.findViewById(R.id.detailstrip_rcv_List_Service);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+                        recyclerView.addItemDecoration(itemDecoration);
+                        new DetailTripAsyncTask(getContext(), recyclerView).execute();
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     //create variable
-    private TextView Back, Delate, Edit;
+    private TextView Back, Delate, Edit, NameTrip, Information, Title;
 
     private void ContructorSeatlsTrip() {
         Back = view.findViewById(R.id.detailstrip_txt_Back);
         Back.setOnClickListener(onClickListener);
 
         mapView = view.findViewById(R.id.google_map_Trip);
+
+        //set Title
+        Title =  view.findViewById(R.id.detailstrip_txt_Title);
+        Title.setText(IdTrip.NameTrip);
+
+        //set name Trip
+        NameTrip = view.findViewById(R.id.detailstrip_txt_NamTrip);
+        NameTrip.setText(IdTrip.NameTrip);
+
+        //set information
+        Information = view.findViewById(R.id.detailstrip_txt_InforUser);
+        Information.setText("Của " + IdUsers.NameUser + " - " + String.valueOf(IdTrip.Save) + " mục");
 
         Delate = view.findViewById(R.id.detailstrip_txt_Delete);
         Delate.setOnClickListener(onClickListener);
@@ -170,7 +190,51 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        //create thread new call coordinates to data
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<SavedItem> savedItemList;
+                try {
+                    savedItemList = new ArrayList<>();
+                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                    connection = jdbcControllers.ConnectionData();
+                    Log.e("Coordinates", "True");
+                    statement = connection.createStatement();
+                    String sql = "select s.NameService,s.Address, s.Latitude, s.Longitude\n" +
+                            "                    from Planning p, Services s, DetailsPlanning d\n" +
+                            "                    where s.IdService = d.IdService and p.IdPlan = d.IdPlan and p.IdPlan = '" + IdTrip.IdTrips + "'";
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    while (resultSet.next()) {
 
+                        savedItemList.add(new SavedItem(0, "", resultSet.getString(1), 0, resultSet.getString(2), "",
+                                "", 0, resultSet.getDouble(3), resultSet.getDouble(4), ""));
+                    }
+                    //close connect data
+                    resultSet.close();
+                    statement.close();
+                    connection.close();
+                    //show up list location on gg map
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < savedItemList.size(); i++) {
+                                SavedItem s = savedItemList.get(i);
+                                //create marker
+                                marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))
+                                        .title(s.getNameService())
+                                        .snippet(s.getSummary())
+                                );
+                                //Zoom
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getLatitude(), s.getLongitude()), 10));
+                            }
+                        }
+                    });
+                } catch (Exception ex) {
+                    Log.e("Coordinates", ex.getMessage());
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -248,37 +312,32 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
                 dialog.dismiss();
             }
         });
-
         Yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                            connection = jdbcControllers.ConnectionData();
-                            Log.e("Log", "True");
-                            statement = connection.createStatement();
-                            String sql = "delete from DetailsPlanning where IdPlan = " + IdTrip.IdTrips + "";
-                            String sql1 = "delete from Planning where IdPlan = " + IdTrip.IdTrips + "";
-                            ResultSet resultSet = statement.executeQuery(sql);
-                            ResultSet resultSet1 = statement.executeQuery(sql1);
-                            //close connect to data base
-                            resultSet.close();
-                            resultSet1.close();
-                            statement.close();
-                            connection.close();
-                        } catch (Exception ex) {
-                            Log.e("Log", ex.getMessage());
-                        }
+                try {
+                    jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                    connection = jdbcControllers.ConnectionData();
+                    Log.e("Delete Trip", "True");
+                    statement = connection.createStatement();
+                    String sql = "delete from DetailsPlanning where IdPlan = " + IdTrip.IdTrips + "";
+                    String sql1 = "delete from Planning where IdPlan = " + IdTrip.IdTrips + "";
+                    statement.executeUpdate(sql);
+                    statement.executeUpdate(sql1);
+                    //close connect to data base
+                    statement.close();
+                    connection.close();
+                    Toast.makeText(getContext(), "Xóa chuyến đi thành công !", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();//close dialog
+                    //back fragment trip
+                    if (getFragmentManager() != null) {
+                        getFragmentManager().popBackStack();
                     }
-                }).start();
-
-                dialog.dismiss();
+                } catch (Exception ex) {
+                    Log.e("Delete Trip", ex.getMessage());
+                }
             }
         });
-
         dialog.show();
     }
 
@@ -310,44 +369,44 @@ public class DetailsTripFragment extends Fragment implements OnMapReadyCallback 
         Button No = dialog1.findViewById(R.id.dialog_Edit_No);
         Button Yes = dialog1.findViewById(R.id.dialog_Edit_Yes);
         EditText Trip = dialog1.findViewById(R.id.dialog_edit_Trip);
-
-
+        TextView alert = dialog1.findViewById(R.id.dialog_edit_TripAlert);
         No.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog1.dismiss();
             }
         });
-
         Yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                            connection = jdbcControllers.ConnectionData();
-                            Log.e("Log", "True");
-                            statement = connection.createStatement();
-
-                            String sql = "update Planning set NamePlan = N'"+Trip.getText()+"' where IdPlan = "+IdTrip.IdTrips+"";
-
-                            ResultSet resultSet = statement.executeQuery(sql);
-                            resultSet.close();
-                            statement.close();
-                            connection.close();
-
-                        } catch (Exception ex) {
-                            Log.e("Log", ex.getMessage());
+                if (Trip.getText().toString().isEmpty()){
+                    alert.setText("Tên chuyến đi không để trống");
+                    alert.setTextColor(getResources().getColor(R.color.INK_RED));
+                } else {
+                    try {
+                        jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
+                        connection = jdbcControllers.ConnectionData();
+                        Log.e("Edit Trip", "True");
+                        statement = connection.createStatement();
+                        String sql = "update Planning set NamePlan = N'" + Trip.getText() + "' where IdPlan = " + IdTrip.IdTrips + "";
+                        statement.executeUpdate(sql);
+                        statement.close();
+                        connection.close();
+                        Toast.makeText(getContext(), "Sửa tên chuyến đi thành công !", Toast.LENGTH_SHORT).show();
+                        dialog1.dismiss();//close dialog
+                        //back fragment trip
+                        if (getFragmentManager() != null) {
+                            getFragmentManager().popBackStack();
                         }
-                    }
-                }).start();
+                    } catch (Exception ex) {
+                        Toast.makeText(getContext(), "Sửa tên chuyến đi thất bại!", Toast.LENGTH_SHORT).show();
+                        Log.e("Edit Trip", ex.getMessage());
+                        dialog1.dismiss();
 
-                dialog1.dismiss();
+                    }
+                }
             }
         });
-
         dialog1.show();
     }
 }

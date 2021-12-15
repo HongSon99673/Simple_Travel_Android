@@ -1,34 +1,25 @@
 package com.example.simpletravel.ui.search;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.ItemSearchAdapter;
 import com.example.simpletravel.adapter.RecentlyRearchAdapter;
-import com.example.simpletravel.model.Temp.IdServices;
-import com.example.simpletravel.model.Temp.IdUsers;
-import com.example.simpletravel.model.Services;
-import com.example.simpletravel.ui.discovery.DiscoveryViewModel;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.List;
+import com.example.simpletravel.asynctask.search.ListServiceAsyncTask;
+import com.example.simpletravel.asynctask.search.RecentlyAsyncTask;
+import com.example.simpletravel.viewmodel.DiscoveryViewModel;
+import com.example.simpletravel.viewmodel.SearchViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,16 +82,30 @@ public class SearchItemFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
-
-        discoveryViewModel =
-                new ViewModelProvider(this).get(DiscoveryViewModel.class);
         view = inflater.inflate(R.layout.fragment_search_item, container, false);
 
         ItemSearchControll();
-        RecentlyList();
+        RecentlyList();//show list service recently
+        CancelControll();//back to fragment Main Search
+        ShowGooglemapRecently();//show all service in location here user
+        return view;
+    }
 
+    //create variable
+    private TextView Recently;
+
+    private void ShowGooglemapRecently() {
+        Recently = view.findViewById(R.id.search_txt_Recently);
+        Recently.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), GoogleMapActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void CancelControll() {
         //event text view cancel
         Cancel = view.findViewById(R.id.itemsearch_txt_Cancel);
         Cancel.setPaintFlags(Cancel.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -112,7 +117,6 @@ public class SearchItemFragment extends Fragment  {
                 }
             }
         });
-        return view;
     }
 
     //craete variable
@@ -121,30 +125,19 @@ public class SearchItemFragment extends Fragment  {
     private DiscoveryViewModel discoveryViewModel;
 
     private void RecentlyList() {
-        getActivity().runOnUiThread(new Runnable() {
+        //create thread new handle list view
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                listView = view.findViewById(R.id.search_itemsearch_LV);
-                discoveryViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        recentlyRearchAdapter = new RecentlyRearchAdapter(getActivity(),R.layout.item_evaluate_listview, services);
-                        listView.setAdapter(recentlyRearchAdapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                IdServices.IdService = recentlyRearchAdapter.getItem(i).getID();//set Idservice
-                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
-                                transaction.addToBackStack(DetailsSearchFragment.TAG1);
-                                transaction.commit();
-
-                            }
-                        });
+                    public void run() {
+                        listView = view.findViewById(R.id.search_itemsearch_LV);
+                        new RecentlyAsyncTask(getContext(),listView).execute();
                     }
                 });
             }
-        });
+        }).start();
     }
 
     //create variable function
@@ -152,58 +145,19 @@ public class SearchItemFragment extends Fragment  {
     private ItemSearchAdapter itemSearchAdapter;
     private SearchViewModel searchViewModel;
 
-    //Send data give SQL
-    private JDBCControllers jdbcControllers;
-    private Connection connection;
-    private PreparedStatement preparedStatement;
-
     private void ItemSearchControll() {
-        getActivity().runOnUiThread(new Runnable() {
+        //find id autocomplete not exits
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                autoCompleteTextView = view.findViewById(R.id.item_search_act_Search);// find id AutoCompleteTextView
-                searchViewModel.getServices().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onChanged(List<Services> services) {
-                        itemSearchAdapter = new ItemSearchAdapter(getActivity(), R.layout.item_fragment_item_search, services);
-                        autoCompleteTextView.setAdapter(itemSearchAdapter);
-                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                //send id service to Fragment Details
-                                int idService = itemSearchAdapter.getItem(i).getID();
-                                IdServices.IdService = idService;
-                                Thread thread = new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            jdbcControllers = new JDBCControllers(); //tao ket noi toi DB
-                                            connection = jdbcControllers.ConnectionData();
-                                            Log.e("Log", "Connect true");
-                                            String sql = "Insert into HistoryServices (IdService, IdUser) values " +
-                                                    "('"+ idService + "','"+ IdUsers.IdUser+"')";
-                                            PreparedStatement preparedStatement = connection
-                                                    .prepareStatement(sql);
-                                            preparedStatement.executeUpdate();
-                                            preparedStatement.close();
-                                        } catch (Exception ex) {
-                                            Log.e("Log", ex.toString());
-                                        }
-                                    }
-                                });
-                                thread.start();
-
-                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                transaction.replace(R.id.frameLayout_search, new DetailsSearchFragment());
-                                transaction.addToBackStack(DetailsSearchFragment.TAG1);
-                                transaction.commit();
-                            }
-                        });
+                    public void run() {
+                        autoCompleteTextView = view.findViewById(R.id.item_search_act_Search);
+                        new ListServiceAsyncTask(getContext(),autoCompleteTextView).execute();
                     }
                 });
             }
-        });
+        }).start();
     }
-
 }

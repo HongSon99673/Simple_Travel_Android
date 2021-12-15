@@ -1,30 +1,43 @@
 package com.example.simpletravel.ui.search;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.simpletravel.JDBC.JDBCControllers;
 import com.example.simpletravel.R;
 import com.example.simpletravel.adapter.LocationAdapter;
-import com.example.simpletravel.adapter.VinicityLocationAdapter;
+import com.example.simpletravel.asynctask.search.LoveLocationAsyncTask;
+import com.example.simpletravel.asynctask.search.VicinityAllAsyncTask;
+import com.example.simpletravel.asynctask.search.VicinityAsyncTask;
 import com.example.simpletravel.model.Location;
 import com.example.simpletravel.model.Services;
-import com.example.simpletravel.ui.discovery.DiscoveryFragment;
+import com.example.simpletravel.model.Temp.IdLocation;
+import com.example.simpletravel.model.Temp.IdUsers;
+import com.example.simpletravel.model.Temp.LocationTemp;
+import com.example.simpletravel.ui.discovery.LocationFragment;
 
-
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,17 +89,30 @@ public class MainSearchFragment extends Fragment {
         }
     }
 
-    //
-    private List<Services> list;
-    private VinicityLocationAdapter vinicityLocationAdapter;
+    //create variable
     private View view;
-    private SearchViewModel searchViewModel;
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.txt_Search_Search){
                 GotoSearchFragment();
+            }
+            //show all list view recently
+            if (view.getId() == R.id.txt_AllList_Search){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                                rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
+                                new VicinityAllAsyncTask(getContext(), rcv_VicinityLocation_Search).execute();
+                            }
+                        });
+                    }
+                }).start();
             }
         }
     };
@@ -95,12 +121,10 @@ public class MainSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+//        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         view = inflater.inflate(R.layout.fragment_main_search, container, false);
-
-        rcv_VicinityLocation_Search = view.findViewById(R.id.search_rv_Vicinity);
+        SearchControll();//function constructor
         VinicityLocationController();//function show list vinicity Location
-        SearchControll();
         ShowLoveLocation();
 
         return view;
@@ -110,26 +134,34 @@ public class MainSearchFragment extends Fragment {
     private GridView gridView;
 
     private void ShowLoveLocation() {
-        gridView = view.findViewById(R.id.search_gv_LoveLocation);
-        searchViewModel.getLocation().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onChanged(List<Location> locations) {
-                locationAdapter = new LocationAdapter(locations);
-                gridView.setAdapter(locationAdapter);
-
+            public void run() {
+               getActivity().runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       //show top 4 service have love best
+                       new LoveLocationAsyncTask(getContext(), gridView).execute();
+                   }
+               });
             }
-        });
+        }).start();
     }
 
-
     //Create constructor
-    private TextView txtSearch;
+    private TextView txtSearch, txtViewAll;
     private RecyclerView rcv_VicinityLocation_Search;
 
     private void SearchControll() {
         txtSearch = view.findViewById(R.id.txt_Search_Search);
         txtSearch.setOnClickListener(onClickListener);
 
+        txtViewAll = view.findViewById(R.id.txt_AllList_Search);
+        txtViewAll.setOnClickListener(onClickListener);
+        txtViewAll.setPaintFlags(txtViewAll.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+
+        rcv_VicinityLocation_Search = view.findViewById(R.id.search_rv_Vicinity);//find id recycle view vicinity
+        gridView = view.findViewById(R.id.search_gv_LoveLocation);//find id grid view
     }
     public void GotoSearchFragment(){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -139,24 +171,19 @@ public class MainSearchFragment extends Fragment {
 
     }
 
-
     private void VinicityLocationController() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                List<Services> list = new ArrayList<>();
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-//        rcv_VicinityLocation_Search.addItemDecoration(itemDecoration);
-                searchViewModel.getRecently().observe(getViewLifecycleOwner(), new Observer<List<Services>>() {
-                    @Override
-                    public void onChanged(List<Services> services) {
-                        vinicityLocationAdapter = new VinicityLocationAdapter(services);
-                        rcv_VicinityLocation_Search.setAdapter(vinicityLocationAdapter);
-                    }
-                });
-            }
-        });
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               getActivity().runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                       rcv_VicinityLocation_Search.setLayoutManager(layoutManager);
+                       new VicinityAsyncTask(getContext(), rcv_VicinityLocation_Search).execute();
+                   }
+               });
+           }
+       }).start();
     }
 }

@@ -13,4 +13,20 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#304FFE</item>
+        <item name="android:textColorPrimary">@color/teal_200</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Theme.SimpleTravel.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SimpleTravel.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SimpleTravel.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

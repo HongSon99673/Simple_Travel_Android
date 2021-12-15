@@ -52,9 +52,11 @@ public class LocationAdapter extends BaseAdapter {
 
         //bind data vao layout
         Location list = (Location) getItem(i);
-//        byte[] decodedString = Base64.decode(String.valueOf(list.getIdLocation()), Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        ((ImageView) viewProduct.findViewById(R.id.item_gridview_Img)).setImageBitmap(decodedByte);
+        //set images location
+        byte[] decodedString = Base64.decode(String.valueOf(list.getImageLocation()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        ((ImageView) viewProduct.findViewById(R.id.item_gridview_Img)).setImageBitmap(decodedByte);
+        //set name location
         ((TextView) viewProduct.findViewById(R.id.item_gridview_NameLocation)).setText(list.getNameLocation());
 
         return viewProduct;

@@ -2,8 +2,11 @@ package com.example.simpletravel.adapter;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -66,6 +69,10 @@ public class SavedItemAdapter extends RecyclerView.Adapter<SavedItemAdapter.List
             return;
         }
 
+        byte[] decodedString = Base64.decode(String.valueOf(savedItem.getImages()), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.Avatar.setImageBitmap(decodedByte);
+        //set images
         holder.NameType.setText(savedItem.getNameType());
         holder.NameService.setText(savedItem.getNameService());
 //        holder.Rating.setText(String.valueOf(savedItem.getRating()));
@@ -128,7 +135,7 @@ public class SavedItemAdapter extends RecyclerView.Adapter<SavedItemAdapter.List
 
     public class ListSavedItem extends RecyclerView.ViewHolder {
         private TextView NameType, NameService, Rating, Summary, TimOpen, NamePlane, Delete;
-        private ImageView Star1, Star2, Star3, Star4, Star5;
+        private ImageView Star1, Star2, Star3, Star4, Star5, Avatar;
         private LinearLayout linearLayout;
 
         public ListSavedItem(@NonNull View itemView) {
@@ -145,6 +152,7 @@ public class SavedItemAdapter extends RecyclerView.Adapter<SavedItemAdapter.List
             NamePlane = itemView.findViewById(R.id.item_savedtitem_txt_NamePlan);
             linearLayout = itemView.findViewById(R.id.planning_saveitem_Layout);
             Delete = itemView.findViewById(R.id.planning_item_Delete);
+            Avatar = itemView.findViewById(R.id.item_savedtitem_img_Avatar);
         }
     }
 

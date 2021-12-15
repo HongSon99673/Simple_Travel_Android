@@ -16,7 +16,7 @@
         android:weightSum="4"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/search_txt_Back_DetailSearch"
@@ -26,10 +26,15 @@
             android:drawableLeft="@drawable/back1"
             />
 
-        <View
+        <TextView
+            android:id="@+id/search_details_Title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.5"/>
+            android:layout_height="30dp"
+            android:layout_weight="2.5"
+            android:textSize="20dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="2.5dp"
+            />
         <TextView
             android:id="@+id/search_txt_Share_DetailSearch"
             android:layout_width="0dp"
@@ -58,12 +63,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/search_viewpager"
+            <ImageView
+                android:id="@+id/search_detail_Images"
                 android:layout_width="match_parent"
-                android:layout_height="220dp" />
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -290,7 +297,7 @@
                     android:layout_marginBottom="50dp"
                     android:layout_marginTop="20dp">
 
-                    <ListView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/search_lv_Rating"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
